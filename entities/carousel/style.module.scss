@@ -1,0 +1,27 @@
+.wraperCoursel {
+    overflow: hidden;
+    position: relative !important;
+}
+
+.carouselItem {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btnCoursel {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+}
+
+.btnLeft {
+    left: 10px;
+}
+
+.btnRight {
+    right: 10px;
+}

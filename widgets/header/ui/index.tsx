@@ -1,45 +1,44 @@
-import { Button, changeTheme, Navbar, Text, useTheme } from '@nextui-org/react'
-import styles from './styles.module.scss'
-import cn from 'classnames'
+import { Navbar, Text } from '@nextui-org/react'
+import { usePathname } from 'next/navigation'
 import { FC } from 'react'
+import { Logo } from './svg/Logo'
+import Search from './search'
+import Profile from './Profile'
+import Link from 'next/link'
 
 interface HeaderProps {
     className?: string
 }
 
-const Header: FC<HeaderProps> = ({ className }) => {
-    const { type, isDark } = useTheme()
-
-    const handleChange = () => {
-        const nextTheme = isDark ? 'light' : 'dark'
-        window.localStorage.setItem('data-theme', nextTheme) // you can use any storage
-        changeTheme(nextTheme)
-    }
-
+const Header: FC<HeaderProps> = () => {
+    const pathname = usePathname()
     return (
-        <Navbar isBordered variant="floating" className={cn(styles.root, className)}>
+        <Navbar isBordered variant="floating">
             <Navbar.Brand>
-                <Text b color="inherit" hideIn="xs">
-                    Techmarket
+                <Text b color="inherit" hideIn="xs" size="$2xl">
+                    <Link href="/" style={{ fontSize: 'inherit' }}>
+                        <Logo height={20} width={20} />
+                        AnimBook
+                    </Link>
                 </Text>
             </Navbar.Brand>
-            <Navbar.Content hideIn="xs" activeColor="primary" variant="underline-rounded">
-                <Navbar.Link href="#">Features</Navbar.Link>
-                <Navbar.Link isActive href="#">
-                    Customers
-                </Navbar.Link>
-                <Navbar.Link href="#">Pricing</Navbar.Link>
-                <Navbar.Link href="#">Company</Navbar.Link>
+            <Navbar.Content
+                css={{
+                    '@xs': {
+                        width: '50%',
+                    },
+                }}
+            >
+                <Search />
             </Navbar.Content>
-            <Navbar.Content>
-                <Navbar.Link color="inherit" href="#">
-                    Login
+            <Navbar.Content hideIn="xs" activeColor="primary" variant="underline-rounded">
+                <Navbar.Link as={Link} isActive={pathname === '/catalog'} href="/catalog">
+                    Каталог
                 </Navbar.Link>
-                <Navbar.Item>
-                    <Button auto flat href="#" onClick={() => handleChange()}>
-                        Sign Up
-                    </Button>
-                </Navbar.Item>
+                <Navbar.Link as={Link} isActive={pathname === '/cart'} href="/cart">
+                    Корзина
+                </Navbar.Link>
+                <Profile />
             </Navbar.Content>
         </Navbar>
     )

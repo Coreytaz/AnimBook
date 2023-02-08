@@ -2,12 +2,14 @@
 import { Container } from '@nextui-org/react'
 import dynamic from 'next/dynamic'
 
-const IndexPage = dynamic(() => import('@/_pages/IndexPage'))
+const CatalogPage = dynamic(() => import('@/_pages/CatalogPage'))
 
-export default function Home() {
+const Catalog = () => {
     return (
         <Container>
-            <IndexPage />
+            <CatalogPage />
         </Container>
     )
 }
+
+export default Catalog
