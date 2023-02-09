@@ -44,7 +44,6 @@ const Carousel: FC<{ items: CarouselItemProps[] }> = ({ items }) => {
                             src={item.src}
                             alt={item.alt}
                             caption={item.caption}
-                            active={index === activeIndex}
                         />
                     )
                 })}
