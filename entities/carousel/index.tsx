@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef, useState } from 'react'
-import { Button, Card, Grid, Text } from '@nextui-org/react'
+import { Button, Card, Grid, Pagination, PaginationProps, Radio, Text } from '@nextui-org/react'
 import styles from './style.module.scss'
 import cn from 'clsx'
 import { ArrowRight } from './svg/ArrowRight'
@@ -12,28 +12,35 @@ interface CarouselItemProps {
     caption: string
 }
 
-const Carousel: FC<{ items: CarouselItemProps[] }> = ({ items }) => {
-    const [activeIndex, setActiveIndex] = useState(0)
-    const slideRef = useRef<HTMLDivElement>(null!)
+const Carousel: FC<{ items: CarouselItemProps[] } & { delay?: number }> = ({ items, delay }) => {
+    const [activeIndex, setActiveIndex] = useState<string | number>(0)
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveIndex((prev) => (+prev === items.length - 1 ? 0 : +prev + 1))
+        }, delay || 5000)
+        return () => clearInterval(interval)
+    }, [activeIndex, delay, items.length])
 
     return (
         <div className={styles.wraperCoursel}>
             <Button
                 light
                 auto
-                onClick={() => setActiveIndex((prev) => (prev === 0 ? items.length - 1 : prev - 1))}
+                onClick={() =>
+                    setActiveIndex((prev) => (prev === 0 ? items.length - 1 : +prev - 1))
+                }
                 className={cn(styles.btnCoursel, styles.btnLeft)}
                 icon={<ArrowLeft size={60} />}
             />
             <Grid.Container
-                ref={slideRef}
                 direction="row"
                 wrap="nowrap"
                 css={{
                     h: '45vh',
                     p: '0',
                     m: '0',
-                    transform: `translateX(-${activeIndex * 100}%)`,
+                    transform: `translateX(-${+activeIndex * 100}%)`,
                     transition: 'transform 0.5s ease-in-out',
                 }}
             >
@@ -51,10 +58,24 @@ const Carousel: FC<{ items: CarouselItemProps[] }> = ({ items }) => {
             <Button
                 light
                 auto
-                onClick={() => setActiveIndex((prev) => (prev === items.length - 1 ? 0 : prev + 1))}
+                onClick={() =>
+                    setActiveIndex((prev) => (prev === items.length - 1 ? 0 : +prev + 1))
+                }
                 className={cn(styles.btnCoursel, styles.btnRight)}
                 icon={<ArrowRight size={60} />}
             />
+            <div className={styles.dots}>
+                <Radio.Group
+                    orientation="horizontal"
+                    defaultValue="0"
+                    value={activeIndex.toString()}
+                    onChange={setActiveIndex}
+                >
+                    {items.map((item, index) => (
+                        <Radio color="primary" key={index} value={index.toString()} />
+                    ))}
+                </Radio.Group>
+            </div>
         </div>
     )
 }

@@ -16,6 +16,9 @@
     position: absolute;
     z-index: 2;
     top: 50%;
+    & svg path {
+        stroke: var(--nextui-colors-blue600);
+    }
 }
 
 .btnLeft {
@@ -24,4 +27,12 @@
 
 .btnRight {
     right: 10px;
+}
+
+.dots {
+    position: absolute;
+    z-index: 2;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
 }
