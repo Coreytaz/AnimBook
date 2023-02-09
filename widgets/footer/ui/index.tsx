@@ -24,7 +24,7 @@ const Footer: FC = () => {
                 gap: `0 ${theme?.space[5]}`,
             }}
         >
-            <Text b size="$xl" css={{ padding: '$1' }}>
+            <Text b size="$sm" css={{ padding: '$1' }}>
                 AnimBook ©2023 Created by{' '}
                 <Link href="https://github.com/Coreytaz" target="_blank" rel="noreferrer">
                     Coreytaz
@@ -34,7 +34,7 @@ const Footer: FC = () => {
                 animated={false}
                 onChange={handleChange}
                 checked={true}
-                size="xl"
+                size="sm"
                 iconOn={<SunIcon filled />}
                 iconOff={<MoonIcon filled />}
             />

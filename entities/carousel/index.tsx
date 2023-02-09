@@ -4,6 +4,7 @@ import styles from './style.module.scss'
 import cn from 'clsx'
 import { ArrowRight } from './svg/ArrowRight'
 import { ArrowLeft } from './svg/ArrowLeft'
+import { useRouter } from 'next/navigation'
 
 interface CarouselItemProps {
     src: string
@@ -29,7 +30,7 @@ const Carousel: FC<{ items: CarouselItemProps[] }> = ({ items }) => {
                 direction="row"
                 wrap="nowrap"
                 css={{
-                    h: '50vh',
+                    h: '45vh',
                     p: '0',
                     m: '0',
                     transform: `translateX(-${activeIndex * 100}%)`,
@@ -59,15 +60,16 @@ const Carousel: FC<{ items: CarouselItemProps[] }> = ({ items }) => {
     )
 }
 
-const CarouselItem: FC<CarouselItemProps & { active: boolean }> = ({
-    src,
-    alt,
-    caption,
-    active,
-}) => {
+const CarouselItem: FC<CarouselItemProps> = ({ src, alt, caption }) => {
+    const router = useRouter()
+
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        router.push('/catalog')
+    }
     return (
-        <Grid xs={12} css={{ minWidth: '100%' }}>
-            <Card variant="flat">
+        <Grid xs={12} css={{ minWidth: '100%', cursor: 'pointer' }} onClick={handleClick}>
+            <Card variant="flat" isPressable isHoverable>
                 <Card.Body
                     className={styles.carouselItem}
                     css={{

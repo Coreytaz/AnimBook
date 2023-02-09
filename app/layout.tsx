@@ -16,9 +16,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Providers isDark={isDark}>
                     <div className="container">
                         <Header />
-                        <Spacer y={2} />
+                        <Spacer y={1} />
                         <Container className="content">{children}</Container>
-                        <Spacer y={2} />
+                        <Spacer y={1} />
                         <Footer />
                     </div>
                 </Providers>
