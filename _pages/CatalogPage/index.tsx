@@ -1,7 +1,12 @@
 import { FC } from 'react'
+import CatergoriesPage from './catergories'
 
 const CatalogPage: FC = () => {
-    return <>CatalogPage</>
+    return (
+        <>
+            <CatergoriesPage />
+        </>
+    )
 }
 
 export default CatalogPage
