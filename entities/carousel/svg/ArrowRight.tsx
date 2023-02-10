@@ -1,15 +1,7 @@
+import { AbstractPropsSvg } from '@/shared/api'
 import { FC } from 'react'
 
-interface ArrowRightProps {
-    fill?: string
-    filled?: boolean
-    size?: number
-    height?: number
-    width?: number
-    label?: string
-}
-
-export const ArrowRight: FC<ArrowRightProps> = ({
+export const ArrowRight: FC<AbstractPropsSvg> = ({
     fill = 'currentColor',
     filled,
     size,

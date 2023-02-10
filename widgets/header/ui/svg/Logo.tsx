@@ -1,15 +1,7 @@
+import { AbstractPropsSvg } from '@/shared/api'
 import { FC } from 'react'
 
-interface LogoProps {
-    fill?: string
-    filled?: boolean
-    size?: number
-    height?: number
-    width?: number
-    label?: string
-}
-
-export const Logo: FC<LogoProps> = ({
+export const Logo: FC<AbstractPropsSvg> = ({
     fill = 'currentColor',
     filled,
     size,

@@ -1,15 +1,7 @@
+import { AbstractPropsSvg } from '@/shared/api'
 import { FC } from 'react'
 
-interface MoonIconProps {
-    fill?: string
-    filled?: boolean
-    size?: number
-    height?: number
-    width?: number
-    label?: string
-}
-
-export const MoonIcon: FC<MoonIconProps> = ({
+export const MoonIcon: FC<AbstractPropsSvg> = ({
     fill = 'currentColor',
     filled,
     size,

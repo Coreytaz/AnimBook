@@ -1,15 +1,7 @@
+import { AbstractPropsSvg } from '@/shared/api'
 import { FC } from 'react'
 
-interface SearchProps {
-    fill?: string
-    filled?: boolean
-    size?: number
-    height?: number
-    width?: number
-    label?: string
-}
-
-export const SearchSvg: FC<SearchProps> = ({
+export const SearchSvg: FC<AbstractPropsSvg> = ({
     fill = 'currentColor',
     filled,
     size,

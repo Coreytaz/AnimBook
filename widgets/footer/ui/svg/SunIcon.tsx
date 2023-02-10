@@ -1,15 +1,7 @@
+import { AbstractPropsSvg } from '@/shared/api'
 import { FC } from 'react'
 
-interface SunIconProps {
-    fill?: string
-    filled?: boolean
-    size?: number
-    height?: number
-    width?: number
-    label?: string
-}
-
-export const SunIcon: FC<SunIconProps> = ({
+export const SunIcon: FC<AbstractPropsSvg> = ({
     fill = 'currentColor',
     filled,
     size,

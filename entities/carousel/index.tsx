@@ -1,16 +1,11 @@
-import React, { FC, useEffect, useRef, useState } from 'react'
-import { Button, Card, Grid, Pagination, PaginationProps, Radio, Text } from '@nextui-org/react'
+import { FC, useEffect, useState } from 'react'
+import { Button, Card, Grid, Radio, Text } from '@nextui-org/react'
 import styles from './style.module.scss'
 import cn from 'clsx'
 import { ArrowRight } from './svg/ArrowRight'
 import { ArrowLeft } from './svg/ArrowLeft'
 import { useRouter } from 'next/navigation'
-
-interface CarouselItemProps {
-    src: string
-    alt: string
-    caption: string
-}
+import { CarouselItemProps } from '@/shared/api'
 
 const Carousel: FC<{ items: CarouselItemProps[] } & { delay?: number }> = ({ items, delay }) => {
     const [activeIndex, setActiveIndex] = useState<string | number>(0)

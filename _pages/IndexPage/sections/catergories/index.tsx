@@ -1,13 +1,7 @@
+import { CatergoriesListProps } from '@/shared/api'
 import { Card, Col, Container, Grid, Text } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
 import { FC } from 'react'
-
-interface CatergoriesListProps {
-    title: string
-    description: string
-    img: string
-    altImg: string
-}
 
 const items = [
     {
