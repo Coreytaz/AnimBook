@@ -3,7 +3,7 @@ import { Card, Col, Text } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
 import { FC } from 'react'
 
-interface CatergoriesCardProps extends CatergoriesListProps { }
+interface CatergoriesCardProps extends CatergoriesListProps {}
 
 const CatergoriesCard: FC<CatergoriesCardProps> = ({ title, description, img, altImg }) => {
     const router = useRouter()

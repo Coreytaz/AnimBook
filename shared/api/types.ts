@@ -19,3 +19,10 @@ export interface CarouselItemProps {
     alt: string
     caption: string
 }
+
+export interface IBreadcrumbsLocationState {
+    id: string
+    path: string
+    title: string
+    url: string
+}
