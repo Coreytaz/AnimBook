@@ -48,20 +48,14 @@ const NavBreadcrumbs: FC = () => {
 }
 
 const Crumb: FC<CrumbsProps> = ({ title, href, last }) => {
-    const renderTitle = () => {
-        if (title === 'Home') {
-            return <HomeSvg />
-        } else {
-            return title
-        }
-    }
-
     if (last) {
         return <Text>{title}</Text>
     }
     return (
         <>
-            <Link href={href}>{renderTitle()}</Link>
+            <Link href={href} className={styles.link}>
+                {title === 'Home' ? <HomeSvg /> : title}
+            </Link>
             <ArrowSvg />
         </>
     )
