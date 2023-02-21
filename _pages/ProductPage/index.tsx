@@ -1,11 +1,15 @@
+'use client'
 import NavBreadcrumbs from '@/entities/breadcrumbs/ui'
+import { Container, Spacer } from '@nextui-org/react'
+import Product from './product'
 
 const ProductPage = () => {
     return (
-        <>
+        <Container lg>
             <NavBreadcrumbs />
-            CatalogSlug
-        </>
+            <Spacer y={1} />
+            <Product />
+        </Container>
     )
 }
 

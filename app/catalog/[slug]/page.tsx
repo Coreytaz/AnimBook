@@ -1,15 +1,9 @@
-'use client'
-import { Container } from '@nextui-org/react'
 import dynamic from 'next/dynamic'
 
-const ProductPage = dynamic(() => import('@/_pages/ProductPage'))
+const CatalogPage = dynamic(() => import('@/_pages/CatalogPage'))
 
-const CatalogSlug = () => {
-    return (
-        <Container>
-            <ProductPage />
-        </Container>
-    )
+const Catalog = () => {
+    return <CatalogPage />
 }
 
-export default CatalogSlug
+export default Catalog
