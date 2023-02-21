@@ -61,7 +61,6 @@ const ProductCard: FC = () => {
                             <Text b size="$3xl" span>
                                 890.00 руб
                             </Text>
-
                         </div>
                         <div>
                             <Text css={{ mb: '$10' }}>
@@ -82,6 +81,16 @@ const ProductCard: FC = () => {
                                 />
                             </Tooltip>
                             <Button>Купить</Button>
+                        </div>
+                        <div>
+                            <div className={styles.flex}>
+                                <Badge color="success" variant="dot" />
+                                <Text size="$xs">В наличии 1 шт</Text>
+                            </div>
+                            <div className={styles.flex}>
+                                <Badge color="warning" variant="dot" />
+                                <Text size="$xs">Доставка курьерской службой до 2 дней</Text>
+                            </div>
                         </div>
                     </div>
                     <Spacer />
