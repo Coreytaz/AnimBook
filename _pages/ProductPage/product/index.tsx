@@ -55,31 +55,34 @@ const ProductCard: FC = () => {
                 <Grid xs={5} css={{ flexDirection: 'column', gap: '$10' }}>
                     <ImageSlider imageCollection={dateImages} />
                 </Grid>
-                <Grid xs={7} css={{ flexDirection: 'column', justifyContent: 'space-around' }}>
-                    <div>
-                        <Text b size="$3xl" span>
-                            890.00 руб
-                        </Text>
-                    </div>
-                    <div>
-                        <Badge size="lg" isSquared color="warning" variant="bordered">
-                            <StarRating readOnly />
-                        </Badge>
-                        <Text>
-                            Случайная фигурка по игре Genshin Impact ! Вам может попасться один из
-                            начальных персонажей , которые были с путешественником с самого начала
-                            твоего пути в игре.
-                        </Text>
-                    </div>
-                    <div className={styles.buttonGroups}>
-                        <Tooltip content={'Добавить в избранное'}>
-                            <Button
-                                auto
-                                color="error"
-                                icon={<HeartIcon fill="currentColor" filled />}
-                            />
-                        </Tooltip>
-                        <Button>Купить</Button>
+                <Grid xs={7} css={{ flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <div className={styles.wrapperProduct}>
+                        <div>
+                            <Text b size="$3xl" span>
+                                890.00 руб
+                            </Text>
+
+                        </div>
+                        <div>
+                            <Text css={{ mb: '$10' }}>
+                                Случайная фигурка по игре Genshin Impact ! Вам может попасться один
+                                из начальных персонажей , которые были с путешественником с самого
+                                начала твоего пути в игре.
+                            </Text>
+                            <Badge size="lg" isSquared color="warning" variant="bordered">
+                                <StarRating readOnly />
+                            </Badge>
+                        </div>
+                        <div className={styles.buttonGroups}>
+                            <Tooltip content={'Добавить в избранное'}>
+                                <Button
+                                    auto
+                                    color="error"
+                                    icon={<HeartIcon fill="currentColor" filled />}
+                                />
+                            </Tooltip>
+                            <Button>Купить</Button>
+                        </div>
                     </div>
                     <Spacer />
                 </Grid>
