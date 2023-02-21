@@ -1,6 +1,9 @@
-import { FC, useEffect, useRef, useState } from 'react'
-import { Button, Card, Grid, Spacer, Text } from '@nextui-org/react'
+import { FC } from 'react'
+import { Badge, Button, Card, Grid, Spacer, Text, Tooltip } from '@nextui-org/react'
 import ImageSlider from '@/features/image-slider/ui'
+import { HeartIcon } from './svg/HeardIcon'
+import styles from './styles.module.scss'
+import { StarRating } from '@/entities/StarRating'
 
 const Product: FC = () => {
     return (
@@ -59,13 +62,23 @@ const ProductCard: FC = () => {
                         </Text>
                     </div>
                     <div>
+                        <Badge size="lg" isSquared color="warning" variant="bordered">
+                            <StarRating readOnly />
+                        </Badge>
                         <Text>
                             Случайная фигурка по игре Genshin Impact ! Вам может попасться один из
                             начальных персонажей , которые были с путешественником с самого начала
                             твоего пути в игре.
                         </Text>
                     </div>
-                    <div>
+                    <div className={styles.buttonGroups}>
+                        <Tooltip content={'Добавить в избранное'}>
+                            <Button
+                                auto
+                                color="error"
+                                icon={<HeartIcon fill="currentColor" filled />}
+                            />
+                        </Tooltip>
                         <Button>Купить</Button>
                     </div>
                     <Spacer />
