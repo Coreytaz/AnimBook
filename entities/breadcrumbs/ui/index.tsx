@@ -54,7 +54,17 @@ const Crumb: FC<CrumbsProps> = ({ title, href, last }) => {
     return (
         <>
             <Link href={href} className={styles.link}>
-                {title === 'Home' ? <HomeSvg /> : title}
+                <Text
+                    color="primary"
+                    css={{
+                        transition: '$button',
+                        '&:hover': {
+                            color: '$blue500',
+                        },
+                    }}
+                >
+                    {title === 'Home' ? <HomeSvg /> : title}
+                </Text>
             </Link>
             <ArrowSvg />
         </>

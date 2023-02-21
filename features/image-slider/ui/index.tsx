@@ -30,7 +30,7 @@ const ImageSlider: FC<ImageSliderProps> = ({ imageCollection }) => {
             scrollVerticalRef.current.addEventListener('wheel', onWheel)
             return () => {
                 // eslint-disable-next-line react-hooks/exhaustive-deps
-                scrollVerticalRef.current.removeEventListener('wheel', onWheel)
+                scrollVerticalRef.current?.removeEventListener('wheel', onWheel)
             }
         }
     }, [])
