@@ -1,3 +1,4 @@
+import { Product } from '@/features/product'
 import { Grid, Collapse, Text } from '@nextui-org/react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { FC, useEffect, useRef } from 'react'
@@ -14,7 +15,7 @@ const DetailedProductInfo: FC = () => {
     const searchParams = useSearchParams()
     const tabs = searchParams.get('tabs')
 
-    const onChangeCollapse = (i: number | undefined, value: boolean | undefined) => {
+    const onChangeCollapse = (i: number | undefined, value: boolean | undefined): void => {
         if (!value) {
             router.push(`${pathname}`)
             return
@@ -34,7 +35,9 @@ const DetailedProductInfo: FC = () => {
 
     useEffect(() => {
         if (searchParams.has('tabs')) {
-            containerRef.current.scrollIntoView()
+            containerRef.current.scrollIntoView({
+                behavior: 'smooth',
+            })
         }
     }, [searchParams])
     return (
@@ -47,12 +50,7 @@ const DetailedProductInfo: FC = () => {
                         expanded={tabs === 'characteristics'}
                         onChange={(_, i, value) => onChangeCollapse(i, value)}
                     >
-                        <Text>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                            commodo consequat.
-                        </Text>
+                        <Product.Description />
                     </Collapse>
                     <Collapse
                         title="Отзывы"

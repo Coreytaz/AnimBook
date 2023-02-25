@@ -26,3 +26,10 @@ export interface IBreadcrumbsLocationState {
     title: string
     url: string
 }
+
+export interface ProductDescription {
+    [key: string]: string | undefined
+    name: string
+    description: string
+    descriptionHelp?: string
+}
