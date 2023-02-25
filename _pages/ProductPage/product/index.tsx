@@ -1,11 +1,12 @@
 import { FC } from 'react'
 import { Badge, Button, Card, Grid, Spacer, Text, Tooltip } from '@nextui-org/react'
-import ImageSlider from '@/features/image-slider/ui'
 import { HeartIcon } from './svg/HeardIcon'
 import styles from './styles.module.scss'
 import { StarRating } from '@/entities/StarRating'
+import { Product } from '@/features/product'
+import { usePathname, useRouter } from 'next/navigation'
 
-const Product: FC = () => {
+const ProductContainer: FC = () => {
     return (
         <>
             <Text
@@ -23,6 +24,9 @@ const Product: FC = () => {
 }
 
 const ProductCard: FC = () => {
+    const router = useRouter()
+    const pathname = usePathname()
+
     const dateImages = [
         {
             src: 'https://nextui.org/images/card-example-1.jpeg',
@@ -49,11 +53,12 @@ const ProductCard: FC = () => {
             alt: 'Card image background',
         },
     ]
+
     return (
         <Card>
             <Grid.Container gap={2} justify="center" css={{ p: '$11' }}>
                 <Grid xs={5} css={{ flexDirection: 'column', gap: '$10' }}>
-                    <ImageSlider imageCollection={dateImages} />
+                    <Product.ImageSlider imageCollection={dateImages} />
                 </Grid>
                 <Grid xs={7} css={{ flexDirection: 'column', justifyContent: 'space-between' }}>
                     <div className={styles.wrapperProduct}>
@@ -68,7 +73,13 @@ const ProductCard: FC = () => {
                                 из начальных персонажей , которые были с путешественником с самого
                                 начала твоего пути в игре.
                             </Text>
-                            <Badge size="lg" isSquared color="warning" variant="bordered">
+                            <Badge
+                                size="lg"
+                                isSquared
+                                color="warning"
+                                variant="bordered"
+                                onClick={() => router.push(`${pathname}?tabs=opinion`)}
+                            >
                                 <StarRating readOnly />
                             </Badge>
                         </div>
@@ -100,4 +111,4 @@ const ProductCard: FC = () => {
     )
 }
 
-export default Product
+export default ProductContainer

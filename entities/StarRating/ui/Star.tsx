@@ -2,7 +2,6 @@ import React, { FC, useContext } from 'react'
 import { StarRatingContext } from '.'
 import styles from './styles.module.scss'
 
-
 const Star: FC<{ value: number }> = ({ value }) => {
     const { emptyColor, fillColor, height, hover, rating, setHover, setRating, width } =
         useContext(StarRatingContext)
