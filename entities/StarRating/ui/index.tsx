@@ -17,14 +17,16 @@ export interface StarRatingProps {
     setHover?: (value: number) => void
     readOnly?: boolean
     width?: number
+    tooltip?: boolean
 }
 
 const StarRating: FC<StarRatingProps> = ({
-    defaultState = 3.1,
+    defaultState = 0,
     emptyColor = 'grey',
     fillColor = '#edaa10',
     height = 20,
     labelText = (value: number) => `Рейтинг товара: ${value}`,
+    tooltip = false,
     maxValue = 5,
     readOnly = false,
     width = 20,
@@ -34,13 +36,11 @@ const StarRating: FC<StarRatingProps> = ({
 
     const setRatingFn = (value: number) => {
         if (readOnly) return
-
         setRating(value)
     }
 
     const setHoverFn = (value: number) => {
         if (readOnly) return
-
         setHover(value)
     }
 
@@ -61,9 +61,13 @@ const StarRating: FC<StarRatingProps> = ({
                 }}
             >
                 <>
-                    <Tooltip content={labelText(rating)}>
+                    {tooltip ? (
+                        <Tooltip content={labelText(rating)}>
+                            <StarsList />
+                        </Tooltip>
+                    ) : (
                         <StarsList />
-                    </Tooltip>
+                    )}
                 </>
             </StarRatingContext.Provider>
         </>

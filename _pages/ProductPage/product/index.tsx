@@ -80,7 +80,7 @@ const ProductCard: FC = () => {
                                 variant="bordered"
                                 onClick={() => router.push(`${pathname}?tabs=opinion`)}
                             >
-                                <StarRating readOnly />
+                                <StarRating readOnly tooltip />
                             </Badge>
                         </div>
                         <div className={styles.buttonGroups}>

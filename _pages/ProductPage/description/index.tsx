@@ -34,14 +34,17 @@ const DetailedProductInfo: FC = () => {
     }
 
     useEffect(() => {
-        if (searchParams.has('tabs')) {
-            containerRef.current.scrollIntoView({
-                behavior: 'smooth',
-            })
-        }
+        // Костыль
+        setTimeout(() => {
+            if (searchParams.has('tabs')) {
+                containerRef.current.scrollIntoView({
+                    behavior: 'smooth',
+                })
+            }
+        }, 150)
     }, [searchParams])
     return (
-        <Grid.Container gap={2}>
+        <Grid.Container gap={2} sm>
             <Grid ref={containerRef}>
                 <Collapse.Group splitted>
                     <Collapse
@@ -53,16 +56,11 @@ const DetailedProductInfo: FC = () => {
                         <Product.Description />
                     </Collapse>
                     <Collapse
-                        title="Отзывы"
+                        title="Отзывы Случайная фигурка Genshin Impact"
                         expanded={tabs === 'opinion'}
                         onChange={(_, i, value) => onChangeCollapse(i, value)}
                     >
-                        <Text>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                            commodo consequat.
-                        </Text>
+                        <Product.Reviews />
                     </Collapse>
                 </Collapse.Group>
             </Grid>
