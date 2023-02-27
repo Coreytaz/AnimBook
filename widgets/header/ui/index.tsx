@@ -33,10 +33,14 @@ const Header: FC<HeaderProps> = () => {
                 <Search />
             </Navbar.Content>
             <Navbar.Content hideIn="xs" activeColor="primary" variant="underline-rounded">
-                <Navbar.Link as={Link} isActive={pathname === '/catalog'} href="/catalog">
+                <Navbar.Link
+                    as={Link}
+                    isActive={new RegExp(/catalog/).test(pathname!)}
+                    href="/catalog"
+                >
                     Каталог
                 </Navbar.Link>
-                <Navbar.Link as={Link} isActive={pathname === '/cart'} href="/cart">
+                <Navbar.Link as={Link} isActive={new RegExp(/cart/).test(pathname!)} href="/cart">
                     Корзина
                 </Navbar.Link>
                 <Profile />
