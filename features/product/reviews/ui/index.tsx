@@ -1,5 +1,15 @@
 import { StarRating } from '@/entities/StarRating'
-import { Badge, Button, Checkbox, Dropdown, Grid, Spacer, Text, Tooltip } from '@nextui-org/react'
+import {
+    Badge,
+    Button,
+    Checkbox,
+    Dropdown,
+    Grid,
+    Row,
+    Spacer,
+    Text,
+    Tooltip,
+} from '@nextui-org/react'
 import { FC, useMemo, useState } from 'react'
 import Comments from './comments'
 import ReviewModal from './modal'
@@ -45,37 +55,28 @@ const Reviews: FC = () => {
                 </Grid>
             </Grid.Container>
             <Spacer y={1} />
-            <Grid.Container gap={2} justify="center">
-                <Grid xs={2}>
-                    <Text h3>
-                        Отзывы: <span>1</span>
-                    </Text>
-                </Grid>
-                <Grid xs={8}>
-                    <Spacer />
-                </Grid>
-                <Grid xs={2} css={{ justifyContent: 'flex-end' }}>
-                    <Dropdown placement="left-top">
-                        <Dropdown.Button shadow>
-                            {menuItems.filter((item) => item.key === selectedValue)[0].name}
-                        </Dropdown.Button>
-                        <Dropdown.Menu
-                            css={{ background: '$gray100' }}
-                            aria-label="Single selection actions"
-                            color="primary"
-                            disallowEmptySelection
-                            selectionMode="single"
-                            selectedKeys={selected}
-                            onSelectionChange={setSelected as any}
-                            items={menuItems}
-                        >
-                            {(item: any) => (
-                                <Dropdown.Item key={item.key}>{item.name}</Dropdown.Item>
-                            )}
-                        </Dropdown.Menu>
-                    </Dropdown>
-                </Grid>
-            </Grid.Container>
+            <Row justify="space-between">
+                <Text h3>
+                    Отзывы: <span>1</span>
+                </Text>
+                <Dropdown placement="left-top">
+                    <Dropdown.Button shadow>
+                        {menuItems.filter((item) => item.key === selectedValue)[0].name}
+                    </Dropdown.Button>
+                    <Dropdown.Menu
+                        css={{ background: '$gray100' }}
+                        aria-label="Single selection actions"
+                        color="primary"
+                        disallowEmptySelection
+                        selectionMode="single"
+                        selectedKeys={selected}
+                        onSelectionChange={setSelected as any}
+                        items={menuItems}
+                    >
+                        {(item: any) => <Dropdown.Item key={item.key}>{item.name}</Dropdown.Item>}
+                    </Dropdown.Menu>
+                </Dropdown>
+            </Row>
             <Grid.Container gap={2}>
                 <Grid xs>
                     <Badge
