@@ -1,5 +1,5 @@
 html,
-body > div:first-child,
+body > div[data-overlay-container="true"],
 body {
     height: 100%;
 }
