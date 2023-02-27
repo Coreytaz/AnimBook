@@ -1,4 +1,5 @@
-import { Modal, Input, Row, Checkbox, Button, Text } from '@nextui-org/react'
+import { StarRating } from '@/entities/StarRating'
+import { Modal, Input, Row, Checkbox, Button, Text, Textarea, Badge } from '@nextui-org/react'
 import { Dispatch, FC, SetStateAction } from 'react'
 
 const ReviewModal: FC<{ visible: boolean; setVisible: Dispatch<SetStateAction<boolean>> }> = ({
@@ -17,34 +18,25 @@ const ReviewModal: FC<{ visible: boolean; setVisible: Dispatch<SetStateAction<bo
             open={visible}
             onClose={closeHandler}
         >
-            <Modal.Header autoMargin>
+            <Modal.Header css={{ display: 'block' }}>
                 <Text id="modal-title" size={18}>
-                    Мой отзыв о Случайная фигурка Genshin Impact
+                    Мой отзыв
+                </Text>
+                <Text id="modal-title" size={16} b>
+                    Случайная фигурка Genshin Impact
                 </Text>
             </Modal.Header>
             <Modal.Body>
-                <Input clearable bordered fullWidth color="primary" size="lg" placeholder="Email" />
-                <Input
-                    clearable
-                    bordered
-                    fullWidth
-                    color="primary"
-                    size="lg"
-                    placeholder="Password"
-                />
-                <Row justify="space-between">
-                    <Checkbox>
-                        <Text size={14}>Remember me</Text>
-                    </Checkbox>
-                    <Text size={14}>Forgot password?</Text>
-                </Row>
+                <Badge size="lg" color="primary" variant="bordered" css={{ gap: '$2' }}>
+                    <Text css={{ ml: '$5' }}>Общая оценка</Text>
+                    <StarRating />
+                </Badge>
+                <Input bordered fullWidth color="primary" size="lg" placeholder="Имя" />
+                <Textarea bordered fullWidth color="primary" size="lg" placeholder="Комметарий" />
             </Modal.Body>
             <Modal.Footer>
-                <Button auto flat color="error" onPress={closeHandler}>
-                    Close
-                </Button>
                 <Button auto onPress={closeHandler}>
-                    Sign in
+                    Отправить
                 </Button>
             </Modal.Footer>
         </Modal>
