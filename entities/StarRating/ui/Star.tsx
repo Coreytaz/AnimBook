@@ -6,16 +6,35 @@ const Star: FC<{ value: number }> = ({ value }) => {
     const { emptyColor, fillColor, height, hover, rating, setHover, setRating, width } =
         useContext(StarRatingContext)
 
+    const onMouseEnter = () => {
+        if (!setHover) {
+            return
+        }
+        setHover(value)
+    }
+    const onMouseLeave = () => {
+        if (!setHover) {
+            return
+        }
+        setHover(null)
+    }
+    const onClick = () => {
+        if (!setRating) {
+            return
+        }
+        setRating(value)
+    }
+
     return (
         <div
             className={styles.star}
-            onClick={() => setRating(value)}
-            onMouseEnter={() => setHover(value)}
-            onMouseLeave={() => setHover(null)}
+            onClick={onClick}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
         >
             <svg
                 data-rating={value}
-                fill={value <= (hover || rating) ? fillColor : emptyColor}
+                fill={value <= (hover! || rating!) ? fillColor : emptyColor}
                 height={height}
                 viewBox="0 0 20 20"
                 width={width}

@@ -14,7 +14,7 @@ export interface StarRatingProps {
     labelText?: (value: number) => string
     maxValue?: number
     setRating?: (value: number) => void
-    setHover?: (value: number) => void
+    setHover?: (value: number | null) => void
     readOnly?: boolean
     width?: number
     tooltip?: boolean
@@ -39,7 +39,7 @@ const StarRating: FC<StarRatingProps> = ({
         setRating(value)
     }
 
-    const setHoverFn = (value: number) => {
+    const setHoverFn = (value: number | null) => {
         if (readOnly) return
         setHover(value)
     }
