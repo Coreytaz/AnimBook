@@ -1,4 +1,4 @@
-import { ProductDescription } from '@/shared/api'
+import { DescriptionList } from '@/shared/api'
 import { Avatar, Tooltip, Text } from '@nextui-org/react'
 import { Key, ReactNode } from 'react'
 import { QuestionSvg } from './svg/question'
