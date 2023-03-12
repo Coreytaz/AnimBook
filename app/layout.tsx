@@ -2,7 +2,7 @@
 import { useTheme } from '@/shared'
 import { Footer } from '@/widgets/footer'
 import { Header } from '@/widgets/header'
-import { Container, Grid, Spacer } from '@nextui-org/react'
+import { Container, Spacer } from '@nextui-org/react'
 import './globals.scss'
 import Providers from './providers'
 

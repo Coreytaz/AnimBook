@@ -1,10 +1,13 @@
 html,
-body > div[data-overlay-container="true"],
+body div[data-overlay-container='true']:first-child,
 body {
     height: 100%;
 }
 .body {
     overflow: hidden;
+}
+body > div[data-overlay-container='true']:nth-child(2) {
+    height: 100%;
 }
 
 .container {
@@ -36,6 +39,6 @@ html {
     }
 
     &-corner {
-        background-color: var(--nextui-colors-blue400);
+        background-color: none;
     }
 }
