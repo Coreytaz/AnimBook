@@ -1,59 +1,15 @@
 import { CatergoriesCard } from '@/entities/catergories'
+import { CatergoriesListProps } from '@/shared/api'
 import { Container, Grid, Text } from '@nextui-org/react'
-import { FC } from 'react'
+import { FC, memo, use } from 'react'
 
-const items = [
-    {
-        title: 'Категория 1',
-        description: 'Описание категории 1',
-        img: 'https://nextui.org/images/card-example-4.jpeg',
-        altImg: 'placeholder',
-    },
-    {
-        title: 'Категория 2',
-        description: 'Описание категории 2',
-        img: 'https://nextui.org/images/card-example-4.jpeg',
-        altImg: 'placeholder',
-    },
-    {
-        title: 'Категория 3',
-        description: 'Описание категории 3',
-        img: 'https://nextui.org/images/card-example-4.jpeg',
-        altImg: 'placeholder',
-    },
-    {
-        title: 'Категория 5',
-        description: 'Описание категории 5',
-        img: 'https://nextui.org/images/card-example-4.jpeg',
-        altImg: 'placeholder',
-    },
-    {
-        title: 'Категория 6',
-        description: 'Описание категории 6',
-        img: 'https://nextui.org/images/card-example-4.jpeg',
-        altImg: 'placeholder',
-    },
-    {
-        title: 'Категория 7',
-        description: 'Описание категории 7',
-        img: 'https://nextui.org/images/card-example-4.jpeg',
-        altImg: 'placeholder',
-    },
-    {
-        title: 'Категория 8',
-        description: 'Описание категории 8',
-        img: 'https://nextui.org/images/card-example-4.jpeg',
-        altImg: 'placeholder',
-    },
-    {
-        title: 'Категория 9',
-        description: 'Описание категории 9',
-        img: 'https://nextui.org/images/card-example-4.jpeg',
-        altImg: 'placeholder',
-    },
-]
+async function getData(): Promise<CatergoriesListProps[]> {
+    const res = await fetch('http://localhost:3000/api/catergoriesAll')
+    return res.json()
+}
 
-const CatergoriesPage: FC = () => {
+export default memo(function Catergories() {
+    const items = use(getData())
     return (
         <Container lg>
             <Text
@@ -74,6 +30,4 @@ const CatergoriesPage: FC = () => {
             </Grid.Container>
         </Container>
     )
-}
-
-export default CatergoriesPage
+})

@@ -5,12 +5,12 @@ import { FC } from 'react'
 
 interface CatergoriesCardProps extends CatergoriesListProps {}
 
-const CatergoriesCard: FC<CatergoriesCardProps> = ({ title, description, img, altImg }) => {
+const CatergoriesCard: FC<CatergoriesCardProps> = ({ name, description, img, slug }) => {
     const router = useRouter()
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        router.push(`/catalog/${title}`)
+        router.push(`/catalog/${slug}`)
     }
     return (
         <Card isPressable isHoverable variant="bordered" onClick={handleClick}>
@@ -25,7 +25,7 @@ const CatergoriesCard: FC<CatergoriesCardProps> = ({ title, description, img, al
             >
                 <Col>
                     <Text h3 color="white">
-                        {title}
+                        {name}
                     </Text>
                     <Text size={12} weight="bold" b transform="uppercase" color="#ffffffAA">
                         {description}
@@ -41,7 +41,7 @@ const CatergoriesCard: FC<CatergoriesCardProps> = ({ title, description, img, al
                 objectFit="cover"
                 width="100%"
                 height={240}
-                alt={altImg}
+                alt={name}
             />
         </Card>
     )

@@ -1,12 +1,25 @@
-import { FC } from 'react'
+import { FC, memo, use } from 'react'
 import { Badge, Button, Card, Grid, Spacer, Text, Tooltip } from '@nextui-org/react'
 import { HeartIcon } from './svg/HeardIcon'
 import styles from './styles.module.scss'
 import { StarRating } from '@/entities/StarRating'
 import { Product } from '@/features/product'
 import { usePathname, useRouter } from 'next/navigation'
+import { ProductProps } from '@/shared/api'
+import { toRub } from '@/shared'
 
-const ProductContainer: FC = () => {
+async function getData(slug: string): Promise<ProductProps> {
+    const res = await fetch(
+        'http://localhost:3000/api/getOneProduct?' +
+            new URLSearchParams({
+                slug,
+            })
+    )
+    return res.json()
+}
+
+export default memo(function ProductContainer({ slug }: { slug: string }) {
+    const product = use(getData(slug))
     return (
         <>
             <Text
@@ -16,20 +29,20 @@ const ProductContainer: FC = () => {
                 }}
                 weight="bold"
             >
-                Случайная фигурка Genshin Impact
+                {product?.name}
             </Text>
-            <ProductCard />
+            <ProductCard {...product} />
         </>
     )
-}
+})
 
-const ProductCard: FC = () => {
+const ProductCard: FC<ProductProps> = ({ price, rating, img }) => {
     const router = useRouter()
     const pathname = usePathname()
 
     const dateImages = [
         {
-            src: 'https://nextui.org/images/card-example-1.jpeg',
+            src: img,
             alt: 'Card image background',
         },
         {
@@ -64,7 +77,7 @@ const ProductCard: FC = () => {
                     <div className={styles.wrapperProduct}>
                         <div>
                             <Text b size="$3xl" span>
-                                890.00 руб
+                                {toRub.format(price)}
                             </Text>
                         </div>
                         <div>
@@ -80,7 +93,7 @@ const ProductCard: FC = () => {
                                 variant="bordered"
                                 onClick={() => router.push(`${pathname}?tabs=opinion`)}
                             >
-                                <StarRating readOnly tooltip />
+                                <StarRating readOnly tooltip defaultState={rating} />
                             </Badge>
                         </div>
                         <div className={styles.buttonGroups}>
@@ -110,5 +123,3 @@ const ProductCard: FC = () => {
         </Card>
     )
 }
-
-export default ProductContainer

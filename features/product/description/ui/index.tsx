@@ -1,9 +1,21 @@
-import { ProductDescription } from '@/shared/api'
-import { Table } from '@nextui-org/react'
-import { FC } from 'react'
+import { ProductDescription, DescriptionList } from '@/shared/api'
+import { Table, Text } from '@nextui-org/react'
+import { FC, memo, use } from 'react'
 import { renderCell } from './lib'
 
-const Description: FC = () => {
+async function getData(slug: string): Promise<ProductDescription | null> {
+    const res = await fetch(
+        'http://localhost:3000/api/getDescriptionProduct?' +
+            new URLSearchParams({
+                slug,
+            }),
+        { next: { revalidate: 10 } }
+    )
+    return res.json()
+}
+
+export default memo(function Description({ slug }: { slug: string }) {
+    const items = use(getData(slug))
     const columns = [
         {
             key: 'name',
@@ -14,24 +26,14 @@ const Description: FC = () => {
             label: 'Описание',
         },
     ]
-    const rows: ProductDescription[] = [
-        {
-            key: '1',
-            name: 'Издатель',
-            description: 'Азбука',
-            descriptionHelp: 'Помощь',
-        },
-        {
-            key: '2',
-            name: 'Автор',
-            description: 'Тацуки Фудзимото',
-        },
-        {
-            key: '3',
-            name: 'Художник',
-            description: 'Тацуки Фудзимото',
-        },
-    ]
+    if (!items) {
+        return (
+            <Text size="$2xl" css={{ textAlign: 'center', pb: '$10' }}>
+                Описание у товара отсутствует
+            </Text>
+        )
+    }
+
     return (
         <Table
             aria-label="Example static collection table"
@@ -49,10 +51,10 @@ const Description: FC = () => {
                     </Table.Column>
                 )}
             </Table.Header>
-            <Table.Body items={rows}>
-                {(item: ProductDescription) => (
+            <Table.Body items={items?.descriptionList}>
+                {(item: DescriptionList) => (
                     <Table.Row
-                        key={item.key}
+                        key={item.id}
                         css={{
                             '&:nth-child(even)': {
                                 background: '$gray100',
@@ -60,13 +62,11 @@ const Description: FC = () => {
                         }}
                     >
                         {(columnKey) => (
-                            <Table.Cell key={item.key}>{renderCell(item, columnKey)}</Table.Cell>
+                            <Table.Cell key={item.id}>{renderCell(item, columnKey)}</Table.Cell>
                         )}
                     </Table.Row>
                 )}
             </Table.Body>
         </Table>
     )
-}
-
-export default Description
+})

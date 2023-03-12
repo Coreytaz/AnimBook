@@ -3,7 +3,7 @@ import { Avatar, Tooltip, Text } from '@nextui-org/react'
 import { Key, ReactNode } from 'react'
 import { QuestionSvg } from './svg/question'
 
-export const renderCell = (discription: ProductDescription, columnKey: Key): ReactNode => {
+export const renderCell = (discription: DescriptionList, columnKey: Key): ReactNode => {
     const cellValue = discription[columnKey]
     switch (columnKey) {
         case 'name':

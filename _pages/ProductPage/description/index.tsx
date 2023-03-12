@@ -8,7 +8,7 @@ enum Tabs {
     Opinion = 2,
 }
 
-const DetailedProductInfo: FC = () => {
+const DetailedProductInfo: FC<{ slug: string }> = ({ slug }) => {
     const containerRef = useRef<HTMLDivElement>(null!)
     const router = useRouter()
     const pathname = usePathname()
@@ -53,14 +53,14 @@ const DetailedProductInfo: FC = () => {
                         expanded={tabs === 'characteristics'}
                         onChange={(_, i, value) => onChangeCollapse(i, value)}
                     >
-                        <Product.Description />
+                        <Product.Description slug={slug} />
                     </Collapse>
                     <Collapse
                         title="Отзывы Случайная фигурка Genshin Impact"
                         expanded={tabs === 'opinion'}
                         onChange={(_, i, value) => onChangeCollapse(i, value)}
                     >
-                        <Product.Reviews />
+                        <Product.Reviews slug={slug} />
                     </Collapse>
                 </Collapse.Group>
             </Grid>

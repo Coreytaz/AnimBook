@@ -1,35 +1,15 @@
 import { CatergoriesCard } from '@/entities/catergories'
+import { CatergoriesListProps } from '@/shared/api'
 import { Container, Grid, Text } from '@nextui-org/react'
-import { FC } from 'react'
+import { memo, use } from 'react'
 
-const items = [
-    {
-        title: 'Категория 1',
-        description: 'Описание категории 1',
-        img: 'https://nextui.org/images/card-example-4.jpeg',
-        altImg: 'placeholder',
-    },
-    {
-        title: 'Категория 2',
-        description: 'Описание категории 2',
-        img: 'https://nextui.org/images/card-example-4.jpeg',
-        altImg: 'placeholder',
-    },
-    {
-        title: 'Категория 3',
-        description: 'Описание категории 3',
-        img: 'https://nextui.org/images/card-example-4.jpeg',
-        altImg: 'placeholder',
-    },
-    {
-        title: 'Категория 4',
-        description: 'Описание категории 4',
-        img: 'https://nextui.org/images/card-example-4.jpeg',
-        altImg: 'placeholder',
-    },
-]
+async function getData(): Promise<CatergoriesListProps[]> {
+    const res = await fetch('http://localhost:3000/api/catergoriesAll')
+    return res.json()
+}
 
-const Catergories: FC = () => {
+export default memo(function Catergories() {
+    const items = use(getData())
     return (
         <>
             <Container lg>
@@ -53,5 +33,4 @@ const Catergories: FC = () => {
             </Container>
         </>
     )
-}
-export default Catergories
+})

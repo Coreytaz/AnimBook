@@ -2,8 +2,6 @@ import dynamic from 'next/dynamic'
 
 const CatalogPage = dynamic(() => import('@/_pages/CatalogPage'))
 
-const Catalog = () => {
-    return <CatalogPage />
+export default function Catalog({ params }: { params: { slug: string } }) {
+    return <CatalogPage params={params} />
 }
-
-export default Catalog
