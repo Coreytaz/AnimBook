@@ -15,7 +15,7 @@ const Profile = () => {
                     />
                 </Dropdown.Trigger>
             </Navbar.Item>
-            <Dropdown.Menu color="primary" onAction={(actionKey) => console.log({ actionKey })}>
+            <Dropdown.Menu color="primary">
                 <Dropdown.Item key="profile" css={{ height: '$18' }}>
                     <Text b color="inherit" css={{ d: 'flex' }}>
                         Signed in as
@@ -24,19 +24,13 @@ const Profile = () => {
                         zoey@example.com
                     </Text>
                 </Dropdown.Item>
-                <Dropdown.Item key="settings" withDivider>
-                    My Settings
-                </Dropdown.Item>
-                <Dropdown.Item key="team_settings">Team Settings</Dropdown.Item>
-                <Dropdown.Item key="analytics" withDivider>
-                    Analytics
-                </Dropdown.Item>
-                <Dropdown.Item key="system">System</Dropdown.Item>
-                <Dropdown.Item key="configurations">Configurations</Dropdown.Item>
-                <Dropdown.Item key="help_and_feedback" withDivider>
-                    Help & Feedback
-                </Dropdown.Item>
-                <Dropdown.Item key="logout" withDivider color="error">
+                <Dropdown.Item withDivider>My Settings</Dropdown.Item>
+                <Dropdown.Item>Team Settings</Dropdown.Item>
+                <Dropdown.Item withDivider>Analytics</Dropdown.Item>
+                <Dropdown.Item>System</Dropdown.Item>
+                <Dropdown.Item>Configurations</Dropdown.Item>
+                <Dropdown.Item withDivider>Help & Feedback</Dropdown.Item>
+                <Dropdown.Item withDivider color="error">
                     Log Out
                 </Dropdown.Item>
             </Dropdown.Menu>
