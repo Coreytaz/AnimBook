@@ -23,6 +23,7 @@ export interface ProductProps {
     price: number
     rating: number
     img: string
+    discription: string
     publisher?: Publisher
     type?: string
 }

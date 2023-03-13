@@ -36,7 +36,7 @@ export default memo(function ProductContainer({ slug }: { slug: string }) {
     )
 })
 
-const ProductCard: FC<ProductProps> = ({ price, rating, img }) => {
+const ProductCard: FC<ProductProps> = ({ price, rating, img, discription }) => {
     const router = useRouter()
     const pathname = usePathname()
 
@@ -81,11 +81,7 @@ const ProductCard: FC<ProductProps> = ({ price, rating, img }) => {
                             </Text>
                         </div>
                         <div>
-                            <Text css={{ mb: '$10' }}>
-                                Случайная фигурка по игре Genshin Impact ! Вам может попасться один
-                                из начальных персонажей , которые были с путешественником с самого
-                                начала твоего пути в игре.
-                            </Text>
+                            <Text css={{ mb: '$10' }}>{discription}</Text>
                             <Badge
                                 size="lg"
                                 isSquared

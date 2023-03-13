@@ -49,14 +49,13 @@ const DetailedProductInfo: FC<{ slug: string }> = ({ slug }) => {
                 <Collapse.Group splitted>
                     <Collapse
                         title="Характиристики"
-                        subtitle="Случайная фигурка Genshin Impact"
                         expanded={tabs === 'characteristics'}
                         onChange={(_, i, value) => onChangeCollapse(i, value)}
                     >
                         <Product.Description slug={slug} />
                     </Collapse>
                     <Collapse
-                        title="Отзывы Случайная фигурка Genshin Impact"
+                        title="Отзывы"
                         expanded={tabs === 'opinion'}
                         onChange={(_, i, value) => onChangeCollapse(i, value)}
                     >
