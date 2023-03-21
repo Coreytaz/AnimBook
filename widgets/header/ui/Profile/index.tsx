@@ -1,7 +1,16 @@
-import { Avatar, Dropdown, Navbar, Text } from '@nextui-org/react'
-import React from 'react'
+import { Avatar, Dropdown, Navbar } from '@nextui-org/react'
+import { useRouter } from 'next/navigation'
+import { Key } from 'react'
 
 const Profile = () => {
+    const router = useRouter()
+    //FIXME
+    const onActionItemsMenu = (key: Key) => {
+        if (key.toString().includes('$')) {
+            return
+        }
+        router.push(`/${key}`)
+    }
     return (
         <Dropdown placement="bottom-right">
             <Navbar.Item>
@@ -15,23 +24,10 @@ const Profile = () => {
                     />
                 </Dropdown.Trigger>
             </Navbar.Item>
-            <Dropdown.Menu color="primary">
-                <Dropdown.Item key="profile" css={{ height: '$18' }}>
-                    <Text b color="inherit" css={{ d: 'flex' }}>
-                        Signed in as
-                    </Text>
-                    <Text b color="inherit" css={{ d: 'flex' }}>
-                        zoey@example.com
-                    </Text>
-                </Dropdown.Item>
-                <Dropdown.Item withDivider>My Settings</Dropdown.Item>
-                <Dropdown.Item>Team Settings</Dropdown.Item>
-                <Dropdown.Item withDivider>Analytics</Dropdown.Item>
-                <Dropdown.Item>System</Dropdown.Item>
-                <Dropdown.Item>Configurations</Dropdown.Item>
-                <Dropdown.Item withDivider>Help & Feedback</Dropdown.Item>
+            <Dropdown.Menu color="primary" onAction={(e) => onActionItemsMenu(e)}>
+                <Dropdown.Item key="fav">Избранное</Dropdown.Item>
                 <Dropdown.Item withDivider color="error">
-                    Log Out
+                    Выйти
                 </Dropdown.Item>
             </Dropdown.Menu>
         </Dropdown>

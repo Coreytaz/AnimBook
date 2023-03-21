@@ -22,9 +22,6 @@ const ReviewModal: FC<{ visible: boolean; setVisible: Dispatch<SetStateAction<bo
                 <Text id="modal-title" size={18}>
                     Мой отзыв
                 </Text>
-                <Text id="modal-title" size={16} b>
-                    Случайная фигурка Genshin Impact
-                </Text>
             </Modal.Header>
             <Modal.Body>
                 <Badge size="lg" color="primary" variant="bordered" css={{ gap: '$2' }}>

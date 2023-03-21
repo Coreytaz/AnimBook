@@ -1,6 +1,6 @@
 import { ReviewsProps } from '@/shared/api'
-import { Spacer } from '@nextui-org/react'
-import { FC, memo, use } from 'react'
+import { Spacer, Text } from '@nextui-org/react'
+import { memo, use } from 'react'
 import Comments from './comments'
 import ReviewsHead from './reviewsHead'
 
@@ -26,7 +26,13 @@ export default memo(function Reviews({ slug }: { slug: string }) {
                 y={1}
                 css={{ borderTop: '4px solid $gray100', width: '100%', marginLeft: '0' }}
             />
-            <Comments feedbackList={feedbackList!} />
+            {feedbackList?.length! > 0 ? (
+                <Comments feedbackList={feedbackList!} />
+            ) : (
+                <Text size="$2xl" css={{ textAlign: 'center', p: '$10' }}>
+                    Отзывов ещё нет, будьте первыми
+                </Text>
+            )}
         </>
     )
 })
