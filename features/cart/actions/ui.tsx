@@ -1,5 +1,6 @@
 import { useActionCart, useProductStatus } from '@/entities/cart'
 import { Button, Modal, useModal, Text } from '@nextui-org/react'
+import { useEffect } from 'react'
 
 type Props = {
     productId: string
@@ -34,6 +35,12 @@ export const DeleteProduct = (props: Props) => {
     const { disabled } = props
     const { visible, setVisible, bindings } = useModal()
 
+    useEffect(() => {
+        return () => {
+            window.document.body.style.overflow = ''
+        }
+    }, [])
+
     return (
         <>
             <Button
@@ -58,7 +65,7 @@ export const DeleteProduct = (props: Props) => {
                     <Button
                         auto
                         onPress={() => {
-                            setVisible(false)
+                            bindings.onClose()
                         }}
                         disabled={disabled}
                     >
@@ -68,6 +75,7 @@ export const DeleteProduct = (props: Props) => {
                         auto
                         color="error"
                         onPress={() => {
+                            bindings.onClose()
                             handleToggle()
                         }}
                         disabled={disabled}

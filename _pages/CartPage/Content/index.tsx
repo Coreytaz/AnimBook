@@ -1,11 +1,9 @@
-import { TypeRootState } from '@/app/GlobalRedux/store'
 import { useActionOrder, useOrder } from '@/entities/cart'
 import { ProductRowCard } from '@/entities/product'
 import { Cart } from '@/features/cart'
 import { Button, Card, Grid, Loading, Text } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 
 const Content = () => {
     const { getOrderProduct } = useActionOrder()
