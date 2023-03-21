@@ -1,12 +1,13 @@
 import { FC, memo, use } from 'react'
-import { Badge, Button, Card, Grid, Spacer, Text, Tooltip } from '@nextui-org/react'
-import { HeartIcon } from './svg/HeardIcon'
+import { Badge, Card, Grid, Spacer, Text } from '@nextui-org/react'
 import styles from './styles.module.scss'
 import { StarRating } from '@/entities/StarRating'
 import { Product } from '@/features/product'
 import { usePathname, useRouter } from 'next/navigation'
 import { ProductProps } from '@/shared/api'
 import { toRub } from '@/shared'
+import { Cart } from '@/features/cart'
+import { Fav } from '@/features/fav'
 
 async function getData(slug: string): Promise<ProductProps> {
     const res = await fetch(
@@ -36,7 +37,7 @@ export default memo(function ProductContainer({ slug }: { slug: string }) {
     )
 })
 
-const ProductCard: FC<ProductProps> = ({ price, rating, img, discription }) => {
+const ProductCard: FC<ProductProps> = ({ _id, price, rating, img, discription }) => {
     const router = useRouter()
     const pathname = usePathname()
 
@@ -93,14 +94,8 @@ const ProductCard: FC<ProductProps> = ({ price, rating, img, discription }) => {
                             </Badge>
                         </div>
                         <div className={styles.buttonGroups}>
-                            <Tooltip content={'Добавить в избранное'}>
-                                <Button
-                                    auto
-                                    color="error"
-                                    icon={<HeartIcon fill="currentColor" filled />}
-                                />
-                            </Tooltip>
-                            <Button>Купить</Button>
+                            <Fav.Actions.AddProduct productId={_id} />
+                            <Cart.Actions.AddProduct productId={_id} />
                         </div>
                         <div>
                             <div className={styles.flex}>
