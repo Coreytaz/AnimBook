@@ -1,6 +1,8 @@
 'use client'
 
 import { createTheme, NextUIProvider } from '@nextui-org/react'
+import { Provider } from 'react-redux'
+import store from './GlobalRedux/store'
 
 const lightTheme = createTheme({
     type: 'light',
@@ -16,7 +18,11 @@ const Providers = ({
     children: React.ReactNode
     isDark: boolean | undefined
 }) => {
-    return <NextUIProvider theme={isDark ? darkTheme : lightTheme}>{children}</NextUIProvider>
+    return (
+        <Provider store={store}>
+            <NextUIProvider theme={isDark ? darkTheme : lightTheme}>{children}</NextUIProvider>
+        </Provider>
+    )
 }
 
 export default Providers

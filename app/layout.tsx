@@ -8,7 +8,6 @@ import Providers from './providers'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     const { isDark } = useTheme()
-
     return (
         <html lang="ru">
             <head />

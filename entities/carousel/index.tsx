@@ -22,7 +22,7 @@ const Carousel: FC<{ items: CarouselItemProps[] } & { delay?: number }> = ({ ite
             <Button
                 light
                 auto
-                onClick={() =>
+                onPress={() =>
                     setActiveIndex((prev) => (prev === 0 ? items.length - 1 : +prev - 1))
                 }
                 className={cn(styles.btnCoursel, styles.btnLeft)}
@@ -54,25 +54,13 @@ const Carousel: FC<{ items: CarouselItemProps[] } & { delay?: number }> = ({ ite
             <Button
                 light
                 auto
-                onClick={() =>
+                onPress={() =>
                     setActiveIndex((prev) => (prev === items.length - 1 ? 0 : +prev + 1))
                 }
                 css={{ position: 'absolute' }}
                 className={cn(styles.btnCoursel, styles.btnRight)}
                 icon={<ArrowRight size={60} />}
             />
-            <div className={styles.dots}>
-                <Radio.Group
-                    orientation="horizontal"
-                    defaultValue="0"
-                    value={activeIndex.toString()}
-                    onChange={setActiveIndex}
-                >
-                    {items.map((_, index) => (
-                        <Radio color="primary" key={index} value={index.toString()} />
-                    ))}
-                </Radio.Group>
-            </div>
         </div>
     )
 }
@@ -100,7 +88,7 @@ const CarouselItem: FC<CarouselItemProps> = ({ src, alt, caption }) => {
                 >
                     <Text h2>{caption}</Text>
                 </Card.Body>
-                <Card.Image src={src} objectFit="cover" width="100%" alt={alt} />
+                <Card.Image showSkeleton src={src} objectFit="cover" width="100%" alt={alt} />
             </Card>
         </Grid>
     )
