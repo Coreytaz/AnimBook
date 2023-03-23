@@ -22,7 +22,6 @@ const useToggleProduct = ({ productId, disabled }: Props) => {
 export const AddProduct = (props: Props) => {
     const { handleToggle, isProductInFav } = useToggleProduct(props)
     const { disabled } = props
-
     return (
         <Tooltip content={isProductInFav ? 'Убрать из избранного' : 'Добавить в избранное'}>
             <Button

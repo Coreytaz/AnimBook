@@ -1,5 +1,5 @@
 import { ProductProps } from '@/shared/api'
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 interface OrderSliceType {
     orderProduct: ProductProps[]

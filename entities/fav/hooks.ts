@@ -2,10 +2,11 @@ import { TypeRootState } from '@/app/GlobalRedux/store'
 import { bindActionCreators, createSelector } from '@reduxjs/toolkit'
 import { useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { favActions } from './favSlice'
+import { favActions, getFavProduct } from './favSlice'
 
 const allActionsFav = {
     ...favActions,
+    getFavProduct,
 }
 
 export const useActionFav = () => {
@@ -14,9 +15,18 @@ export const useActionFav = () => {
 }
 
 export const useProductFavStatus = (productId: string) => {
-    const selectFavItems = (state: TypeRootState) => state.favSlice
+    const selectFavItems = (state: TypeRootState) => state.favSlice.favoritesId
+    console.log(useSelector(selectFavItems))
     const isProductInFav = useSelector(
         createSelector([selectFavItems], (state) => state.includes(productId))
     )
     return { isProductInFav }
+}
+
+export const useFav = () => {
+    const { favorites: products, favoritesId } = useSelector(
+        (state: TypeRootState) => state.favSlice
+    )
+
+    return { products, favoritesId }
 }
