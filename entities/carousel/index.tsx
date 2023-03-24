@@ -81,6 +81,7 @@ const CarouselItem: FC<CarouselItemProps> = ({ src, alt, caption }) => {
                         w: '100%',
                         h: '100%',
                         position: 'absolute',
+                        zIndex: '$10',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
