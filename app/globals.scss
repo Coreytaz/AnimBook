@@ -1,16 +1,10 @@
 html,
-body > div[data-overlay-container='true'],
+body > div[data-overlay-container='true']:has(.container),
 body {
     height: 100%;
 }
 .body {
     overflow: hidden;
-}
-body > div[data-overlay-container='true']:nth-child(2n) {
-    height: auto;
-}
-body > div[data-overlay-container='true']:nth-child(2) {
-    height: auto;
 }
 
 .container {
