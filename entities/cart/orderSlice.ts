@@ -16,9 +16,9 @@ const initialState: OrderSliceType = {
 export const getOrderProduct = createAsyncThunk<
     ProductProps[],
     undefined,
-    { state: { cartSlice: string[] } }
+    { state: { cartSlice: { cartId: string[] } } }
 >('order/get-order-product', async function (_, { getState }) {
-    const order = getState().cartSlice
+    const order = getState().cartSlice.cartId
     const response = await fetch('http://localhost:3000/api/getOneProductById', {
         method: 'POST',
         body: JSON.stringify(order),

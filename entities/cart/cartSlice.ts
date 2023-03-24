@@ -1,16 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-const initialState: string[] = []
+const initialState: { cartId: string[] } = {
+    cartId: [],
+}
 
 export const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
         toggleProduct(state, action: PayloadAction<string>) {
-            if (state.includes(action.payload)) {
-                return state.filter((it) => it !== action.payload)
+            if (state.cartId.includes(action.payload)) {
+                return { ...state, cartId: state.cartId.filter((it) => it !== action.payload) }
             }
-            return [...state, action.payload]
+            return { ...state, cartId: [...state.cartId, action.payload] }
         },
     },
 })

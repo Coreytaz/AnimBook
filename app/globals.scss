@@ -1,14 +1,14 @@
 html,
-body div[data-overlay-container='true']:first-child,
+body > div[data-overlay-container='true'],
 body {
     height: 100%;
 }
 .body {
     overflow: hidden;
 }
-// body > div[data-overlay-container='true']:nth-child(2) {
-//     height: 100%;
-// }
+body > div[data-overlay-container='true']:nth-child(2n) {
+    height: auto;
+}
 
 .container {
     height: 100%;

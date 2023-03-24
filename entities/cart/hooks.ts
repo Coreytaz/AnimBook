@@ -26,7 +26,7 @@ export const useActionOrder = () => {
 export const useProductStatus = (productId: string) => {
     const selectCartItems = (state: TypeRootState) => state.cartSlice
     const isProductInCart = useSelector(
-        createSelector([selectCartItems], (state) => state.includes(productId))
+        createSelector([selectCartItems], (state) => state.cartId.includes(productId))
     )
     return { isProductInCart }
 }

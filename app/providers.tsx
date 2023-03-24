@@ -2,7 +2,8 @@
 
 import { createTheme, NextUIProvider } from '@nextui-org/react'
 import { Provider } from 'react-redux'
-import store from './GlobalRedux/store'
+import store, { persistor } from './GlobalRedux/store'
+import { PersistGate } from 'redux-persist/integration/react'
 
 const lightTheme = createTheme({
     type: 'light',
@@ -20,7 +21,9 @@ const Providers = ({
 }) => {
     return (
         <Provider store={store}>
-            <NextUIProvider theme={isDark ? darkTheme : lightTheme}>{children}</NextUIProvider>
+            <PersistGate persistor={persistor} loading={null}>
+                <NextUIProvider theme={isDark ? darkTheme : lightTheme}>{children}</NextUIProvider>
+            </PersistGate>
         </Provider>
     )
 }

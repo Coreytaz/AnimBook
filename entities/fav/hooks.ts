@@ -16,7 +16,6 @@ export const useActionFav = () => {
 
 export const useProductFavStatus = (productId: string) => {
     const selectFavItems = (state: TypeRootState) => state.favSlice.favoritesId
-    console.log(useSelector(selectFavItems))
     const isProductInFav = useSelector(
         createSelector([selectFavItems], (state) => state.includes(productId))
     )
