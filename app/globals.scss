@@ -9,6 +9,9 @@ body {
 body > div[data-overlay-container='true']:nth-child(2n) {
     height: auto;
 }
+body > div[data-overlay-container='true']:nth-child(2) {
+    height: auto;
+}
 
 .container {
     height: 100%;
