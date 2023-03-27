@@ -31,6 +31,7 @@ const FavPage: FC = () => {
                 h2
                 css={{
                     textGradient: '45deg, $blue600 10%, $pink600 100%',
+                    mb: '$10',
                 }}
                 weight="bold"
             >

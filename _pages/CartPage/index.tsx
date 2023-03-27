@@ -1,5 +1,4 @@
 'use client'
-import { useActionOrder } from '@/entities/cart'
 import { Col, Container, Row } from '@nextui-org/react'
 import { FC } from 'react'
 import Content from './Content'

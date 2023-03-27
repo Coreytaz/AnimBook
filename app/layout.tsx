@@ -16,7 +16,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <div className="container">
                         <Header />
                         <Spacer y={1} />
-                        <Container className="content">{children}</Container>
+                        <Container gap={0} className="content">
+                            {children}
+                        </Container>
                         <Spacer y={1} />
                         <Footer />
                     </div>
