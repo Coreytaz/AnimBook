@@ -1,8 +1,7 @@
 import { StarRating } from '@/entities/StarRating'
 import { toRub } from '@/shared'
 import { ProductProps } from '@/shared/api'
-import { HeartIcon } from '@/_pages/ProductPage/product/svg/HeardIcon'
-import { Badge, Button, Card, Col, Grid, Row, Tooltip, Image, Text } from '@nextui-org/react'
+import { Badge, Card, Col, Grid, Row, Image, Text } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
 import { FC, ReactNode } from 'react'
 

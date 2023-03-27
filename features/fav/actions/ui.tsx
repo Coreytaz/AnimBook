@@ -34,3 +34,16 @@ export const AddProduct = (props: Props) => {
         </Tooltip>
     )
 }
+
+export const AddBookMini = (props: Props) => {
+    const { handleToggle, isProductInFav } = useToggleProduct(props)
+    const { disabled } = props
+    return (
+        <Button
+            css={{ w: '40%' }}
+            onPress={handleToggle}
+            icon={<HeartIcon fill="currentColor" filled={isProductInFav} />}
+            disabled={disabled}
+        ></Button>
+    )
+}

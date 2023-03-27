@@ -30,6 +30,17 @@ export const AddProduct = (props: Props) => {
     )
 }
 
+export const AddBookMini = (props: Props) => {
+    const { handleToggle, isProductInCart } = useToggleProduct(props)
+    const { disabled } = props
+
+    return (
+        <Button css={{ w: '60%' }} onPress={handleToggle} disabled={disabled}>
+            {isProductInCart ? 'Убрать из заказа' : 'Купить'}
+        </Button>
+    )
+}
+
 export const DeleteProduct = (props: Props) => {
     const { handleToggle } = useToggleProduct(props)
     const { disabled } = props

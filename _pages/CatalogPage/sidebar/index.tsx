@@ -41,8 +41,8 @@ const Sidebar: FC<{ slug: string }> = ({ slug }) => {
 }
 
 const PriceSection: FC<{ lowPriceAndMax: { max: number; min: number } }> = ({ lowPriceAndMax }) => {
-    const { selected: from, onChangePublisher: setFrom } = catalogParams.usePrices('minPrice')
-    const { selected: to, onChangePublisher: setTo } = catalogParams.usePrices('maxPrice')
+    const { selected: from, onChange: setFrom } = catalogParams.usePrices('minPrice')
+    const { selected: to, onChange: setTo } = catalogParams.usePrices('maxPrice')
     const onChangeBlurInput = (
         e: React.FocusEvent<FormElement, Element>,
         callback: (value: string) => void

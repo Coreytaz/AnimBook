@@ -1,6 +1,6 @@
 import { useSetQuaryParams } from '@/shared'
 import { usePathname, useRouter } from 'next/navigation'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 
 export const PRICES = {
     MIN: 50,
@@ -11,7 +11,7 @@ export const usePrices = (namaParams: string) => {
     const pathname = usePathname()
     const { createQueryString, getParams } = useSetQuaryParams(namaParams)
     const [selected, setSelected] = useState<string>(getParams || '')
-    const onChangePublisher = (value: string) => {
+    const onChange = (value: string) => {
         if (value.length === 0) {
             router.push(`${pathname}?${createQueryString([])}`)
             setSelected(value)
@@ -21,7 +21,7 @@ export const usePrices = (namaParams: string) => {
         setSelected(value)
     }
 
-    return { selected, onChangePublisher }
+    return { selected, onChange }
 }
 
 export const useFilter = (
@@ -40,4 +40,34 @@ export const useFilter = (
     }
 
     return { selected, onChange }
+}
+
+export const VIEW_TYPE = {
+    grid: 'grid' as const,
+    list: 'list' as const,
+}
+
+type ViewTypeValue = (typeof VIEW_TYPE)[keyof typeof VIEW_TYPE]
+
+export const defaultViewType = VIEW_TYPE.grid
+
+export const useViewType = (namaParams: string) => {
+    const router = useRouter()
+    const pathname = usePathname()
+    const { createQueryString, getParams } = useSetQuaryParams(namaParams)
+    const [viewType, setSelected] = useState<string>(getParams || defaultViewType)
+    const setViewType = (value: string) => {
+        if (value.length === 0) {
+            router.push(`${pathname}?${createQueryString([])}`)
+            setSelected(value)
+            return
+        }
+        router.push(`${pathname}?${createQueryString([value])}`)
+        setSelected(value)
+    }
+
+    const isGrid = viewType === 'grid'
+    const isList = viewType === 'list'
+
+    return { viewType: viewType as ViewTypeValue, setViewType, isGrid, isList }
 }
