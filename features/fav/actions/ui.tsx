@@ -27,8 +27,7 @@ export const AddProduct = (props: Props) => {
             <Button
                 onPress={handleToggle}
                 auto
-                color={isProductInFav ? 'success' : 'error'}
-                icon={<HeartIcon fill="currentColor" filled />}
+                icon={<HeartIcon fill="currentColor" filled={isProductInFav} />}
                 disabled={disabled}
             />
         </Tooltip>
