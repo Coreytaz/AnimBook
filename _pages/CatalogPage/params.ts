@@ -2,11 +2,7 @@ import { useSetQuaryParams } from '@/shared'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-export const PRICES = {
-    MIN: 50,
-    MAX: 1000,
-}
-export const usePrices = (namaParams: string) => {
+export const useFilter = (namaParams: string) => {
     const router = useRouter()
     const pathname = usePathname()
     const { createQueryString, getParams } = useSetQuaryParams(namaParams)
@@ -24,7 +20,7 @@ export const usePrices = (namaParams: string) => {
     return { selected, onChange }
 }
 
-export const useFilter = (
+export const useFilters = (
     namaParams: string
 ): {
     selected: string[]

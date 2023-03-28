@@ -41,8 +41,8 @@ const Sidebar: FC<{ slug: string }> = ({ slug }) => {
 }
 
 const PriceSection: FC<{ lowPriceAndMax: { max: number; min: number } }> = ({ lowPriceAndMax }) => {
-    const { selected: from, onChange: setFrom } = catalogParams.usePrices('minPrice')
-    const { selected: to, onChange: setTo } = catalogParams.usePrices('maxPrice')
+    const { selected: from, onChange: setFrom } = catalogParams.useFilter('minPrice')
+    const { selected: to, onChange: setTo } = catalogParams.useFilter('maxPrice')
     const onChangeBlurInput = (
         e: React.FocusEvent<FormElement, Element>,
         callback: (value: string) => void
@@ -107,7 +107,7 @@ const PriceSection: FC<{ lowPriceAndMax: { max: number; min: number } }> = ({ lo
 }
 
 const PublisherSection: FC<{ publisher: Publisher[] }> = ({ publisher }) => {
-    const { selected, onChange } = catalogParams.useFilter('pub')
+    const { selected, onChange } = catalogParams.useFilters('pub')
     return (
         <Collapse title="Издательство">
             <Checkbox.Group defaultValue={[]} value={selected} onChange={onChange}>
