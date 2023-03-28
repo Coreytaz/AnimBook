@@ -26,7 +26,7 @@ const Sidebar: FC<{ slug: string }> = ({ slug }) => {
     }
 
     return (
-        <Card css={{ position: 'sticky', left: '0' }}>
+        <Card css={{ position: 'sticky', left: '0', top: '$24' }}>
             <Collapse.Group>
                 {lowPriceAndMax && <PriceSection lowPriceAndMax={lowPriceAndMax} />}
                 {publisher && <PublisherSection publisher={publisher} />}

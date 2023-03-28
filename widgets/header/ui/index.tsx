@@ -14,7 +14,7 @@ interface HeaderProps {
 const Header: FC<HeaderProps> = () => {
     const pathname = usePathname()
     return (
-        <Navbar isBordered variant="floating">
+        <Navbar disableScrollHandler isBordered variant="floating">
             <Navbar.Brand>
                 <Text b color="inherit" hideIn="xs" size="$2xl">
                     <Link href="/" style={{ fontSize: 'inherit' }} className={styles.logo}>
