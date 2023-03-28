@@ -45,7 +45,7 @@ export default memo(function SubCatergories({ slug }: { slug: string }) {
                     </Grid.Container>
                 ) : (
                     <Grid.Container gap={2} justify="center">
-                        <Grid xs={12} sm={4}>
+                        <Grid xs={12} sm={4} alignItems="flex-start">
                             <Sidebar slug={slug} />
                         </Grid>
                         <Grid xs={12} sm={8}>
