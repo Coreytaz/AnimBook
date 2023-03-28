@@ -49,7 +49,7 @@ export const VIEW_TYPE = {
 
 type ViewTypeValue = (typeof VIEW_TYPE)[keyof typeof VIEW_TYPE]
 
-export const defaultViewType = VIEW_TYPE.grid
+export const defaultViewType = VIEW_TYPE.list
 
 export const useViewType = (namaParams: string) => {
     const router = useRouter()
