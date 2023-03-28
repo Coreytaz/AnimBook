@@ -3,15 +3,17 @@ import { Cart } from '@/features/cart'
 import { Fav } from '@/features/fav'
 import { ProductProps } from '@/shared/api'
 import { Button, Card, Dropdown, Grid, Spacer, Switch, SwitchEvent } from '@nextui-org/react'
-import { FC, useMemo, useState } from 'react'
+import { FC, useMemo, useState, Key } from 'react'
 import * as catalogParams from '../params'
 import GridSvg from './svg/Grid'
 import ListSvg from './svg/List'
 
+type Selection = 'all' | Set<Key>
+
 const menuItems = [
     { key: '-price', name: 'Сначала недорогие' },
     { key: 'price', name: 'Сначала дорогие' },
-    { key: 'rating', name: 'Сначала с лучшей оценкой' },
+    { key: 'rating', name: 'С лучшей оценкой' },
 ]
 
 const ViewTypes = {
@@ -20,12 +22,17 @@ const ViewTypes = {
 }
 
 const Content: FC<{ product: ProductProps[] }> = ({ product }) => {
+    const { selected: selectSort, onChange: setFrom } = catalogParams.useFilter('sort')
     const vtParam = catalogParams.useViewType('vt')
-    const [selected, setSelected] = useState(new Set(['-price']))
+    const [selected, setSelected] = useState<Selection>(new Set([selectSort || '-price']))
     const selectedValue = useMemo(
         () => Array.from(selected).join(', ').replaceAll('_', ' '),
         [selected]
     )
+    const onChangeSortType = (e: Selection) => {
+        setSelected(e)
+        setFrom(Array.from(e).join(', ').replaceAll('_', ' '))
+    }
     const onChangeVt = (e: SwitchEvent) => {
         if (e.target.checked) {
             vtParam.setViewType(ViewTypes.Grid.key)
@@ -44,13 +51,12 @@ const Content: FC<{ product: ProductProps[] }> = ({ product }) => {
                                 {menuItems.filter((item) => item.key === selectedValue)[0].name}
                             </Dropdown.Button>
                             <Dropdown.Menu
-                                css={{ background: '$gray100' }}
                                 aria-label="Single selection actions"
                                 color="primary"
                                 disallowEmptySelection
                                 selectionMode="single"
                                 selectedKeys={selected}
-                                onSelectionChange={setSelected as any}
+                                onSelectionChange={onChangeSortType}
                                 items={menuItems}
                             >
                                 {(item: any) => (
