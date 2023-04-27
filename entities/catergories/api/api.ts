@@ -1,7 +1,7 @@
 import { axiosBaseQuery } from '@/shared/api'
 import { createApi } from '@reduxjs/toolkit/dist/query/react'
 import { routes } from './routes'
-import { ApiCatergoriesData } from './types'
+import { ApiCatergoriesData, ApiSubCatergoriesData } from './types'
 
 export const catergoriesApi = createApi({
     reducerPath: 'catergories',
@@ -10,7 +10,15 @@ export const catergoriesApi = createApi({
     endpoints: (builder) => ({
         getCatergories: builder.query<ApiCatergoriesData[], string>({
             query: () => ({
-                url: routes.getСatergoriesData(),
+                url: routes.getСatergoriesAllData(),
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+            }),
+            providesTags: () => ['catergories'],
+        }),
+        getSubCatergories: builder.query<ApiSubCatergoriesData, string>({
+            query: (slug) => ({
+                url: routes.getSubCatergoriesData(slug),
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
             }),
