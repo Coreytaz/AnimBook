@@ -1,6 +1,6 @@
 import { ReviewsProps } from '@/shared/api'
 import { Spacer, Text } from '@nextui-org/react'
-import { memo, use } from 'react'
+import { use } from 'react'
 import Comments from './comments'
 import ReviewsHead from './reviewsHead'
 
@@ -15,7 +15,7 @@ async function getData(slug: string): Promise<ReviewsProps[] | null> {
     return res.json()
 }
 
-export default memo(function Reviews({ slug }: { slug: string }) {
+export default function Reviews({ slug }: { slug: string }) {
     const feedbackList = use(getData(slug))
     const totalRating =
         feedbackList?.reduce((acc, cur) => acc + cur.rating, 0)! / feedbackList?.length! || 0
@@ -35,4 +35,4 @@ export default memo(function Reviews({ slug }: { slug: string }) {
             )}
         </>
     )
-})
+}

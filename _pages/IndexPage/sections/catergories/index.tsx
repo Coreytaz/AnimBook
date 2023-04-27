@@ -1,8 +1,7 @@
 import { catergoriesApi, CatergoriesCard } from '@/entities/catergories'
 import { Container, Grid, Text } from '@nextui-org/react'
-import { memo } from 'react'
 
-export default memo(function Catergories() {
+export default function Catergories() {
     const { data: items, isLoading, isError } = catergoriesApi.useGetCatergoriesQuery('')
     return (
         <>
@@ -27,4 +26,4 @@ export default memo(function Catergories() {
             </Container>
         </>
     )
-})
+}

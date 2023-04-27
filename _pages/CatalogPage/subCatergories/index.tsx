@@ -1,10 +1,9 @@
 import { catergoriesApi, CatergoriesCard } from '@/entities/catergories'
 import { Container, Grid, Loading, Text } from '@nextui-org/react'
-import { memo } from 'react'
 import Content from '../content'
 import Sidebar from '../sidebar'
 
-export default memo(function SubCatergories({ slug }: { slug: string }) {
+export default function SubCatergories({ slug }: { slug: string }) {
     const { data: items, isLoading, isError } = catergoriesApi.useGetSubCatergoriesQuery(slug)
 
     if (isLoading) {
@@ -44,4 +43,4 @@ export default memo(function SubCatergories({ slug }: { slug: string }) {
             </Container>
         </>
     )
-})
+}

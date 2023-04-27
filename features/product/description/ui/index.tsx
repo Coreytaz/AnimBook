@@ -1,6 +1,6 @@
 import { ProductDescription, DescriptionList } from '@/shared/api'
 import { Table, Text } from '@nextui-org/react'
-import { FC, memo, use } from 'react'
+import { use } from 'react'
 import { renderCell } from './lib'
 
 async function getData(slug: string): Promise<ProductDescription | null> {
@@ -14,7 +14,7 @@ async function getData(slug: string): Promise<ProductDescription | null> {
     return res.json()
 }
 
-export default memo(function Description({ slug }: { slug: string }) {
+export default function Description({ slug }: { slug: string }) {
     const items = use(getData(slug))
     const columns = [
         {
@@ -69,4 +69,4 @@ export default memo(function Description({ slug }: { slug: string }) {
             </Table.Body>
         </Table>
     )
-})
+}
