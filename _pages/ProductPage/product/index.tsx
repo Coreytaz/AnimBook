@@ -1,5 +1,5 @@
-import { FC, memo, use } from 'react'
-import { Badge, Card, Grid, Spacer, Text } from '@nextui-org/react'
+import { FC, memo } from 'react'
+import { Badge, Card, Grid, Loading, Spacer, Text } from '@nextui-org/react'
 import styles from './styles.module.scss'
 import { StarRating } from '@/entities/StarRating'
 import { Product } from '@/features/product'
@@ -8,19 +8,15 @@ import { ProductProps } from '@/shared/api'
 import { toRub } from '@/shared'
 import { Cart } from '@/features/cart'
 import { Fav } from '@/features/fav'
-
-async function getData(slug: string): Promise<ProductProps> {
-    const res = await fetch(
-        'http://localhost:3000/api/getOneProduct?' +
-            new URLSearchParams({
-                slug,
-            })
-    )
-    return res.json()
-}
+import { oneProductApi } from '@/entities/product'
 
 export default memo(function ProductContainer({ slug }: { slug: string }) {
-    const product = use(getData(slug))
+    const { data: product, isLoading, isError } = oneProductApi.useGetOneProductQuery(slug)
+
+    if (isLoading) {
+        return <Loading />
+    }
+
     return (
         <>
             <Text
@@ -32,7 +28,7 @@ export default memo(function ProductContainer({ slug }: { slug: string }) {
             >
                 {product?.name}
             </Text>
-            <ProductCard {...product} />
+            <ProductCard {...product!} />
         </>
     )
 })
