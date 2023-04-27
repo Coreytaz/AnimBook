@@ -1,15 +1,9 @@
-import { CatergoriesCard } from '@/entities/catergories'
-import { CatergoriesListProps } from '@/shared/api'
+import { catergoriesApi, CatergoriesCard } from '@/entities/catergories'
 import { Container, Grid, Text } from '@nextui-org/react'
-import { memo, use } from 'react'
-
-async function getData(): Promise<CatergoriesListProps[]> {
-    const res = await fetch('http://localhost:3000/api/catergoriesAll')
-    return res.json()
-}
+import { memo } from 'react'
 
 export default memo(function Catergories() {
-    const items = use(getData())
+    const { data: items, isLoading, isError } = catergoriesApi.useGetCatergoriesQuery('')
     return (
         <>
             <Container lg>
@@ -24,7 +18,7 @@ export default memo(function Catergories() {
                     Популярные категории
                 </Text>
                 <Grid.Container gap={2} justify="center">
-                    {items.map((item, index) => (
+                    {items?.map((item, index) => (
                         <Grid xs={12} sm={3} key={index}>
                             <CatergoriesCard {...item} />
                         </Grid>

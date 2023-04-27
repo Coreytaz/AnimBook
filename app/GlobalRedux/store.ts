@@ -1,6 +1,7 @@
 'use client'
 
 import { cartSlice, orderSlice } from '@/entities/cart'
+import { catergoriesApi } from '@/entities/catergories'
 import { favSlice } from '@/entities/fav'
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import {
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
     cartSlice: persistReducer(CartPersistConfig, cartSlice),
     orderSlice,
     favSlice: persistReducer(FavPersistConfig, favSlice),
+    [catergoriesApi.reducerPath]: catergoriesApi.reducer,
 })
 
 const store = configureStore({
@@ -40,7 +42,7 @@ const store = configureStore({
             serializableCheck: {
                 ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
             },
-        }),
+        }).concat(catergoriesApi.middleware),
 })
 
 export type TypeRootState = ReturnType<typeof store.getState>
