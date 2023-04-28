@@ -1,23 +1,22 @@
+import { filtersApi } from '@/entities/sidebar'
 import { Publisher } from '@/shared/api'
-import { Button, Card, Checkbox, Col, Collapse, FormElement, Input, Row } from '@nextui-org/react'
+import {
+    Button,
+    Card,
+    Checkbox,
+    Col,
+    Collapse,
+    FormElement,
+    Input,
+    Loading,
+    Row,
+} from '@nextui-org/react'
 import { usePathname } from 'next/navigation'
-import { FC, use } from 'react'
+import { FC } from 'react'
 import * as catalogParams from '../params'
 
-async function getData(
-    slug: string
-): Promise<{ publisher: Publisher[]; lowPriceAndMax: { max: number; min: number } }> {
-    const res = await fetch(
-        'http://localhost:3000/api/getFilters?' +
-            new URLSearchParams({
-                slug,
-            })
-    )
-    return res.json()
-}
-
 const Sidebar: FC<{ slug: string }> = ({ slug }) => {
-    const { publisher, lowPriceAndMax } = use(getData(slug))
+    const { data, isLoading, isError } = filtersApi.useGetFiltersQuery(slug)
     const pathname = usePathname()
 
     const onReset = () => {
@@ -25,11 +24,15 @@ const Sidebar: FC<{ slug: string }> = ({ slug }) => {
         window.location.reload()
     }
 
+    if (isLoading) {
+        return <Loading />
+    }
+
     return (
         <Card css={{ position: 'sticky', left: '0', top: '$24' }}>
             <Collapse.Group animated={false}>
-                {lowPriceAndMax && <PriceSection lowPriceAndMax={lowPriceAndMax} />}
-                {publisher && <PublisherSection publisher={publisher} />}
+                {data?.lowPriceAndMax && <PriceSection lowPriceAndMax={data?.lowPriceAndMax} />}
+                {data?.publisher && <PublisherSection publisher={data?.publisher} />}
             </Collapse.Group>
             <Row justify="center">
                 <Button shadow css={{ m: '$10' }} onClick={onReset}>
