@@ -4,6 +4,7 @@ import { cartSlice, orderSlice } from '@/entities/cart'
 import { catergoriesApi } from '@/entities/catergories'
 import { favSlice } from '@/entities/fav'
 import { oneProductApi } from '@/entities/product'
+import { descriptionApi, reviewsApi } from '@/features/product'
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import {
     persistStore,
@@ -35,6 +36,8 @@ const rootReducer = combineReducers({
     favSlice: persistReducer(FavPersistConfig, favSlice),
     [catergoriesApi.reducerPath]: catergoriesApi.reducer,
     [oneProductApi.reducerPath]: oneProductApi.reducer,
+    [reviewsApi.reducerPath]: reviewsApi.reducer,
+    [descriptionApi.reducerPath]: descriptionApi.reducer,
 })
 
 const store = configureStore({
@@ -46,7 +49,9 @@ const store = configureStore({
             },
         })
             .concat(catergoriesApi.middleware)
-            .concat(oneProductApi.middleware),
+            .concat(oneProductApi.middleware)
+            .concat(reviewsApi.middleware)
+            .concat(descriptionApi.middleware),
 })
 
 export type TypeRootState = ReturnType<typeof store.getState>

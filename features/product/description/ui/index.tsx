@@ -1,21 +1,11 @@
 import { ProductDescription, DescriptionList } from '@/shared/api'
-import { Table, Text } from '@nextui-org/react'
-import { use } from 'react'
+import { Loading, Table, Text } from '@nextui-org/react'
+import { descriptionApi } from '../api'
 import { renderCell } from './lib'
 
-async function getData(slug: string): Promise<ProductDescription | null> {
-    const res = await fetch(
-        'http://localhost:3000/api/getDescriptionProduct?' +
-            new URLSearchParams({
-                slug,
-            }),
-        { next: { revalidate: 10 } }
-    )
-    return res.json()
-}
-
 export default function Description({ slug }: { slug: string }) {
-    const items = use(getData(slug))
+    const { data: items, isLoading, isError } = descriptionApi.useGetDescriptionQuery(slug)
+
     const columns = [
         {
             key: 'name',
@@ -26,6 +16,11 @@ export default function Description({ slug }: { slug: string }) {
             label: 'Описание',
         },
     ]
+
+    if (isLoading) {
+        return <Loading />
+    }
+
     if (!items) {
         return (
             <Text size="$2xl" css={{ textAlign: 'center', pb: '$10' }}>
