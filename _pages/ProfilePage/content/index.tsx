@@ -28,7 +28,7 @@ const Content = () => {
                 id={TOPIC_DELIVERY.id}
                 title={TOPIC_DELIVERY.fullTitle}
                 product={products.favoritesItems}
-                Icon={TOPIC_BUY.icon}
+                Icon={TOPIC_DELIVERY.icon}
             />
             <Section
                 id={TOPIC_BUY.id}
