@@ -1,4 +1,4 @@
-import { ProductProps } from '@/shared/api'
+import { api, ApiResponseData, ProductProps } from '@/shared/api'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 interface OrderSliceType {
@@ -19,14 +19,9 @@ export const getOrderProduct = createAsyncThunk<
     { state: { cartSlice: { cartId: string[] } } }
 >('order/get-order-product', async function (_, { getState }) {
     const order = getState().cartSlice.cartId
-    const response = await fetch('http://localhost:3000/api/getOneProductById', {
-        method: 'POST',
+    const { data } = await api.post<any, ApiResponseData<ProductProps[]>>('/getOneProductById', {
         body: JSON.stringify(order),
-        headers: {
-            'Content-Type': 'application/json',
-        },
     })
-    const data: ProductProps[] = await response.json()
     return data
 })
 

@@ -1,4 +1,4 @@
-import { ProductProps } from '@/shared/api'
+import { api, ApiResponseData, ProductProps } from '@/shared/api'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface OrderSliceType {
@@ -25,14 +25,9 @@ export const getFavProduct = createAsyncThunk<
     { state: { favSlice: OrderSliceType } }
 >('order/get-fav-product', async function (_, { getState }) {
     const favId = getState().favSlice.favoritesId
-    const response = await fetch('http://localhost:3000/api/getOneProductById', {
-        method: 'POST',
+    const { data } = await api.post<any, ApiResponseData<ProductProps[]>>('/getOneProductById', {
         body: JSON.stringify(favId),
-        headers: {
-            'Content-Type': 'application/json',
-        },
     })
-    const data: ProductProps[] = await response.json()
     return data
 })
 
