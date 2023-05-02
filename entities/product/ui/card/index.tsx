@@ -22,7 +22,7 @@ export const ProductGridCard: FC<Props> = (props) => {
                     objectFit="cover"
                     src={data.img}
                     alt="Default Image"
-                    height={250}
+                    height={200}
                 />
             </Card.Header>
             <Card.Body>

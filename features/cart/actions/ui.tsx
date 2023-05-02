@@ -1,5 +1,6 @@
 import { useActionCart, useProductStatus } from '@/entities/cart'
 import { Button, Modal, useModal, Text } from '@nextui-org/react'
+import { ShoppingCart } from 'lucide-react'
 import { useEffect } from 'react'
 
 type Props = {
@@ -35,9 +36,13 @@ export const AddBookMini = (props: Props) => {
     const { disabled } = props
 
     return (
-        <Button css={{ w: '60%' }} onPress={handleToggle} disabled={disabled}>
-            {isProductInCart ? 'Убрать из заказа' : 'Купить'}
-        </Button>
+        <Button
+            css={{ w: '50%' }}
+            auto
+            icon={<ShoppingCart fill={isProductInCart ? 'currentColor' : 'none'} />}
+            onPress={handleToggle}
+            disabled={disabled}
+        />
     )
 }
 

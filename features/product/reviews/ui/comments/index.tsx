@@ -1,8 +1,8 @@
 import { StarRating } from '@/entities/StarRating'
 import { ReviewsProps } from '@/shared/api'
 import { Grid, Badge, Text, Avatar } from '@nextui-org/react'
+import { CalendarDays } from 'lucide-react'
 import { FC } from 'react'
-import Calendar from '../../svg/calendar'
 import styles from './styles.module.scss'
 
 interface CommentListProps {
@@ -41,7 +41,7 @@ export const CommentList: FC<CommentListProps> = ({ description, date, name, rat
             </div>
             <div className={styles.comment_info}>
                 <div className={styles.comment_date}>
-                    <Calendar />
+                    <CalendarDays />
                     <Text>{date.toString()}</Text>
                 </div>
                 <div className={styles.comment_user}>

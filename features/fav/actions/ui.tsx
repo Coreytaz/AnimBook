@@ -1,6 +1,6 @@
 import { useActionFav, useProductFavStatus } from '@/entities/fav'
 import { Tooltip, Button } from '@nextui-org/react'
-import { HeartIcon } from '../svg/HeardIcon'
+import { HeartIcon } from 'lucide-react'
 
 type Props = {
     productId: string
@@ -27,7 +27,7 @@ export const AddProduct = (props: Props) => {
             <Button
                 onPress={handleToggle}
                 auto
-                icon={<HeartIcon fill="currentColor" filled={isProductInFav} />}
+                icon={<HeartIcon fill={isProductInFav ? 'currentColor' : 'none'} />}
                 disabled={disabled}
             />
         </Tooltip>
@@ -39,9 +39,9 @@ export const AddBookMini = (props: Props) => {
     const { disabled } = props
     return (
         <Button
-            css={{ w: '40%' }}
+            css={{ w: '50%' }}
             onPress={handleToggle}
-            icon={<HeartIcon fill="currentColor" filled={isProductInFav} />}
+            icon={<HeartIcon fill={isProductInFav ? 'currentColor' : 'none'} />}
             disabled={disabled}
         ></Button>
     )

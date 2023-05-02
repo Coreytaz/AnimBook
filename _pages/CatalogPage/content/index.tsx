@@ -3,10 +3,9 @@ import { Cart } from '@/features/cart'
 import { Fav } from '@/features/fav'
 import { ProductProps } from '@/shared/api'
 import { Button, Card, Dropdown, Grid, Spacer, Switch, SwitchEvent } from '@nextui-org/react'
+import { LayoutGrid, List } from 'lucide-react'
 import { FC, useMemo, useState, Key } from 'react'
 import * as catalogParams from '../params'
-import GridSvg from './svg/Grid'
-import ListSvg from './svg/List'
 
 type Selection = 'all' | Set<Key>
 
@@ -17,8 +16,8 @@ const menuItems = [
 ]
 
 const ViewTypes = {
-    Grid: { key: 'grid', Icon: GridSvg },
-    List: { key: 'list', Icon: ListSvg },
+    Grid: { key: 'grid', Icon: LayoutGrid },
+    List: { key: 'list', Icon: List },
 }
 
 const Content: FC<{ product: ProductProps[] }> = ({ product }) => {
@@ -72,8 +71,8 @@ const Content: FC<{ product: ProductProps[] }> = ({ product }) => {
                             squared
                             animated={false}
                             size="xl"
-                            iconOn={<ViewTypes.Grid.Icon filled />}
-                            iconOff={<ViewTypes.List.Icon filled />}
+                            iconOn={<ViewTypes.Grid.Icon />}
+                            iconOff={<ViewTypes.List.Icon />}
                         />
                     </Grid>
                 </Grid.Container>

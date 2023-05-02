@@ -7,7 +7,7 @@
     position: absolute;
     z-index: 2;
     top: 50%;
-    & svg path {
+    & svg {
         stroke: var(--nextui-colors-blue600);
     }
 }

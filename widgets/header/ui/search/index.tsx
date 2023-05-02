@@ -1,6 +1,6 @@
 import { Input } from '@nextui-org/react'
+import { Search as SearchSVG } from 'lucide-react'
 import React from 'react'
-import { SearchSvg } from './svg/SearchSvg'
 
 const Search = () => {
     return (
@@ -10,7 +10,7 @@ const Search = () => {
             initialValue=""
             color="primary"
             clearable
-            contentRight={<SearchSvg />}
+            contentRight={<SearchSVG />}
             css={{
                 width: '100%',
             }}

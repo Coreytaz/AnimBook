@@ -1,8 +1,7 @@
 import { FC } from 'react'
 import { changeTheme, Switch, Text, useTheme } from '@nextui-org/react'
 import Link from 'next/link'
-import { SunIcon } from './svg/SunIcon'
-import { MoonIcon } from './svg/MoonIcon'
+import { Moon, Sun } from 'lucide-react'
 
 const Footer: FC = () => {
     const { isDark, theme } = useTheme()
@@ -34,9 +33,9 @@ const Footer: FC = () => {
                 animated={false}
                 onChange={handleChange}
                 checked={true}
-                size="sm"
-                iconOn={<SunIcon filled />}
-                iconOff={<MoonIcon filled />}
+                size="md"
+                iconOn={<Sun />}
+                iconOff={<Moon />}
             />
         </footer>
     )

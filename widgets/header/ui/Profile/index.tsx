@@ -25,6 +25,7 @@ const Profile = () => {
                 </Dropdown.Trigger>
             </Navbar.Item>
             <Dropdown.Menu color="primary" onAction={(e) => onActionItemsMenu(e)}>
+                <Dropdown.Item key="profile">Профиль</Dropdown.Item>
                 <Dropdown.Item key="fav">Избранное</Dropdown.Item>
                 <Dropdown.Item withDivider color="error">
                     Выйти

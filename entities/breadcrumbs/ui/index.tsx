@@ -1,11 +1,10 @@
 import { IBreadcrumbsLocationState } from '@/shared/api'
 import { Container, Text } from '@nextui-org/react'
+import { ChevronRight, Home } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { FC, useMemo } from 'react'
 import styles from './styles.module.scss'
-import { ArrowSvg } from './svg/arrow'
-import { HomeSvg } from './svg/home'
 
 interface CrumbsProps {
     id: string
@@ -63,10 +62,10 @@ const Crumb: FC<CrumbsProps> = ({ title, href, last }) => {
                         },
                     }}
                 >
-                    {title === 'Home' ? <HomeSvg /> : title}
+                    {title === 'Home' ? <Home /> : title}
                 </Text>
             </Link>
-            <ArrowSvg />
+            <ChevronRight />
         </>
     )
 }

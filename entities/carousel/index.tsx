@@ -2,10 +2,9 @@ import { FC, useEffect, useState } from 'react'
 import { Button, Card, Grid, Radio, Text } from '@nextui-org/react'
 import styles from './style.module.scss'
 import cn from 'clsx'
-import { ArrowRight } from './svg/ArrowRight'
-import { ArrowLeft } from './svg/ArrowLeft'
 import { useRouter } from 'next/navigation'
 import { CarouselItemProps } from '@/shared/api'
+import { ChevronsLeft, ChevronsRight } from 'lucide-react'
 
 const Carousel: FC<{ items: CarouselItemProps[] } & { delay?: number }> = ({ items, delay }) => {
     const [activeIndex, setActiveIndex] = useState<string | number>(0)
@@ -27,7 +26,7 @@ const Carousel: FC<{ items: CarouselItemProps[] } & { delay?: number }> = ({ ite
                 }
                 className={cn(styles.btnCoursel, styles.btnLeft)}
                 css={{ position: 'absolute' }}
-                icon={<ArrowLeft size={60} />}
+                icon={<ChevronsLeft size={60} />}
             />
             <Grid.Container
                 direction="row"
@@ -59,7 +58,7 @@ const Carousel: FC<{ items: CarouselItemProps[] } & { delay?: number }> = ({ ite
                 }
                 css={{ position: 'absolute' }}
                 className={cn(styles.btnCoursel, styles.btnRight)}
-                icon={<ArrowRight size={60} />}
+                icon={<ChevronsRight size={60} />}
             />
         </div>
     )
