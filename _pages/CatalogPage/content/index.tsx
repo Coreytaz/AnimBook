@@ -104,17 +104,19 @@ const ProductItem = ({
     return (
         <>
             {isGrid && (
-                <ProductGridCard
-                    data={data}
-                    actions={
-                        <>
-                            <Button.Group ghost css={{ minWidth: '100%' }}>
-                                <Fav.Actions.AddBookMini productId={data._id} />
-                                <Cart.Actions.AddBookMini productId={data._id} />
-                            </Button.Group>
-                        </>
-                    }
-                />
+                <Grid xs={12} md={5} lg={4}>
+                    <ProductGridCard
+                        data={data}
+                        actions={
+                            <>
+                                <Button.Group ghost css={{ minWidth: '100%' }}>
+                                    <Fav.Actions.AddBookMini productId={data._id} />
+                                    <Cart.Actions.AddBookMini productId={data._id} />
+                                </Button.Group>
+                            </>
+                        }
+                    />
+                </Grid>
             )}
             {isList && (
                 <ProductRowCard

@@ -1,6 +1,8 @@
 import { Avatar, Dropdown, Navbar } from '@nextui-org/react'
+import { Heart, LogOut, User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { Key } from 'react'
+import { TOPIC_BUY, TOPIC_DELIVERY } from '../config'
 
 const Profile = () => {
     const router = useRouter()
@@ -25,9 +27,19 @@ const Profile = () => {
                 </Dropdown.Trigger>
             </Navbar.Item>
             <Dropdown.Menu color="primary" onAction={(e) => onActionItemsMenu(e)}>
-                <Dropdown.Item key="profile">Профиль</Dropdown.Item>
-                <Dropdown.Item key="fav">Избранное</Dropdown.Item>
-                <Dropdown.Item withDivider color="error">
+                <Dropdown.Item key="profile" icon={<User />}>
+                    Профиль
+                </Dropdown.Item>
+                <Dropdown.Item withDivider key="fav" icon={<Heart />}>
+                    Избранное
+                </Dropdown.Item>
+                <Dropdown.Item key={`profile#${TOPIC_DELIVERY.id}`} icon={<TOPIC_DELIVERY.icon />}>
+                    {TOPIC_DELIVERY.title}
+                </Dropdown.Item>
+                <Dropdown.Item key={`profile#${TOPIC_BUY.id}`} icon={<TOPIC_BUY.icon />}>
+                    {TOPIC_BUY.title}
+                </Dropdown.Item>
+                <Dropdown.Item withDivider color="error" icon={<LogOut />}>
                     Выйти
                 </Dropdown.Item>
             </Dropdown.Menu>

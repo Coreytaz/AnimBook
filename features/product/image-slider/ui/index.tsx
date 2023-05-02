@@ -1,5 +1,6 @@
+import { useScrollVertical } from '@/shared/helpers'
 import { Card } from '@nextui-org/react'
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, useState } from 'react'
 import styles from './styles.module.scss'
 
 interface ImageSliderProps {
@@ -10,30 +11,13 @@ interface ImageSliderProps {
 }
 
 const ImageSlider: FC<ImageSliderProps> = ({ imageCollection }) => {
-    const scrollVerticalRef = useRef<HTMLDivElement>(null!)
+    const scrollVerticalRef = useScrollVertical()
     const [selectImage, setSelectImage] = useState(0)
 
     const onChangePreviewImage = (index: number) => {
         setSelectImage(index)
     }
 
-    const onWheel = (e: WheelEvent) => {
-        e.preventDefault()
-        scrollVerticalRef.current.scrollTo({
-            left: +scrollVerticalRef.current.scrollLeft + e.deltaY * 4,
-            behavior: 'smooth',
-        })
-    }
-
-    useEffect(() => {
-        if (scrollVerticalRef.current) {
-            scrollVerticalRef.current.addEventListener('wheel', onWheel)
-            return () => {
-                // eslint-disable-next-line react-hooks/exhaustive-deps
-                scrollVerticalRef.current?.removeEventListener('wheel', onWheel)
-            }
-        }
-    }, [])
     return (
         <>
             <Card>

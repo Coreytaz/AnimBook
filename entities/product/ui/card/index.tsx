@@ -44,12 +44,16 @@ export const ProductGridCard: FC<Props> = (props) => {
                     </Col>
                 </Row>
             </Card.Body>
-            <Card.Divider />
-            <Card.Footer>
-                <Row>
-                    <Col css={{ dflex: 'center' }}>{actions}</Col>
-                </Row>
-            </Card.Footer>
+            {actions ? (
+                <>
+                    <Card.Divider />
+                    <Card.Footer>
+                        <Row>
+                            <Col css={{ dflex: 'center' }}>{actions}</Col>
+                        </Row>
+                    </Card.Footer>
+                </>
+            ) : null}
         </>
     )
 }
@@ -58,16 +62,14 @@ const ProductCard: FC<Props> = (props) => {
     const router = useRouter()
     const { data, className } = props
     return (
-        <Grid xs={12} md={5} lg={4}>
-            <Card
-                isPressable
-                isHoverable
-                onClick={() => router.push(`product/${data.slug}`)}
-                className={className}
-            >
-                <ProductGridCard {...props} />
-            </Card>
-        </Grid>
+        <Card
+            isPressable
+            isHoverable
+            onClick={() => router.push(`product/${data.slug}`)}
+            className={className}
+        >
+            <ProductGridCard {...props} />
+        </Card>
     )
 }
 
