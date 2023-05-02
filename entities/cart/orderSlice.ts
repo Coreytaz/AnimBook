@@ -20,7 +20,7 @@ export const getOrderProduct = createAsyncThunk<
 >('order/get-order-product', async function (_, { getState }) {
     const order = getState().cartSlice.cartId
     const { data } = await api.post<any, ApiResponseData<ProductProps[]>>('/getOneProductById', {
-        body: JSON.stringify(order),
+        productId: order,
     })
     return data
 })
