@@ -51,7 +51,7 @@ export function Section<T extends ProductProps>(props: Props<T>) {
             </Text>
             <div className={styles.list} ref={scrollVerticalRef}>
                 {product.length > 0 ? (
-                    <Row gap={1}>
+                    <Row gap={1} css={{ m: 0 }}>
                         {product.map((prod, idx) => (
                             <Col key={prod._id}>
                                 <ProductGridCard data={prod} className={styles.card} />
