@@ -25,7 +25,7 @@ const ProfilePage: FC = () => {
                 <Grid xs={7}>
                     <Content />
                 </Grid>
-                <Grid xs={1}>
+                <Grid>
                     <Sidebar />
                 </Grid>
             </Grid.Container>
