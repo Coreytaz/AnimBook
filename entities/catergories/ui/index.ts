@@ -1,1 +1,2 @@
-export { default as CatergoriesCard } from './card'
+export * from './card'
+export * from './skeletonCard'

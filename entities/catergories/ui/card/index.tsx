@@ -5,7 +5,7 @@ import { FC } from 'react'
 
 interface CatergoriesCardProps extends CatergoriesListProps {}
 
-const CatergoriesCard: FC<CatergoriesCardProps> = ({ name, description, img, slug }) => {
+export const CatergoriesCard: FC<CatergoriesCardProps> = ({ name, description, img, slug }) => {
     const router = useRouter()
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -46,5 +46,3 @@ const CatergoriesCard: FC<CatergoriesCardProps> = ({ name, description, img, slu
         </Card>
     )
 }
-
-export default CatergoriesCard
