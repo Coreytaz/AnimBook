@@ -3,6 +3,7 @@ import { Container, Grid, Text } from '@nextui-org/react'
 import { FC } from 'react'
 import Aside from './aside'
 import Content from './content'
+import Sidebar from './sidebar'
 
 const ProfilePage: FC = () => {
     return (
@@ -17,12 +18,15 @@ const ProfilePage: FC = () => {
             >
                 Профиль
             </Text>
-            <Grid.Container gap={2}>
+            <Grid.Container gap={2} justify="center">
                 <Grid>
                     <Aside />
                 </Grid>
                 <Grid xs={7}>
                     <Content />
+                </Grid>
+                <Grid>
+                    <Sidebar />
                 </Grid>
             </Grid.Container>
         </Container>
