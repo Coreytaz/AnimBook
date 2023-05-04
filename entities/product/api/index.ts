@@ -1,2 +1,3 @@
-export * from './api'
+export * from './oneProductApi'
+export * from './getProductsApi'
 export * from './types'

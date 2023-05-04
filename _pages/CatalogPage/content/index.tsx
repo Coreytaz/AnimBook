@@ -1,4 +1,11 @@
-import { ProductGridCard, ProductRowCard, SkeletonCard, SkeletonRow } from '@/entities/product'
+import {
+    getProductsApi,
+    oneProductApi,
+    ProductGridCard,
+    ProductRowCard,
+    SkeletonCard,
+    SkeletonRow,
+} from '@/entities/product'
 import { Cart } from '@/features/cart'
 import { Fav } from '@/features/fav'
 import { ProductProps } from '@/shared/api'
@@ -20,7 +27,8 @@ const ViewTypes = {
     List: { key: 'list', Icon: List },
 }
 
-const Content: FC<{ product: ProductProps[]; isLoading: boolean }> = ({ product, isLoading }) => {
+const Content: FC<{ slug: string }> = ({ slug }) => {
+    const { data: items, isLoading, isError } = getProductsApi.useGetProductsQuery(slug)
     const { selected: selectSort, onChange: setFrom } = catalogParams.useFilter('sort')
     const vtParam = catalogParams.useViewType('vt')
     const [selected, setSelected] = useState<Selection>(new Set([selectSort || '-price']))
@@ -87,7 +95,7 @@ const Content: FC<{ product: ProductProps[]; isLoading: boolean }> = ({ product,
                               isList={vtParam.isList}
                           />
                       ))
-                    : product.map((prod) => (
+                    : items?.products.map((prod) => (
                           <ProductItem
                               data={prod}
                               key={prod._id}

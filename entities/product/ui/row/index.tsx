@@ -49,7 +49,7 @@ export const ProductRowCard: FC<Props> = (props) => {
     const router = useRouter()
     const { data } = props
     return (
-        <Grid xs={12} css={{ maxHeight: '180px' }}>
+        <Grid xs={12} css={{ maxHeight: '200px' }}>
             <Card isPressable isHoverable onClick={() => router.push(`product/${data.slug}`)}>
                 <ProductRow {...props} />
             </Card>

@@ -3,4 +3,8 @@ export const routes = {
         `/getOneProduct?${new URLSearchParams({
             slug,
         })}`,
+    getProductsData: (slug: string) =>
+        `/getProducts?${new URLSearchParams({
+            slug,
+        })}`,
 }
