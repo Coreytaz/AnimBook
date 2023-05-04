@@ -1,15 +1,27 @@
-import { Loading, Spacer, Text } from '@nextui-org/react'
+import { Spacer, Text } from '@nextui-org/react'
+import { useSearchParams } from 'next/navigation'
+import { useEffect } from 'react'
 import { reviewsApi } from '../api'
 import Comments from './comments'
 import ReviewsHead from './reviewsHead'
+import { SkeletonReviews } from './skeletonReviews'
 
 export default function Reviews({ slug }: { slug: string }) {
-    const { data: feedbackList, isLoading, isError } = reviewsApi.useGetReviewsQuery(slug)
+    const searchParams = useSearchParams()
+    const [trigger, { data: feedbackList, isLoading, isError, isUninitialized }] =
+        reviewsApi.useLazyGetReviewsQuery()
     const totalRating =
         feedbackList?.reduce((acc, cur) => acc + cur.rating, 0)! / feedbackList?.length! || 0
+    const tabs = searchParams.get('tabs')
 
-    if (isLoading) {
-        return <Loading />
+    useEffect(() => {
+        if (tabs === 'opinion') {
+            trigger(slug)
+        }
+    }, [slug, tabs, trigger])
+
+    if (isLoading || isUninitialized) {
+        return <SkeletonReviews />
     }
 
     return (

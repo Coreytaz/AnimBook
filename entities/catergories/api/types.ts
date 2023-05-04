@@ -11,5 +11,4 @@ export interface ApiCatergoriesData {
 export interface ApiSubCatergoriesData {
     categoryName: string
     subcategories: ApiCatergoriesData[]
-    products: ApiProductData[]
 }

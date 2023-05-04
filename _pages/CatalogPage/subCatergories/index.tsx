@@ -1,6 +1,6 @@
 import { catergoriesApi, CatergoriesCard, SkeletonCategoriesCard } from '@/entities/catergories'
 import { Skeleton } from '@/shared/ui'
-import { Container, Grid, Loading, Text } from '@nextui-org/react'
+import { Container, Grid, Text } from '@nextui-org/react'
 import Content from '../content'
 import Sidebar from '../sidebar'
 
