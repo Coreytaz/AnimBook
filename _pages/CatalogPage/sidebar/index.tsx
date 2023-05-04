@@ -1,4 +1,4 @@
-import { filtersApi } from '@/entities/sidebar'
+import { filtersApi, SidebarSkeleton } from '@/entities/sidebar'
 import { Publisher } from '@/shared/api'
 import {
     Button,
@@ -25,7 +25,7 @@ const Sidebar: FC<{ slug: string }> = ({ slug }) => {
     }
 
     if (isLoading) {
-        return <Loading />
+        return <SidebarSkeleton />
     }
 
     return (

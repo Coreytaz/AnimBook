@@ -2,6 +2,7 @@ import { ProductDescription, DescriptionList } from '@/shared/api'
 import { Loading, Table, Text } from '@nextui-org/react'
 import { descriptionApi } from '../api'
 import { renderCell } from './lib'
+import { SkeletonDescription } from './skeletonDescription'
 
 export default function Description({ slug }: { slug: string }) {
     const { data: items, isLoading, isError } = descriptionApi.useGetDescriptionQuery(slug)
@@ -18,7 +19,7 @@ export default function Description({ slug }: { slug: string }) {
     ]
 
     if (isLoading) {
-        return <Loading />
+        return <SkeletonDescription />
     }
 
     if (!items) {

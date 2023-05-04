@@ -1,4 +1,4 @@
-import { catergoriesApi, CatergoriesCard } from '@/entities/catergories'
+import { catergoriesApi, CatergoriesCard, SkeletonCategoriesCard } from '@/entities/catergories'
 import { Container, Grid, Text } from '@nextui-org/react'
 
 export default function Catergories() {
@@ -15,11 +15,17 @@ export default function Catergories() {
                 Каталог товаров
             </Text>
             <Grid.Container gap={2} justify="center">
-                {items?.map((item, index) => (
-                    <Grid xs={12} sm={3} key={index}>
-                        <CatergoriesCard {...item} />
-                    </Grid>
-                ))}
+                {isLoading
+                    ? [...new Array(8)].map((_, i) => (
+                          <Grid xs={12} sm={3} key={i}>
+                              <SkeletonCategoriesCard />
+                          </Grid>
+                      ))
+                    : items?.map((item, index) => (
+                          <Grid xs={12} sm={3} key={index}>
+                              <CatergoriesCard {...item} />
+                          </Grid>
+                      ))}
             </Grid.Container>
         </Container>
     )

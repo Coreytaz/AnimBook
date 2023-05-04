@@ -1,4 +1,4 @@
-import { ProductGridCard, ProductRowCard } from '@/entities/product'
+import { ProductGridCard, ProductRowCard, SkeletonCard, SkeletonRow } from '@/entities/product'
 import { Cart } from '@/features/cart'
 import { Fav } from '@/features/fav'
 import { ProductProps } from '@/shared/api'
@@ -20,7 +20,7 @@ const ViewTypes = {
     List: { key: 'list', Icon: List },
 }
 
-const Content: FC<{ product: ProductProps[] }> = ({ product }) => {
+const Content: FC<{ product: ProductProps[]; isLoading: boolean }> = ({ product, isLoading }) => {
     const { selected: selectSort, onChange: setFrom } = catalogParams.useFilter('sort')
     const vtParam = catalogParams.useViewType('vt')
     const [selected, setSelected] = useState<Selection>(new Set([selectSort || '-price']))
@@ -40,7 +40,7 @@ const Content: FC<{ product: ProductProps[] }> = ({ product }) => {
         }
     }
     return (
-        <section>
+        <section style={{ width: '100%' }}>
             <Card css={{ p: '$5 $8' }}>
                 <Grid.Container>
                     <Grid xs={6}>
@@ -78,17 +78,38 @@ const Content: FC<{ product: ProductProps[] }> = ({ product }) => {
                 </Grid.Container>
             </Card>
             <Spacer />
-            <Grid.Container css={{ gap: '$10' }} alignContent="flex-start">
-                {product.map((prod) => (
-                    <ProductItem
-                        data={prod}
-                        key={prod._id}
-                        isGrid={vtParam.isGrid}
-                        isList={vtParam.isList}
-                    />
-                ))}
+            <Grid.Container gap={2} css={{ gap: '$10 0' }} alignContent="flex-start">
+                {isLoading
+                    ? [...new Array(6)].map((_, i) => (
+                          <ProductItemSkeleton
+                              key={i}
+                              isGrid={vtParam.isGrid}
+                              isList={vtParam.isList}
+                          />
+                      ))
+                    : product.map((prod) => (
+                          <ProductItem
+                              data={prod}
+                              key={prod._id}
+                              isGrid={vtParam.isGrid}
+                              isList={vtParam.isList}
+                          />
+                      ))}
             </Grid.Container>
         </section>
+    )
+}
+
+const ProductItemSkeleton = ({ isGrid, isList }: { isGrid: boolean; isList: boolean }) => {
+    return (
+        <>
+            {isGrid && (
+                <Grid xs={12} md={5} lg={4}>
+                    <SkeletonCard />
+                </Grid>
+            )}
+            {isList && <SkeletonRow />}
+        </>
     )
 }
 
