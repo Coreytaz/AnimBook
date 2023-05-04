@@ -1,0 +1,40 @@
+{
+  "name": "techmarket",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@next/font": "13.1.6",
+    "@nextui-org/react": "^1.0.0-beta.12",
+    "@reduxjs/toolkit": "^1.9.3",
+    "@svgr/webpack": "^6.5.1",
+    "@types/node": "18.11.18",
+    "@types/react": "18.0.27",
+    "@types/react-dom": "18.0.10",
+    "axios": "^1.3.6",
+    "clsx": "^1.2.1",
+    "eslint": "8.33.0",
+    "eslint-config-next": "13.1.6",
+    "lucide-react": "^0.192.0",
+    "next": "13.1.6",
+    "prettier": "^2.8.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-redux": "^8.0.5",
+    "redux-persist": "^6.0.0",
+    "sass": "^1.57.1",
+    "typescript": "4.9.4"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2"
+  }
+}

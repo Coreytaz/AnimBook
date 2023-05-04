@@ -1,0 +1,33 @@
+.description {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.list {
+    max-width: 670px;
+    padding-bottom: 20px;
+    overflow: scroll;
+}
+
+.card {
+    filter: none !important;
+    background: var(--nextui-colors-gray100) !important;
+}
+
+.title {
+    a {
+        margin-right: 4px;
+        margin-left: -20px;
+        opacity: 0;
+        transition: 0.25s;
+    }
+
+    &:hover a {
+        opacity: 1;
+    }
+}
+
+.placeholder {
+    text-align: center;
+    margin: 20px 0;
+}

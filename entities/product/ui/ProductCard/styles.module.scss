@@ -1,0 +1,25 @@
+.buttonGroups {
+    display: flex;
+    gap: 0 10px;
+}
+
+.wrapperProduct {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    gap: 0 5px;
+}
+
+.imageCollection {
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 10px;
+    overflow: scroll;
+}

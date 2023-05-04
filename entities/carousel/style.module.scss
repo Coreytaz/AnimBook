@@ -1,0 +1,29 @@
+.wraperCoursel {
+    overflow: hidden;
+    position: relative !important;
+}
+
+.btnCoursel {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    & svg {
+        stroke: var(--nextui-colors-blue600);
+    }
+}
+
+.btnLeft {
+    left: 10px;
+}
+
+.btnRight {
+    right: 10px;
+}
+
+.dots {
+    position: absolute;
+    z-index: 2;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}

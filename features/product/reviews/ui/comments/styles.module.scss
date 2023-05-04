@@ -1,0 +1,21 @@
+.comment {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    &_user {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    &_info {
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 10px;
+    }
+    &_date {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+}
