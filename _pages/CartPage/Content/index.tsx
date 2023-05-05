@@ -1,4 +1,4 @@
-import { useActionOrder, useOrder } from '@/entities/cart'
+import { CartSkeleton, useActionOrder, useOrder } from '@/entities/cart'
 import { ProductRowCard } from '@/entities/product'
 import { Cart } from '@/features/cart'
 import { Button, Card, Grid, Loading, Text } from '@nextui-org/react'
@@ -15,13 +15,7 @@ const Content = () => {
     }, [cartOrder, getOrderProduct])
 
     if (products.status === 'loading') {
-        return (
-            <Loading
-                css={{
-                    dflex: 'center',
-                }}
-            />
-        )
+        return <CartSkeleton />
     }
     return (
         <>
