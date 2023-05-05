@@ -1,6 +1,6 @@
 'use client'
 import { useActionFav, useFav } from '@/entities/fav'
-import { ProductRowCard } from '@/entities/product'
+import { ProductRowCard, SkeletonRow } from '@/entities/product'
 import { Cart } from '@/features/cart'
 import { Fav } from '@/features/fav'
 import { Button, Card, Container, Grid, Loading, Text } from '@nextui-org/react'
@@ -18,11 +18,23 @@ const FavPage: FC = () => {
 
     if (products.status === 'loading') {
         return (
-            <Loading
-                css={{
-                    dflex: 'center',
-                }}
-            />
+            <Container lg>
+                <Text
+                    h2
+                    css={{
+                        textGradient: '45deg, $blue600 10%, $pink600 100%',
+                        mb: '$10',
+                    }}
+                    weight="bold"
+                >
+                    Избранное
+                </Text>
+                <Grid.Container css={{ gap: '$10' }} alignContent="flex-start">
+                    {[...new Array(3)].map((_, i) => (
+                        <SkeletonRow key={i} />
+                    ))}
+                </Grid.Container>
+            </Container>
         )
     }
     return (
