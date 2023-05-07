@@ -25,9 +25,9 @@ export const ProductGridCard: FC<Props> = (props) => {
                     height={200}
                 />
             </Card.Header>
-            <Card.Body>
+            <Card.Body css={{ pb: '$5' }}>
                 <Row wrap="wrap">
-                    <Text css={{ mb: '$5' }}>{data.name}</Text>
+                    <Text css={{ h: '80px', overflow: 'scroll' }}>{data.name}</Text>
                     <Col css={{ d: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
                         <Text size="$2xl" css={{ textAlign: 'center', mb: '$5' }}>
                             {toRub.format(data.price)}

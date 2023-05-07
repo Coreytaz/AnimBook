@@ -8,7 +8,6 @@ export default async function handler(
 ) {
     if (req.method === 'POST') {
         const { productId } = req.body
-        console.log(productId)
         const products = await Product.filter((item) => productId.includes(item._id))
         res.status(200).json(products || null)
     }

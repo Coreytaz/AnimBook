@@ -5,6 +5,7 @@ export const useScrollVertical = (): MutableRefObject<HTMLDivElement> => {
 
     const onWheel = (e: WheelEvent) => {
         e.preventDefault()
+        e.stopPropagation()
         scrollVerticalRef.current.scrollTo({
             left: +scrollVerticalRef.current.scrollLeft + e.deltaY * 4,
             behavior: 'smooth',

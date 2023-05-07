@@ -3,7 +3,7 @@ import { useActionFav, useFav } from '@/entities/fav'
 import { ProductRowCard, SkeletonRow } from '@/entities/product'
 import { Cart } from '@/features/cart'
 import { Fav } from '@/features/fav'
-import { Button, Card, Container, Grid, Loading, Text } from '@nextui-org/react'
+import { Button, Card, Container, Grid, Text } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
 import { FC, useEffect } from 'react'
 
