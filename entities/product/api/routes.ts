@@ -7,4 +7,8 @@ export const routes = {
         `/getProducts?${new URLSearchParams({
             slug,
         })}`,
+    getViewProductsData: (productId: string) =>
+        `/getProductsById?${new URLSearchParams({
+            productId,
+        })}`,
 }

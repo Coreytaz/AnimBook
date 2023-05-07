@@ -1,0 +1,10 @@
+.card {
+    filter: none !important;
+    background: var(--nextui-colors-gray100) !important;
+}
+
+.flex {
+    overflow: scroll;
+    display: flex;
+    flex-wrap: nowrap;
+}

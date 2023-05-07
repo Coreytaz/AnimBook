@@ -3,7 +3,8 @@
 import { cartSlice, orderSlice } from '@/entities/cart'
 import { catergoriesApi } from '@/entities/catergories'
 import { favSlice } from '@/entities/fav'
-import { getProductsApi, oneProductApi } from '@/entities/product'
+import { getProductsApi, oneProductApi, viewProductSlice } from '@/entities/product'
+import { getViewProductApi } from '@/entities/product/api/getViewProductApi'
 import { filtersApi } from '@/entities/sidebar'
 import { descriptionApi, reviewsApi } from '@/features/product'
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
@@ -20,20 +21,24 @@ import {
 import storage from 'redux-persist/lib/storage'
 
 const CartPersistConfig = {
-    key: 'cartSlice',
+    key: 'cart',
     storage: storage,
-    blacklist: ['favSlice'],
 }
 
 const FavPersistConfig = {
-    key: 'favSlice',
+    key: 'fav',
     storage: storage,
-    blacklist: ['cartSlice'],
+    whitelist: ['favoritesId'],
+}
+const ViewProductPersistConfig = {
+    key: 'viewProduct',
+    storage: storage,
 }
 
 const rootReducer = combineReducers({
     cartSlice: persistReducer(CartPersistConfig, cartSlice),
     orderSlice,
+    viewProductSlice: persistReducer(ViewProductPersistConfig, viewProductSlice),
     favSlice: persistReducer(FavPersistConfig, favSlice),
     [catergoriesApi.reducerPath]: catergoriesApi.reducer,
     [oneProductApi.reducerPath]: oneProductApi.reducer,
@@ -41,6 +46,7 @@ const rootReducer = combineReducers({
     [descriptionApi.reducerPath]: descriptionApi.reducer,
     [filtersApi.reducerPath]: filtersApi.reducer,
     [getProductsApi.reducerPath]: getProductsApi.reducer,
+    [getViewProductApi.reducerPath]: getViewProductApi.reducer,
 })
 
 const store = configureStore({
@@ -56,7 +62,8 @@ const store = configureStore({
             .concat(reviewsApi.middleware)
             .concat(descriptionApi.middleware)
             .concat(filtersApi.middleware)
-            .concat(getProductsApi.middleware),
+            .concat(getProductsApi.middleware)
+            .concat(getViewProductApi.middleware),
 })
 
 export type TypeRootState = ReturnType<typeof store.getState>
