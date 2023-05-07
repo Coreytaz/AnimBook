@@ -16,7 +16,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <div className="container">
                         <Header />
                         <Spacer y={1} />
-                        <Container gap={0} className="content">
+                        <Container
+                            gap={0}
+                            className="content"
+                            css={{
+                                flex: 1,
+                                '@xs': {
+                                    maxWidth: '$breakpoints-md',
+                                },
+                            }}
+                        >
                             {children}
                         </Container>
                         <Spacer y={1} />

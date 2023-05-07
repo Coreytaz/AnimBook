@@ -10,7 +10,16 @@ import ViewProduct from './sections/viewProduct'
 const IndexPage: FC = () => {
     const view = useSelector((state: any) => state.viewProductSlice)
     return (
-        <Container>
+        <Container
+            css={{
+                '@sm': {
+                    maxWidth: 'max-content',
+                },
+                '@xs': {
+                    maxWidth: 'max-content',
+                },
+            }}
+        >
             <Banner />
             <Spacer y={2} />
             <Catergories />

@@ -51,13 +51,11 @@ export function Section<T extends ProductProps>(props: Props<T>) {
             </Text>
             <div className={styles.list} ref={scrollVerticalRef}>
                 {product.length > 0 ? (
-                    <Row gap={1} css={{ m: 0 }}>
-                        {product.map((prod, idx) => (
-                            <Col key={prod._id}>
-                                <ProductGridCard data={prod} className={styles.card} />
-                            </Col>
-                        ))}
-                    </Row>
+                    product.map((prod, idx) => (
+                        <Col css={{ width: '242px' }} key={prod._id}>
+                            <ProductGridCard data={prod} className={styles.card} />
+                        </Col>
+                    ))
                 ) : (
                     <>
                         <Text h2 className={styles.placeholder}>
