@@ -9,7 +9,6 @@ export default async function handler(
     if (req.method === 'GET') {
         const { productId } = req.query
         const splitProductId = productId?.toString().split('-')!
-        console.log(productId)
         const products = Product.filter((item) => splitProductId.includes(item._id))
         res.status(200).json(products || null)
     }

@@ -4,10 +4,7 @@ import type { AxiosRequestConfig, AxiosError } from 'axios'
 
 export const api = axios.create({
     baseURL: process.env.API_URL,
-    headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
 })
 
 export const axiosBaseQuery =

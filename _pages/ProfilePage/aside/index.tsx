@@ -1,9 +1,11 @@
 import { Avatar, Button, Card, Input, Spacer, Text } from '@nextui-org/react'
 import { User } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 import React, { useState } from 'react'
 
 const Aside = () => {
     const [isEdit, setIsEdit] = useState(false)
+    const { data: session }: any = useSession()
 
     return (
         <Card
@@ -22,7 +24,7 @@ const Aside = () => {
                 <Input
                     size="lg"
                     underlined
-                    initialValue="Иванов Иван Иваныч"
+                    initialValue={session?.user.username}
                     color="primary"
                     disabled={!isEdit}
                     css={{ width: '100%' }}
@@ -35,7 +37,7 @@ const Aside = () => {
                     underlined
                     labelPlaceholder="Почта"
                     type="email"
-                    initialValue="example@gmail.com"
+                    initialValue={session?.user.email}
                     color="primary"
                     disabled={!isEdit}
                 />
@@ -44,7 +46,7 @@ const Aside = () => {
                     underlined
                     labelPlaceholder="Номер телефона"
                     type="tel"
-                    initialValue="+7-999-999-99-99"
+                    initialValue={session?.user.phone}
                     color="primary"
                     disabled={!isEdit}
                 />
@@ -53,7 +55,7 @@ const Aside = () => {
                     underlined
                     type="text"
                     labelPlaceholder="Адрес"
-                    initialValue="Улица Пушкина д.58"
+                    initialValue={session?.user.address}
                     color="primary"
                     disabled={!isEdit}
                 />

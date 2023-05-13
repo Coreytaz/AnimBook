@@ -1,4 +1,4 @@
-import { Navbar, Text } from '@nextui-org/react'
+import { Button, Navbar, Text } from '@nextui-org/react'
 import { usePathname } from 'next/navigation'
 import { FC } from 'react'
 import Search from './search'
@@ -6,6 +6,7 @@ import Profile from './Profile'
 import Link from 'next/link'
 import styles from './styles.module.scss'
 import { Book, Library } from 'lucide-react'
+import { signIn } from 'next-auth/react'
 
 interface HeaderProps {
     className?: string

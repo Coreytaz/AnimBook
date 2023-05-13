@@ -4,6 +4,7 @@ import { createTheme, NextUIProvider } from '@nextui-org/react'
 import { Provider } from 'react-redux'
 import store, { persistor } from './GlobalRedux/store'
 import { PersistGate } from 'redux-persist/integration/react'
+import { SessionProvider } from 'next-auth/react'
 
 const lightTheme = createTheme({
     type: 'light',
@@ -20,11 +21,15 @@ const Providers = ({
     isDark: boolean | undefined
 }) => {
     return (
-        <Provider store={store}>
-            <PersistGate persistor={persistor} loading={null}>
-                <NextUIProvider theme={isDark ? darkTheme : lightTheme}>{children}</NextUIProvider>
-            </PersistGate>
-        </Provider>
+        <SessionProvider>
+            <Provider store={store}>
+                <PersistGate persistor={persistor} loading={null}>
+                    <NextUIProvider theme={isDark ? darkTheme : lightTheme}>
+                        {children}
+                    </NextUIProvider>
+                </PersistGate>
+            </Provider>
+        </SessionProvider>
     )
 }
 
