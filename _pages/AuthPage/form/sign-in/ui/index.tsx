@@ -26,7 +26,6 @@ const SignInForm: FC<SignInFormProps> = ({ onSignIn, onChangeForm }) => {
                 redirect: true,
                 callbackUrl: '/',
             })
-            console.log(res)
         } catch (error) {
             console.log(error)
         } finally {

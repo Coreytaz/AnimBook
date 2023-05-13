@@ -7,8 +7,8 @@ export const authOptions: NextAuthOptions = {
         CredentialsProvider({
             name: 'Credentials',
             credentials: {
-                email: { label: 'Email', type: 'email', placeholder: 'jsmith' },
-                password: { label: 'Password', type: 'password' },
+                email: {},
+                password: {},
             },
             async authorize(credentials, req) {
                 const res = await api.post(
