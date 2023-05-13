@@ -7,6 +7,7 @@ import { TOPIC_BUY, TOPIC_DELIVERY } from '../config'
 
 const Profile = () => {
     const { data: session } = useSession()
+    console.log(session)
     const router = useRouter()
     //FIXME
     const onActionItemsMenu = (key: Key) => {

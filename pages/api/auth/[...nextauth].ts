@@ -1,6 +1,9 @@
 import { api } from '@/shared/api'
-import NextAuth, { NextAuthOptions } from 'next-auth'
+import NextAuth, { NextAuthOptions, Session, User } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import jwt from 'jsonwebtoken'
+import { JWT } from 'next-auth/jwt'
+import { refreshAccessToken } from '@/shared/lib/auth'
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -24,7 +27,6 @@ export const authOptions: NextAuthOptions = {
                         },
                     }
                 )
-
                 const user = await res.data
 
                 if (user) {
@@ -33,17 +35,37 @@ export const authOptions: NextAuthOptions = {
             },
         }),
     ],
-    session: {
-        strategy: 'jwt',
-    },
     callbacks: {
-        async jwt({ token, user }) {
+        async jwt({ token, user }: { token: JWT; user?: User }) {
+            if (user?.email) {
+                const { exp } = jwt.verify(user.token, process.env.NEXTAUTH_SECRET!) as any
+                return { ...token, ...user, refreshTokenExpires: exp }
+            }
+
+            if (Date.now() / 1000 < token?.refreshTokenExpires!) {
+                try {
+                    const res = await refreshAccessToken(token.token)
+                    const { exp } = jwt.verify(res.data.token, process.env.NEXTAUTH_SECRET!) as any
+                    return { ...token, ...res.data, refreshTokenExpires: exp }
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+
             return { ...token, ...user }
         },
-        async session({ session, token, user }) {
+        async session({ session, token }: { session: Session; token: JWT }): Promise<Session> {
+            session.expires = token.refreshTokenExpires as any
+            if (Date.now() / 1000 > token.refreshTokenExpires!) {
+                return Promise.reject({
+                    error: new Error(
+                        'Срок действия токена обновления истек. Войдите в систему еще раз, чтобы получить новый токен обновления.'
+                    ),
+                })
+            }
             session.user = token as any
 
-            return session
+            return Promise.resolve(session)
         },
     },
     pages: {

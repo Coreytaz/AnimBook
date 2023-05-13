@@ -7,11 +7,9 @@ export const useRefreshToken = () => {
     const { data: session } = useSession()
 
     const refreshToken = async () => {
-        const res = await api.post('/auth/refresh', {
-            refresh: session?.user.token,
-        })
+        const res = await api.post('/auth/refresh')
 
-        if (session) session.user.token = res.data.accessToken
+        if (session) session.user!.token = res.data.token
         else signIn()
     }
     return refreshToken

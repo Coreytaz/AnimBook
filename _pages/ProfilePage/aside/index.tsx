@@ -25,6 +25,7 @@ const Aside = () => {
                     size="lg"
                     underlined
                     initialValue={session?.user.username}
+                    value={session?.user.username}
                     color="primary"
                     disabled={!isEdit}
                     css={{ width: '100%' }}
@@ -38,6 +39,7 @@ const Aside = () => {
                     labelPlaceholder="Почта"
                     type="email"
                     initialValue={session?.user.email}
+                    value={session?.user.email}
                     color="primary"
                     disabled={!isEdit}
                 />
@@ -47,6 +49,7 @@ const Aside = () => {
                     labelPlaceholder="Номер телефона"
                     type="tel"
                     initialValue={session?.user.phone}
+                    value={session?.user.phone}
                     color="primary"
                     disabled={!isEdit}
                 />
@@ -56,6 +59,7 @@ const Aside = () => {
                     type="text"
                     labelPlaceholder="Адрес"
                     initialValue={session?.user.address}
+                    value={session?.user.address}
                     color="primary"
                     disabled={!isEdit}
                 />

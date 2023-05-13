@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react'
 import { useEffect } from 'react'
 import { useRefreshToken } from './useRefreshToken'
 
-const useAxiosAuth = () => {
+export const useAxiosAuth = () => {
     const { data: session } = useSession()
     const refreshToken = useRefreshToken()
 
@@ -26,7 +26,7 @@ const useAxiosAuth = () => {
                 if (error?.response?.status === 401 && !prevRequest?.sent) {
                     prevRequest.sent = true
                     await refreshToken()
-                    prevRequest.headers['Authorization'] = `Bearer ${session?.user.token}`
+                    prevRequest.headers['Authorization'] = `Bearer ${session?.user!.token}`
                     return api(prevRequest)
                 }
                 return Promise.reject(error)
@@ -41,5 +41,3 @@ const useAxiosAuth = () => {
 
     return api
 }
-
-export default useAxiosAuth

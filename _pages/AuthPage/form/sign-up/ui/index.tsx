@@ -3,7 +3,8 @@ import { Card, Input, Button, Text } from '@nextui-org/react'
 import { Mail, Lock, Phone, Eye, EyeOff } from 'lucide-react'
 import React, { FC, useCallback, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { SignUpFormValues } from '../model'
+import { signUp } from '../api'
+import { mapFormDataToApiData, SignUpFormValues } from '../model'
 
 export interface SignUpFormProps {
     onSignUp?: (payload: unknown) => void
@@ -25,9 +26,14 @@ const SignUpForm: FC<SignUpFormProps> = ({ onChangeForm, onSignUp }) => {
         [onChangeForm]
     )
 
-    const handleSubmit = useCallback((payload: SignUpFormValues) => {
-        console.log(payload)
-    }, [])
+    const handleSubmit = useCallback(
+        (payload: SignUpFormValues) => {
+            signUp(mapFormDataToApiData(payload)).then(({ data }) => {
+                onSignUp && onSignUp(data)
+            })
+        },
+        [onSignUp]
+    )
 
     const validateRepeatPassword = useCallback(
         (v: string) => {

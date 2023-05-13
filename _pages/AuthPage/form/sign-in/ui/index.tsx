@@ -21,7 +21,7 @@ const SignInForm: FC<SignInFormProps> = ({ onSignIn, onChangeForm }) => {
     const handleSubmit = useCallback(async (payload: SignInFormValues) => {
         try {
             setLoading(true)
-            const res = await signIn('credentials', {
+            await signIn('credentials', {
                 ...payload,
                 redirect: true,
                 callbackUrl: '/',
