@@ -38,19 +38,6 @@ export const authOptions: NextAuthOptions = {
             },
         }),
     ],
-    secret: process.env.NEXTAUTH_SECRET as string,
-    cookies: {
-        sessionToken: {
-            name: `${useSecureCookies ? '__Secure-' : ''}next-auth.session-token`,
-            options: {
-                httpOnly: true,
-                sameSite: 'lax',
-                path: '/',
-                domain: '.anim-book.vercel.app',
-                secure: useSecureCookies,
-            },
-        },
-    },
     callbacks: {
         async jwt({ token, user }: { token: JWT; user?: User }) {
             if (user?.email) {
