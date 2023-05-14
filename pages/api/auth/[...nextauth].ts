@@ -27,6 +27,7 @@ export const authOptions: NextAuthOptions = {
                         },
                     }
                 )
+                console.log(res)
                 const user = await res.data
 
                 if (user) {
