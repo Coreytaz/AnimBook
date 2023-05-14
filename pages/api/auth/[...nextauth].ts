@@ -5,6 +5,8 @@ import jwt from 'jsonwebtoken'
 import { JWT } from 'next-auth/jwt'
 import { refreshAccessToken } from '@/shared/lib/auth'
 
+const useSecureCookies = !!process.env.VERCEL_URL
+
 export const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
@@ -36,6 +38,18 @@ export const authOptions: NextAuthOptions = {
             },
         }),
     ],
+    secret: process.env.NEXTAUTH_SECRET as string,
+    cookies: {
+        sessionToken: {
+            name: `${useSecureCookies ? '__Secure-' : ''}next-auth.session-token`,
+            options: {
+                httpOnly: true,
+                sameSite: 'lax',
+                path: '/',
+                secure: useSecureCookies,
+            },
+        },
+    },
     callbacks: {
         async jwt({ token, user }: { token: JWT; user?: User }) {
             if (user?.email) {
