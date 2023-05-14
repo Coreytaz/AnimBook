@@ -3,7 +3,9 @@ import { useTheme } from '@/shared'
 import { Footer } from '@/widgets/footer'
 import { Header } from '@/widgets/header'
 import { Container, Spacer } from '@nextui-org/react'
+import { ToastContainer } from 'react-toastify'
 import './globals.scss'
+import 'react-toastify/dist/ReactToastify.css'
 import Providers from './providers'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -32,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         <Footer />
                     </div>
                 </Providers>
+                <ToastContainer position="bottom-right" theme={isDark ? 'dark' : 'light'} />
             </body>
         </html>
     )

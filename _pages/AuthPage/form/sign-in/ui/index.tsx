@@ -2,8 +2,10 @@ import { BaseTextField, BaseTextFieldPassword } from '@/shared/ui/Form'
 import { Card, Input, Button, Text, Loading } from '@nextui-org/react'
 import { Mail, Lock } from 'lucide-react'
 import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import { FC, useCallback, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 import { SignInFormValues } from '../model'
 
 export interface SignInFormProps {
@@ -12,26 +14,31 @@ export interface SignInFormProps {
 }
 
 const SignInForm: FC<SignInFormProps> = ({ onSignIn, onChangeForm }) => {
+    const router = useRouter()
     const [loading, setLoading] = useState(false)
     const form = useForm<SignInFormValues>({
         mode: 'onBlur',
         defaultValues: {},
     })
 
-    const handleSubmit = useCallback(async (payload: SignInFormValues) => {
-        try {
+    const handleSubmit = useCallback(
+        async (payload: SignInFormValues) => {
             setLoading(true)
             await signIn('credentials', {
                 ...payload,
-                redirect: true,
-                callbackUrl: '/',
+                redirect: false,
+            }).then((data) => {
+                if (data?.ok) {
+                    router.push('/')
+                    setLoading(false)
+                } else {
+                    toast.error('Неверный Email или пароль')
+                    setLoading(false)
+                }
             })
-        } catch (error) {
-            console.log(error)
-        } finally {
-            setLoading(false)
-        }
-    }, [])
+        },
+        [router]
+    )
 
     const handleChangeForm = useCallback(
         (newForm: Parameters<SignInFormProps['onChangeForm']>[0]) => {

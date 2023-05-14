@@ -10,7 +10,7 @@ type LoginPageForm = 'signIn' | 'signUp'
 const AuthPage: FC = () => {
     const [currentForm, setCurrentForm] = useState<LoginPageForm>('signIn')
 
-    const handleSignIn: SignInFormProps['onSignIn'] = useCallback((data) => {}, [])
+    const handleSignIn: SignInFormProps['onSignIn'] = useCallback(() => {}, [])
 
     const handleChangeForm = useCallback((payload: LoginPageForm) => {
         setCurrentForm(payload)

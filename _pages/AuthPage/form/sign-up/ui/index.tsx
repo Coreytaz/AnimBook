@@ -1,8 +1,10 @@
 import { BaseTextField, BaseTextFieldPassword } from '@/shared/ui/Form'
-import { Card, Input, Button, Text } from '@nextui-org/react'
+import { Card, Button, Text } from '@nextui-org/react'
+import { AxiosError } from 'axios'
 import { Mail, Lock, Phone, Eye, EyeOff } from 'lucide-react'
 import React, { FC, useCallback, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 import { signUp } from '../api'
 import { mapFormDataToApiData, SignUpFormValues } from '../model'
 
@@ -27,10 +29,19 @@ const SignUpForm: FC<SignUpFormProps> = ({ onChangeForm, onSignUp }) => {
     )
 
     const handleSubmit = useCallback(
-        (payload: SignUpFormValues) => {
-            signUp(mapFormDataToApiData(payload)).then(({ data }) => {
-                onSignUp && onSignUp(data)
-            })
+        async (payload: SignUpFormValues) => {
+            try {
+                const res = await signUp(mapFormDataToApiData(payload))
+                onSignUp && onSignUp(res.data)
+            } catch (error) {
+                if (error instanceof AxiosError) {
+                    console.log(error)
+                    if (error.response?.status === 400 && error.code === 'ERR_BAD_REQUEST') {
+                        const mes = error.response.data.message as string
+                        toast.error(mes)
+                    }
+                }
+            }
         },
         [onSignUp]
     )
