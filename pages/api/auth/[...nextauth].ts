@@ -46,6 +46,7 @@ export const authOptions: NextAuthOptions = {
                 httpOnly: true,
                 sameSite: 'lax',
                 path: '/',
+                domain: '.anim-book.vercel.app',
                 secure: useSecureCookies,
             },
         },
