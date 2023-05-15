@@ -1,4 +1,4 @@
-import { api, authApiSetHeader } from '@/shared/api'
+import { api } from '@/shared/api'
 import NextAuth, { NextAuthOptions, Session, User } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import jwt from 'jsonwebtoken'
