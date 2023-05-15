@@ -1,9 +1,11 @@
-import { api } from '@/shared/api'
+import { api, authApiSetHeader } from '@/shared/api'
 import NextAuth, { NextAuthOptions, Session, User } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import jwt from 'jsonwebtoken'
 import { JWT } from 'next-auth/jwt'
 import { refreshAccessToken } from '@/shared/lib/auth'
+
+type TriggerJWT = 'signIn' | 'signUp' | 'update' | undefined
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -27,7 +29,7 @@ export const authOptions: NextAuthOptions = {
                         },
                     }
                 )
-                console.log(res)
+
                 const user = await res.data
 
                 if (user) {
@@ -38,7 +40,11 @@ export const authOptions: NextAuthOptions = {
     ],
     secret: process.env.NEXTAUTH_SECRET as string,
     callbacks: {
-        async jwt({ token, user }: { token: JWT; user?: User }) {
+        async jwt({ token, user, trigger, session }) {
+            if (trigger === 'update') {
+                return { ...token, ...session.user }
+            }
+
             if (user?.email) {
                 const { exp } = jwt.verify(user.token, process.env.NEXTAUTH_SECRET!) as any
                 return { ...token, ...user, refreshTokenExpires: exp }
