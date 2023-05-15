@@ -7,7 +7,6 @@ import { TOPIC_BUY, TOPIC_DELIVERY } from '../config'
 
 const Profile = () => {
     const { data: session } = useSession()
-    console.log(session)
     const router = useRouter()
     //FIXME
     const onActionItemsMenu = (key: Key) => {
@@ -16,6 +15,7 @@ const Profile = () => {
         }
         router.push(`/${key}`)
     }
+
     return (
         <>
             {session?.user ? (
@@ -48,7 +48,13 @@ const Profile = () => {
                             {TOPIC_BUY.title}
                         </Dropdown.Item>
                         <Dropdown.Item withDivider color="error" icon={<LogOut />}>
-                            <Text color="error" onClick={() => signOut({ redirect: false })}>
+                            <Text
+                                color="error"
+                                onClick={() => {
+                                    signOut({ redirect: false })
+                                    router.push('/')
+                                }}
+                            >
                                 Выйти
                             </Text>
                         </Dropdown.Item>
