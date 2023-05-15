@@ -1,5 +1,5 @@
 import { BaseTextField, BaseTextFieldPassword } from '@/shared/ui/Form'
-import { Card, Button, Text } from '@nextui-org/react'
+import { Card, Button, Text, Loading } from '@nextui-org/react'
 import { AxiosError } from 'axios'
 import { Mail, Lock, Phone, Eye, EyeOff } from 'lucide-react'
 import React, { FC, useCallback, useState } from 'react'
@@ -14,6 +14,7 @@ export interface SignUpFormProps {
 }
 
 const SignUpForm: FC<SignUpFormProps> = ({ onChangeForm, onSignUp }) => {
+    const [isLoading, setIsLoading] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
 
     const form = useForm<SignUpFormValues>({
@@ -31,6 +32,7 @@ const SignUpForm: FC<SignUpFormProps> = ({ onChangeForm, onSignUp }) => {
     const handleSubmit = useCallback(
         async (payload: SignUpFormValues) => {
             try {
+                setIsLoading(true)
                 const res = await signUp(mapFormDataToApiData(payload))
                 onSignUp && onSignUp(res.data)
             } catch (error) {
@@ -41,6 +43,8 @@ const SignUpForm: FC<SignUpFormProps> = ({ onChangeForm, onSignUp }) => {
                         toast.error(mes)
                     }
                 }
+            } finally {
+                setIsLoading(false)
             }
         },
         [onSignUp]
@@ -137,8 +141,17 @@ const SignUpForm: FC<SignUpFormProps> = ({ onChangeForm, onSignUp }) => {
                 <Button auto light onPress={handleChangeForm.bind(null, 'signIn')}>
                     Войти
                 </Button>
-                <Button type="submit" onClick={form.handleSubmit(handleSubmit)} auto>
-                    Зарегистрироваться
+                <Button
+                    disabled={isLoading}
+                    type="submit"
+                    onClick={form.handleSubmit(handleSubmit)}
+                    auto
+                >
+                    {isLoading ? (
+                        <Loading color="currentColor" size="sm" />
+                    ) : (
+                        <> Зарегистрироваться</>
+                    )}
                 </Button>
             </Card.Footer>
         </>
