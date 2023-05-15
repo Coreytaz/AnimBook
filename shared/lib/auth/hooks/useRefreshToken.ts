@@ -1,13 +1,13 @@
 'use client'
 
-import { api } from '@/shared/api'
 import { signIn, useSession } from 'next-auth/react'
+import { refreshAccessToken } from '../api'
 
 export const useRefreshToken = () => {
     const { data: session } = useSession()
 
     const refreshToken = async () => {
-        const res = await api.post('/auth/refresh')
+        const res = await refreshAccessToken(session?.user?.token!)
 
         if (session) session.user!.token = res.data.token
         else signIn()
