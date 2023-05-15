@@ -48,13 +48,7 @@ const Profile = () => {
                             {TOPIC_BUY.title}
                         </Dropdown.Item>
                         <Dropdown.Item withDivider color="error" icon={<LogOut />}>
-                            <Text
-                                color="error"
-                                onClick={() => {
-                                    signOut({ redirect: false })
-                                    router.push('/')
-                                }}
-                            >
+                            <Text color="error" onClick={() => signOut()}>
                                 Выйти
                             </Text>
                         </Dropdown.Item>
