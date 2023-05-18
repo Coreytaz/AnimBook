@@ -1,7 +1,7 @@
 import { useSearchParams } from 'next/navigation'
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 
-const useSetQuaryParams = (name: string) => {
+export const useSetQuaryParams = (name: string) => {
     const searchParams = useSearchParams()
     const getParams = searchParams.get(name)
 
@@ -22,5 +22,3 @@ const useSetQuaryParams = (name: string) => {
 
     return { createQueryString, getParams }
 }
-
-export default useSetQuaryParams

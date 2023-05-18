@@ -1,4 +1,4 @@
-import { useSetQuaryParams } from '@/shared'
+import { useSetQuaryParams } from '@/shared/hooks'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 
