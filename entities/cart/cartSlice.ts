@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-const initialState: { cartId: string[] } = {
+export interface CartSliceType {
+    productId: string
+    count: number
+}
+
+const initialState: { cartId: CartSliceType[] } = {
     cartId: [],
 }
 
@@ -9,10 +14,35 @@ export const cartSlice = createSlice({
     initialState,
     reducers: {
         toggleProduct(state, action: PayloadAction<string>) {
-            if (state.cartId.includes(action.payload)) {
-                return { ...state, cartId: state.cartId.filter((it) => it !== action.payload) }
+            if (state.cartId.find((item) => item.productId === action.payload)) {
+                return {
+                    ...state,
+                    cartId: state.cartId.filter((item) => item.productId !== action.payload),
+                }
             }
-            return { ...state, cartId: [...state.cartId, action.payload] }
+            state.cartId.push({ productId: action.payload, count: 1 })
+        },
+        plusCountProduct(state, action: PayloadAction<string>) {
+            state.cartId = state.cartId.map((item) => {
+                if (item.productId === action.payload) {
+                    return {
+                        ...item,
+                        count: item.count + 1,
+                    }
+                }
+                return item
+            })
+        },
+        minusCountProduct(state, action: PayloadAction<string>) {
+            state.cartId = state.cartId.map((item) => {
+                if (item.productId === action.payload) {
+                    return {
+                        ...item,
+                        count: item.count - 1,
+                    }
+                }
+                return item
+            })
         },
     },
 })

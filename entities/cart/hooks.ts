@@ -26,15 +26,31 @@ export const useActionOrder = () => {
 export const useProductStatus = (productId: string) => {
     const selectCartItems = (state: TypeRootState) => state.cartSlice
     const isProductInCart = useSelector(
-        createSelector([selectCartItems], (state) => state.cartId.includes(productId))
+        createSelector([selectCartItems], (state) =>
+            Boolean(state.cartId.find((item) => item.productId === productId))
+        )
     )
     return { isProductInCart }
+}
+
+export const useProductCount = (productId: string) => {
+    const selectCartItems = (state: TypeRootState) => state.cartSlice
+    const isProductInCart = useSelector(
+        createSelector([selectCartItems], (state) =>
+            state.cartId.find((item) => item.productId === productId)
+        )
+    )
+    return isProductInCart?.count
 }
 
 export const useOrder = () => {
     const cartOrder = useSelector((state: TypeRootState) => state.cartSlice)
     const products = useSelector((state: TypeRootState) => state.orderSlice)
-    const price = products.orderProduct.map((product) => product.price).reduce((a, b) => a + b, 0)
+    const price = products.orderProduct
+        .map((product) => {
+            return { price: product.price, count: product.count }
+        })
+        .reduce((total, item) => total + item.count * item.price, 0)
 
     return { products, price, cartOrder }
 }

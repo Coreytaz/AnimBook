@@ -1,4 +1,4 @@
-import { useActionCart, useProductStatus } from '@/entities/cart'
+import { useActionCart, useProductCount, useProductStatus } from '@/entities/cart'
 import { Button, Modal, useModal, Text } from '@nextui-org/react'
 import { ShoppingCart } from 'lucide-react'
 import { useEffect } from 'react'
@@ -101,5 +101,22 @@ export const DeleteProduct = (props: Props) => {
                 </Modal.Footer>
             </Modal>
         </>
+    )
+}
+
+export const Counter = ({ productId }: Props) => {
+    const count = useProductCount(productId)
+    const { plusCountProduct, minusCountProduct } = useActionCart()
+
+    return (
+        <Button.Group>
+            <Button disabled={count === 1} onPress={() => minusCountProduct(productId)}>
+                -
+            </Button>
+            <Button disabled>{count}</Button>
+            <Button disabled={count === 10} onPress={() => plusCountProduct(productId)}>
+                +
+            </Button>
+        </Button.Group>
     )
 }

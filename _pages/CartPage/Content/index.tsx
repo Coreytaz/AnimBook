@@ -1,7 +1,7 @@
 import { CartSkeleton, useActionOrder, useOrder } from '@/entities/cart'
 import { ProductRowCard } from '@/entities/product'
 import { Cart } from '@/features/cart'
-import { Button, Card, Grid, Loading, Text } from '@nextui-org/react'
+import { Button, Card, Grid, Text } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 
@@ -32,6 +32,7 @@ const Content = () => {
                                 actions={
                                     <>
                                         <Cart.Actions.DeleteProduct productId={prod._id} />
+                                        <Cart.Actions.Counter productId={prod._id} />
                                     </>
                                 }
                             />

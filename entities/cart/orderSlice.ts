@@ -1,5 +1,10 @@
-import { api, ApiResponseData, ProductProps } from '@/shared/api'
+import { api, ApiResponseData, ProductProps as Product } from '@/shared/api'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { CartSliceType } from './cartSlice'
+
+interface ProductProps extends Product {
+    count: number
+}
 
 interface OrderSliceType {
     orderProduct: ProductProps[]
@@ -16,13 +21,19 @@ const initialState: OrderSliceType = {
 export const getOrderProduct = createAsyncThunk<
     ProductProps[],
     undefined,
-    { state: { cartSlice: { cartId: string[] } } }
+    { state: { cartSlice: { cartId: CartSliceType[] } } }
 >('order/get-order-product', async function (_, { getState }) {
     const order = getState().cartSlice.cartId
     const { data } = await api.post<any, ApiResponseData<ProductProps[]>>('/getOneProductById', {
-        productId: order,
+        productId: order.map((item) => item.productId),
     })
-    return data
+    return data.map((item) => {
+        const count = order.find((i) => i.productId === item._id)?.count!
+        return {
+            ...item,
+            count,
+        }
+    })
 })
 
 export const orderSlice = createSlice({
