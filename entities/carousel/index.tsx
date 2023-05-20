@@ -88,7 +88,14 @@ const CarouselItem: FC<CarouselItemProps> = ({ src, alt, caption }) => {
                 >
                     <Text h2>{caption}</Text>
                 </Card.Body>
-                <Card.Image showSkeleton src={src} objectFit="cover" width="100%" alt={alt} />
+                <Card.Image
+                    showSkeleton
+                    src={src}
+                    objectFit="cover"
+                    width="100%"
+                    height="100%"
+                    alt={alt}
+                />
             </Card>
         </Grid>
     )

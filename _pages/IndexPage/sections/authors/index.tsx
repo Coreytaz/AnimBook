@@ -47,7 +47,8 @@ const Authors = () => {
                     {items.map((item, index) => (
                         <Grid
                             xs={12}
-                            sm={2}
+                            md={2}
+                            sm={6}
                             key={index}
                             css={{
                                 display: 'flex',
@@ -62,8 +63,8 @@ const Authors = () => {
                                 css={{
                                     borderRadius: '$rounded',
                                     borderColor: '$primary',
-                                    width: 128,
-                                    height: 128,
+                                    width: 176,
+                                    height: 176,
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                 }}
@@ -73,7 +74,7 @@ const Authors = () => {
                                     b
                                     css={{
                                         textAlign: 'center',
-                                        maxW: 128,
+                                        maxW: 176,
                                         p: 10,
                                         textOverflow: 'ellipsis',
                                         overflow: 'hidden',

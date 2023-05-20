@@ -17,12 +17,12 @@ export default function Catergories() {
             <Grid.Container gap={2} justify="center">
                 {isLoading
                     ? [...new Array(8)].map((_, i) => (
-                          <Grid xs={12} sm={3} key={i}>
+                          <Grid xs={12} sm={6} md={3} key={i}>
                               <SkeletonCategoriesCard />
                           </Grid>
                       ))
                     : items?.map((item, index) => (
-                          <Grid xs={12} sm={3} key={index}>
+                          <Grid xs={12} sm={6} md={3} key={index}>
                               <CatergoriesCard {...item} />
                           </Grid>
                       ))}
