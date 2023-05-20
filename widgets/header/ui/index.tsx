@@ -53,23 +53,36 @@ const Header: FC<HeaderProps> = () => {
     return (
         <Navbar disableScrollHandler isBordered variant="floating">
             <Navbar.Brand>
-                <Text b color="inherit" hideIn="xs" size="$2xl">
-                    <Link href="/" style={{ fontSize: 'inherit' }} className={styles.logo}>
-                        <Book height={20} width={20} />
+                <Link href="/" style={{ fontSize: 'inherit' }} className={styles.logo}>
+                    <Book />
+                    <Text b color="inherit" hideIn="sm" size="$2xl">
                         AnimBook
-                    </Link>
-                </Text>
+                    </Text>
+                    <Text b color="inherit" showIn="sm" size="$2xl">
+                        AB
+                    </Text>
+                </Link>
             </Navbar.Brand>
             <Navbar.Content
                 css={{
+                    w: '40%',
                     '@xs': {
-                        width: '50%',
+                        w: '50%',
+                    },
+                    '@sm': {
+                        w: '40%',
+                    },
+                    '@md': {
+                        w: '40%',
+                    },
+                    '@lg': {
+                        w: '50%',
                     },
                 }}
             >
                 <Search />
             </Navbar.Content>
-            <Navbar.Content hideIn="xs" activeColor="primary" variant="underline-rounded">
+            <Navbar.Content hideIn="sm" activeColor="primary" variant="underline-rounded">
                 {actions.map(({ id, label, Icon, url }) => (
                     <Navbar.Link
                         key={label}
@@ -86,6 +99,20 @@ const Header: FC<HeaderProps> = () => {
                 ))}
                 <Profile />
             </Navbar.Content>
+            <Navbar.Content showIn="sm">
+                <Navbar.Toggle />
+                <Profile />
+            </Navbar.Content>
+            <Navbar.Collapse showIn="sm" css={{ pt: '$10' }}>
+                {actions.map(({ id, label, Icon, url }) => (
+                    <Navbar.CollapseItem key={label} as={Link} href={url} css={{ gap: '$5' }}>
+                        <Badge content={count[id]} isInvisible={count[id] === 0} color="primary">
+                            <Icon />
+                        </Badge>
+                        {label}
+                    </Navbar.CollapseItem>
+                ))}
+            </Navbar.Collapse>
         </Navbar>
     )
 }
