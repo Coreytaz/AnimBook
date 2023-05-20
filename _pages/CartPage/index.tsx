@@ -7,11 +7,31 @@ import Sidebar from './Sidebar'
 const CartPage: FC = () => {
     return (
         <Container lg>
-            <Row gap={1}>
-                <Col>
+            <Row css={{ gap: '$5' }} wrap="wrap" justify="center">
+                <Col
+                    css={{
+                        w: '100%',
+                        '@xs': {
+                            w: '100%',
+                        },
+                        '@sm': {
+                            w: '65%',
+                        },
+                    }}
+                >
                     <Content />
                 </Col>
-                <Col span={4}>
+                <Col
+                    css={{
+                        w: '100%',
+                        '@xs': {
+                            w: '100%',
+                        },
+                        '@sm': {
+                            w: '25%',
+                        },
+                    }}
+                >
                     <Sidebar />
                 </Col>
             </Row>

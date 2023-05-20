@@ -6,7 +6,7 @@ import React from 'react'
 const Sidebar = () => {
     const { price } = useOrder()
     return (
-        <Card css={{ mw: '400px' }}>
+        <Card css={{ mw: '350px' }}>
             <Card.Body
                 css={{
                     display: 'flex',

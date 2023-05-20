@@ -31,7 +31,7 @@ const ProductRow: FC<Props> = (props) => {
                     <StarRating readOnly tooltip defaultState={data.rating} />
                 </Badge>
             </Col>
-            <Col span={3}>
+            <Col css={{ w: 'auto' }}>
                 <Row wrap="wrap" justify="center">
                     <Col>
                         <Text size="$2xl" css={{ textAlign: 'center', mb: '$5' }}>
