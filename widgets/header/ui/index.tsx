@@ -91,7 +91,12 @@ const Header: FC<HeaderProps> = () => {
                         href={url}
                         css={{ d: 'flex', fd: 'column', jc: 'center' }}
                     >
-                        <Badge content={count[id]} isInvisible={count[id] === 0} color="primary">
+                        <Badge
+                            content={count[id]}
+                            isInvisible={count[id] === 0}
+                            css={{ display: count[id] === 0 ? 'none' : 'flex' }}
+                            color="primary"
+                        >
                             <Icon />
                         </Badge>
                         {label}
@@ -106,7 +111,11 @@ const Header: FC<HeaderProps> = () => {
             <Navbar.Collapse showIn="sm" css={{ pt: '$10' }}>
                 {actions.map(({ id, label, Icon, url }) => (
                     <Navbar.CollapseItem key={label} as={Link} href={url} css={{ gap: '$5' }}>
-                        <Badge content={count[id]} isInvisible={count[id] === 0} color="primary">
+                        <Badge
+                            content={null || count[id]}
+                            isInvisible={count[id] === 0}
+                            color="primary"
+                        >
                             <Icon />
                         </Badge>
                         {label}
