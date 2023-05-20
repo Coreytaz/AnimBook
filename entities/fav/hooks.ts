@@ -22,6 +22,11 @@ export const useProductFavStatus = (productId: string) => {
     return { isProductInFav }
 }
 
+export const useTotalFav = () => {
+    const favoritesId = useSelector((state: TypeRootState) => state.favSlice.favoritesId)
+    return favoritesId.length
+}
+
 export const useFav = () => {
     const { favorites: products, favoritesId } = useSelector(
         (state: TypeRootState) => state.favSlice

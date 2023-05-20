@@ -43,6 +43,11 @@ export const useProductCount = (productId: string) => {
     return isProductInCart?.count
 }
 
+export const useTotalCart = () => {
+    const cartId = useSelector((state: TypeRootState) => state.cartSlice.cartId)
+    return cartId.reduce((total, item) => total + item.count, 0)
+}
+
 export const useOrder = () => {
     const cartOrder = useSelector((state: TypeRootState) => state.cartSlice)
     const products = useSelector((state: TypeRootState) => state.orderSlice)

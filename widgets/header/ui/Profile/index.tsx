@@ -35,9 +35,6 @@ const Profile = () => {
                         <Dropdown.Item key="profile" icon={<User />}>
                             Профиль
                         </Dropdown.Item>
-                        <Dropdown.Item withDivider key="fav" icon={<Heart />}>
-                            Избранное
-                        </Dropdown.Item>
                         <Dropdown.Item
                             key={`profile#${TOPIC_DELIVERY.id}`}
                             icon={<TOPIC_DELIVERY.icon />}
