@@ -1,7 +1,7 @@
 import { StarRating } from '@/entities/StarRating'
 import { toRub } from '@/shared'
 import { ProductProps } from '@/shared/api'
-import { Badge, Card, Col, Grid, Image, Row, Text } from '@nextui-org/react'
+import { Badge, Card, CardProps, Col, Image, Row, Text } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
 import { FC, ReactNode } from 'react'
 
@@ -9,7 +9,7 @@ type Props = {
     data: ProductProps
     className?: string
     actions?: ReactNode
-}
+} & Omit<CardProps, 'children'>
 
 export const ProductGridCard: FC<Props> = (props) => {
     const { data, actions } = props
@@ -67,6 +67,7 @@ const ProductCard: FC<Props> = (props) => {
             isHoverable
             onClick={() => router.push(`product/${data.slug}`)}
             className={className}
+            {...props}
         >
             <ProductGridCard {...props} />
         </Card>

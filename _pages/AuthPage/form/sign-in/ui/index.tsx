@@ -29,7 +29,7 @@ const SignInForm: FC<SignInFormProps> = ({ onSignIn, onChangeForm }) => {
                 redirect: false,
             }).then((data) => {
                 if (data?.ok) {
-                    router.push('/')
+                    router.back()
                     setLoading(false)
                 } else {
                     toast.error('Неверный Email или пароль')

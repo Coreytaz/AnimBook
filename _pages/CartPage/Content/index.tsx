@@ -17,6 +17,7 @@ const Content = () => {
     if (products.status === 'loading') {
         return <CartSkeleton />
     }
+
     return (
         <>
             <Text h2>Корзина</Text>

@@ -3,8 +3,7 @@ import { Cart } from '@/features/cart'
 import { Fav } from '@/features/fav'
 import { ViewedProduct } from '@/features/viewedProduct'
 import { useScrollVertical } from '@/shared/helpers'
-import { Button, Card, Col, Container, Grid, Row, Text } from '@nextui-org/react'
-import styles from './styles.module.scss'
+import { Button, Card, Col, Container, Grid, Text } from '@nextui-org/react'
 
 export default function ViewProduct() {
     const { data: products, isLoading } = useGetViewProductsQuery()
@@ -62,7 +61,10 @@ export default function ViewProduct() {
                                           />
                                           <ProductGridCard
                                               data={prod}
-                                              className={styles.card}
+                                              css={{
+                                                  filter: 'none',
+                                                  background: '$gray100',
+                                              }}
                                               actions={
                                                   <>
                                                       <Button.Group

@@ -4,7 +4,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 
 import { CommonTextFieldProps } from '../types'
 
-export interface BaseTextFieldProps extends CommonTextFieldProps { }
+export interface BaseTextFieldProps extends CommonTextFieldProps {}
 
 export const BaseTextField: React.FC<BaseTextFieldProps> = ({
     name,
