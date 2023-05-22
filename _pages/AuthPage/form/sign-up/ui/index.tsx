@@ -37,7 +37,6 @@ const SignUpForm: FC<SignUpFormProps> = ({ onChangeForm, onSignUp }) => {
                 onSignUp && onSignUp(res.data)
             } catch (error) {
                 if (error instanceof AxiosError) {
-                    console.log(error)
                     if (error.response?.status === 400 && error.code === 'ERR_BAD_REQUEST') {
                         const mes = error.response.data.message as string
                         toast.error(mes)

@@ -4,16 +4,24 @@ import { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { CustomerInfo } from './customerInfo'
 import { DeliveryInfo } from './deliveryInfo'
-import { OrderFormValues } from './model'
+import { mapFormDataToApiData, OrderFormValues } from './model'
 import { YourOrder } from './yourOrder'
 
 export const Content: FC = () => {
+    const { data: session } = useSession()
     const [isLoading, setIsLoading] = useState(false)
+    const mapSession = useMemo(() => mapFormDataToApiData(session?.user as any), [session?.user])
 
     const methods = useForm<OrderFormValues>({
         mode: 'onBlur',
-        defaultValues: {},
+        defaultValues: useMemo(() => {
+            return mapSession
+        }, [mapSession]),
     })
+
+    useEffect(() => {
+        methods.reset(mapSession)
+    }, [methods, mapSession])
 
     const handleSubmit = useCallback(async (payload: OrderFormValues) => {
         console.log(payload)

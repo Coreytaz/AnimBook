@@ -14,14 +14,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 }
             }
         )
-        console.log(category)
         const products = Product.filter((item) => item.name.includes(search)).map((item) => {
             return {
                 value: `product/${item.slug}`,
                 label: item.name,
             }
         })
-        console.log(products)
         res.status(200).json([
             {
                 label: 'Каталог',

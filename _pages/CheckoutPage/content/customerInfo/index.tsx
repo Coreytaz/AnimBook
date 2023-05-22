@@ -2,19 +2,15 @@ import { BaseTextField, BaseTextFieldPassword } from '@/shared/ui/Form'
 import { Button, Card, Text } from '@nextui-org/react'
 import { Mail, Phone, Lock, User } from 'lucide-react'
 import { signIn, useSession } from 'next-auth/react'
-import { FC, useEffect, useMemo } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
+import { FC } from 'react'
 import { FormProvider, UseFormReturn } from 'react-hook-form'
 import { OrderFormValues } from '../model'
 import { Section } from '../section'
-import { mapFormDataToApiData } from './model'
 
 export const CustomerInfo: FC<{ methods: UseFormReturn<OrderFormValues, any> }> = ({ methods }) => {
+    const router = useRouter()
     const { data: session } = useSession()
-    const mapSession = useMemo(() => mapFormDataToApiData(session?.user as any), [session?.user])
-
-    useEffect(() => {
-        methods.reset(mapSession)
-    }, [methods, mapSession])
 
     return (
         <Section title="Данные покупателя" css={{ fd: 'column', maxW: '450px', gap: 0 }}>
@@ -102,6 +98,13 @@ export const CustomerInfo: FC<{ methods: UseFormReturn<OrderFormValues, any> }> 
                     )}
                 </FormProvider>
             </Card.Body>
+            {!session?.user ? null : (
+                <Card.Footer>
+                    <Button bordered onPress={() => router.push('profile')}>
+                        Редактировать
+                    </Button>
+                </Card.Footer>
+            )}
         </Section>
     )
 }
