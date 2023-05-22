@@ -7,6 +7,11 @@ const nextConfig = {
     },
     env: {
         API_URL: process.env.API_URL,
+        API_GEO: process.env.API_GEO,
+        API_GEO2: process.env.API_GEO2,
+        NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+        NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+        VERCEL_URL: process.env.VERCEL_URL,
     },
     async headers() {
         return [
