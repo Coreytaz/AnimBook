@@ -70,7 +70,9 @@ export const BaseSelectField: FC<BaseSelectFieldProps> = ({
                                 borderRadius: '12px',
                                 border: 'var(--nextui-borderWeights-normal) solid var(--nextui--navbarBorderColor)',
                                 ':hover': {
-                                    borderColor: 'var(--nextui-colors-primary)',
+                                    borderColor: fieldState.invalid
+                                        ? 'var(--nextui-colors-error)'
+                                        : 'var(--nextui-colors-primary)',
                                 },
                             }),
                             singleValue: (defaultStyles) => ({
