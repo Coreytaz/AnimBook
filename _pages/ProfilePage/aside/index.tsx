@@ -7,6 +7,7 @@ import { User } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useEffect, useMemo, useState, useCallback } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 import { routes } from './api'
 import { mapFormDataToApiData, UpdateUserFormValues } from './model'
 
@@ -52,14 +53,15 @@ const Aside = () => {
                 })
             } catch (error) {
                 if (error instanceof AxiosError) {
-                    console.log(error)
+                    form.reset()
+                    toast.error(error.message)
                 }
             } finally {
                 setIsEdit(false)
                 setIsLoading(false)
             }
         },
-        [axiosAuth, session, update]
+        [axiosAuth, form, session, update]
     )
 
     return (
