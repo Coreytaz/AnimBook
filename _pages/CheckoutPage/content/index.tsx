@@ -1,4 +1,4 @@
-import { Button, Loading, Spacer } from '@nextui-org/react'
+import { Button, Col, Loading, Row, Spacer } from '@nextui-org/react'
 import { useSession } from 'next-auth/react'
 import { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -31,9 +31,10 @@ export const Content: FC = () => {
         <>
             <YourOrder />
             <Spacer y={1} />
-            <CustomerInfo methods={methods} />
-            <Spacer y={1} />
-            <DeliveryInfo methods={methods} />
+            <Row wrap="wrap" css={{ gap: '$10' }}>
+                <CustomerInfo methods={methods} />
+                <DeliveryInfo methods={methods} />
+            </Row>
             <Spacer y={1} />
             <Button type="submit" onClick={methods.handleSubmit(handleSubmit)}>
                 {isLoading ? <Loading color="currentColor" size="sm" /> : <>Оплатить</>}
