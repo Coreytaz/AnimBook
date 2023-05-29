@@ -32,7 +32,7 @@ const Sidebar: FC<{ slug: string }> = ({ slug }) => {
         <Card css={{ position: 'sticky', left: '0', top: '$24' }}>
             <Collapse.Group animated={false}>
                 {data?.lowPriceAndMax && <PriceSection lowPriceAndMax={data?.lowPriceAndMax} />}
-                {data?.publisher && <PublisherSection publisher={data?.publisher} />}
+                {data?.publisher.length! > 0 && <PublisherSection publisher={data?.publisher!} />}
             </Collapse.Group>
             <Row justify="center">
                 <Button shadow css={{ m: '$10' }} onClick={onReset}>

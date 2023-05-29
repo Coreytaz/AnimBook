@@ -10,8 +10,6 @@ export default function Reviews({ slug }: { slug: string }) {
     const searchParams = useSearchParams()
     const [trigger, { data: feedbackList, isLoading, isError, isUninitialized }] =
         reviewsApi.useLazyGetReviewsQuery()
-    const totalRating =
-        feedbackList?.reduce((acc, cur) => acc + cur.rating, 0)! / feedbackList?.length! || 0
     const tabs = searchParams.get('tabs')
 
     useEffect(() => {
@@ -26,13 +24,17 @@ export default function Reviews({ slug }: { slug: string }) {
 
     return (
         <>
-            <ReviewsHead rating={totalRating} quantityReviews={feedbackList?.length!} />
+            <ReviewsHead
+                rating={feedbackList?.totalRating!}
+                quantityReviews={feedbackList?.countReviews!}
+                slug={slug}
+            />
             <Spacer
                 y={1}
                 css={{ borderTop: '4px solid $gray100', width: '100%', marginLeft: '0' }}
             />
-            {feedbackList?.length! > 0 ? (
-                <Comments feedbackList={feedbackList!} />
+            {feedbackList?.rating.length! > 0 ? (
+                <Comments feedbackList={feedbackList?.rating!} />
             ) : (
                 <Text size="$2xl" css={{ textAlign: 'center', p: '$10' }}>
                     Отзывов ещё нет, будьте первыми

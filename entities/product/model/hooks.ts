@@ -26,7 +26,7 @@ export const useGetViewProductsQuery = () => {
     const selectViewProductItems = useSelector(
         (state: TypeRootState) => state.viewProductSlice.viewProductId
     )
-    const getView = getViewProductApi.useGetViewProductsQuery(selectViewProductItems.join('-'))
+    const getView = getViewProductApi.useGetViewProductsQuery(selectViewProductItems.join('_'))
 
     return getView
 }

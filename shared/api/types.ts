@@ -1,4 +1,9 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
+
+interface ImageArray {
+    src: string
+    alt: string
+}
 export interface CatergoriesListProps {
     _id: string
     name: string
@@ -22,8 +27,10 @@ export interface ProductProps {
     name: string
     slug: string
     price: number
-    rating: number
-    img: string
+    rating: {
+        rating: number
+    }[]
+    img: ImageArray[]
     discription: string
     publisher?: Publisher
     type?: string
@@ -57,9 +64,12 @@ export interface DescriptionList {
 export interface ReviewsProps {
     _id: string
     productSlug: string
-    description: string
-    date: Date
-    name: string
+    discription: string
+    created_at: Date
+    updated_at: Date
+    user: {
+        username: string
+    }
     rating: number
 }
 

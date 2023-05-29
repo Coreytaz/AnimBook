@@ -3,7 +3,7 @@ import { toRub } from '@/shared'
 import { ProductProps } from '@/shared/api'
 import { Badge, Card, CardProps, Col, Image, Row, Text } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
-import { FC, ReactNode } from 'react'
+import { FC, ReactNode, useMemo } from 'react'
 
 type Props = {
     data: ProductProps
@@ -13,6 +13,10 @@ type Props = {
 
 export const ProductGridCard: FC<Props> = (props) => {
     const { data, actions } = props
+    const totalRating = useMemo(
+        () => data.rating?.reduce((acc, cur) => acc + cur.rating, 0) / data.rating?.length || 0,
+        [data.rating]
+    )
     return (
         <>
             <Card.Header>
@@ -20,8 +24,8 @@ export const ProductGridCard: FC<Props> = (props) => {
                     css={{ d: 'block', borderRadius: '$2xl' }}
                     showSkeleton
                     objectFit="cover"
-                    src={data.img}
-                    alt="Default Image"
+                    src={data.img[0].src}
+                    alt={data.img[0].alt}
                     height={200}
                 />
             </Card.Header>
@@ -36,7 +40,7 @@ export const ProductGridCard: FC<Props> = (props) => {
                             <StarRating
                                 readOnly
                                 tooltip
-                                defaultState={data.rating}
+                                rating={totalRating}
                                 width={15}
                                 height={15}
                             />

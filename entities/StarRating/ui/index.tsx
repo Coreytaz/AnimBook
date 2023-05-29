@@ -6,13 +6,13 @@ export const StarRatingContext = createContext<Partial<StarRatingProps>>({})
 
 export interface StarRatingProps {
     rating?: number
-    defaultState?: number
     emptyColor?: string
     fillColor?: string
     height?: number
     hover?: null | number
     labelText?: (value: number) => string
     maxValue?: number
+    onBlur?: () => void
     setRating?: (value: number) => void
     setHover?: (value: number | null) => void
     readOnly?: boolean
@@ -21,8 +21,10 @@ export interface StarRatingProps {
 }
 
 const StarRating: FC<StarRatingProps> = ({
-    defaultState = 0,
+    onBlur,
+    rating,
     emptyColor = 'grey',
+    setRating,
     fillColor = '#edaa10',
     height = 20,
     labelText = (value: number) => `Рейтинг товара: ${value}`,
@@ -31,12 +33,20 @@ const StarRating: FC<StarRatingProps> = ({
     readOnly = false,
     width = 20,
 }) => {
-    const [rating, setRating] = useState(defaultState)
     const [hover, setHover] = useState<number | null>(null)
+
+    const setOnBlur = () => {
+        if (readOnly) return
+        if (onBlur) {
+            onBlur()
+        }
+    }
 
     const setRatingFn = (value: number) => {
         if (readOnly) return
-        setRating(value)
+        if (setRating) {
+            setRating(value)
+        }
     }
 
     const setHoverFn = (value: number | null) => {
@@ -48,6 +58,7 @@ const StarRating: FC<StarRatingProps> = ({
         <>
             <StarRatingContext.Provider
                 value={{
+                    onBlur: setOnBlur,
                     emptyColor,
                     fillColor,
                     height,
@@ -62,7 +73,7 @@ const StarRating: FC<StarRatingProps> = ({
             >
                 <>
                     {tooltip ? (
-                        <Tooltip content={labelText(rating)}>
+                        <Tooltip content={labelText(rating!)}>
                             <StarsList />
                         </Tooltip>
                     ) : (

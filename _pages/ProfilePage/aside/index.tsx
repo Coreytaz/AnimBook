@@ -42,9 +42,7 @@ const Aside = () => {
         async (payload: UpdateUserFormValues) => {
             try {
                 setIsLoading(true)
-                await axiosAuth.patch(routes.updateUser(), payload, {
-                    baseURL: 'http://localhost:5000/api',
-                })
+                await axiosAuth.patch(routes.updateUser(), payload)
                 await update({
                     ...session,
                     user: {

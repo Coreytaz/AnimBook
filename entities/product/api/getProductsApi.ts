@@ -1,7 +1,7 @@
 import { axiosBaseQuery } from '@/shared/api'
 import { createApi } from '@reduxjs/toolkit/dist/query/react'
 import { routes } from './routes'
-import { ApiProductData } from './types'
+import { ApiProductData, Links, Meta } from './types'
 
 export const getProductsApi = createApi({
     reducerPath: 'products',
@@ -10,8 +10,9 @@ export const getProductsApi = createApi({
     endpoints: (builder) => ({
         getProducts: builder.query<
             {
-                categoryName: string
-                products: ApiProductData[]
+                items: ApiProductData[]
+                meta: Meta
+                links: Links
             },
             string
         >({

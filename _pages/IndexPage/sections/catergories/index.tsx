@@ -2,7 +2,7 @@ import { catergoriesApi, CatergoriesCard, SkeletonCategoriesCard } from '@/entit
 import { Container, Grid, Text } from '@nextui-org/react'
 
 export default function Catergories() {
-    const { data: items, isLoading, isError } = catergoriesApi.useGetCatergoriesQuery('')
+    const { data: items, isLoading, isError } = catergoriesApi.useGetPopularCatergoriesQuery('')
 
     return (
         <>

@@ -12,38 +12,13 @@ export const ProductCard: FC<ProductProps> = ({ _id, price, rating, img, discrip
     const router = useRouter()
     const pathname = usePathname()
 
-    const dateImages = [
-        {
-            src: img,
-            alt: 'Card image background',
-        },
-        {
-            src: 'https://nextui.org/images/card-example-2.jpeg',
-            alt: 'Card image background',
-        },
-        {
-            src: 'https://nextui.org/images/card-example-3.jpeg',
-            alt: 'Card image background',
-        },
-        {
-            src: 'https://nextui.org/images/card-example-4.jpeg',
-            alt: 'Card image background',
-        },
-        {
-            src: 'https://nextui.org/images/card-example-5.jpeg',
-            alt: 'Card image background',
-        },
-        {
-            src: 'https://nextui.org/images/card-example-6.jpeg',
-            alt: 'Card image background',
-        },
-    ]
+    const totalRating = rating?.reduce((acc, cur) => acc + cur.rating, 0) / rating?.length || 0
 
     return (
         <Card>
             <Grid.Container gap={2} justify="center" css={{ p: '$11' }}>
                 <Grid xs={5} css={{ flexDirection: 'column', gap: '$10' }}>
-                    <Product.ImageSlider imageCollection={dateImages} />
+                    <Product.ImageSlider imageCollection={img} />
                 </Grid>
                 <Grid xs={7} css={{ flexDirection: 'column', justifyContent: 'space-between' }}>
                     <div className={styles.wrapperProduct}>
@@ -61,7 +36,7 @@ export const ProductCard: FC<ProductProps> = ({ _id, price, rating, img, discrip
                                 variant="bordered"
                                 onClick={() => router.push(`${pathname}?tabs=opinion`)}
                             >
-                                <StarRating readOnly tooltip defaultState={rating} />
+                                <StarRating readOnly tooltip rating={totalRating} />
                             </Badge>
                         </div>
                         <div className={styles.buttonGroups}>

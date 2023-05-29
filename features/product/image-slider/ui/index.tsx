@@ -33,7 +33,7 @@ const ImageSlider: FC<ImageSliderProps> = ({ imageCollection }) => {
             <div className={styles.imageCollection} ref={scrollVerticalRef}>
                 {imageCollection.map((image, i) => (
                     <Card
-                        css={{ minWidth: 95, minH: 100, cursor: 'pointer' }}
+                        css={{ maxWidth: 95, minH: 100, cursor: 'pointer' }}
                         key={image.src}
                         isHoverable
                     >
@@ -42,7 +42,6 @@ const ImageSlider: FC<ImageSliderProps> = ({ imageCollection }) => {
                             src={image.src}
                             objectFit="cover"
                             showSkeleton
-                            width="100%"
                             height={100}
                             alt={image.alt}
                         />

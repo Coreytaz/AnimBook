@@ -1,20 +1,59 @@
-import { StarRating } from '@/entities/StarRating'
-import { Modal, Input, Row, Checkbox, Button, Text, Textarea, Badge } from '@nextui-org/react'
-import { Dispatch, FC, SetStateAction } from 'react'
+import { BaseTextAreaFileld } from '@/shared/ui/Form'
+import { BaseRatingField } from '@/shared/ui/Form/fields/ui/BaseRatingField'
+import { Modal, Button, Text } from '@nextui-org/react'
+import { AxiosError } from 'axios'
+import { useSession } from 'next-auth/react'
+import { Dispatch, FC, SetStateAction, useCallback, useEffect, useMemo } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import { reviewsApi } from '../../api'
+import { ReviewFormValues } from './model'
 
-const ReviewModal: FC<{ visible: boolean; setVisible: Dispatch<SetStateAction<boolean>> }> = ({
-    visible,
-    setVisible,
-}) => {
-    const closeHandler = () => {
+const ReviewModal: FC<{
+    visible: boolean
+    setVisible: Dispatch<SetStateAction<boolean>>
+    slug: string
+}> = ({ visible, setVisible, slug }) => {
+    const { data: session } = useSession()
+    const userId = useMemo(() => session?.user?.id!, [session?.user?.id])
+    const [createReview, { data, isSuccess }] = reviewsApi.useAddReviewsMutation()
+    const closeHandler = useCallback(() => {
         setVisible(false)
-    }
+    }, [setVisible])
+
+    const form = useForm<ReviewFormValues>({
+        mode: 'onBlur',
+        defaultValues: {},
+    })
+
+    useEffect(() => {
+        if (isSuccess) {
+            closeHandler()
+        }
+    }, [closeHandler, isSuccess])
+
+    const handleSubmit = useCallback(
+        async (payload: ReviewFormValues) => {
+            try {
+                await createReview({
+                    discription: payload.discription,
+                    rating: payload.rating,
+                    userId,
+                    slug,
+                }).unwrap()
+                form.reset()
+            } catch (error: any) {
+                toast.error(error.data.message)
+            }
+        },
+        [createReview, form, slug, userId]
+    )
+
     return (
         <Modal
             closeButton
             aria-labelledby="modal-title"
             preventClose
-            blur
             open={visible}
             onClose={closeHandler}
         >
@@ -23,16 +62,22 @@ const ReviewModal: FC<{ visible: boolean; setVisible: Dispatch<SetStateAction<bo
                     Мой отзыв
                 </Text>
             </Modal.Header>
-            <Modal.Body>
-                <Badge size="lg" color="primary" variant="bordered" css={{ gap: '$2' }}>
-                    <Text css={{ ml: '$5' }}>Общая оценка</Text>
-                    <StarRating />
-                </Badge>
-                <Input bordered fullWidth color="primary" size="lg" placeholder="Имя" />
-                <Textarea bordered fullWidth color="primary" size="lg" placeholder="Комметарий" />
+            <Modal.Body css={{ d: 'flex', fd: 'column', gap: '$5', pb: '$10' }}>
+                <FormProvider {...form}>
+                    <BaseRatingField name="rating" required />
+                    <BaseTextAreaFileld
+                        bordered
+                        fullWidth
+                        color="primary"
+                        size="lg"
+                        name="discription"
+                        required
+                        placeholder="Комметарий"
+                    />
+                </FormProvider>
             </Modal.Body>
             <Modal.Footer>
-                <Button auto onPress={closeHandler}>
+                <Button auto onClick={form.handleSubmit(handleSubmit)}>
                     Отправить
                 </Button>
             </Modal.Footer>

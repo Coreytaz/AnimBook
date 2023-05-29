@@ -1,4 +1,5 @@
 export const routes = {
-    getСatergoriesAllData: () => `/catergoriesAll`,
-    getSubCatergoriesData: (slug: string) => `/catergories?${new URLSearchParams({ slug })}`,
+    getСatergoriesAllData: () => `/catergories/All`,
+    getPopularСatergoriesAllData: () => `/catergories/popular`,
+    getSubCatergoriesData: (slug: string) => `/catergories/Sub/${slug}`,
 }

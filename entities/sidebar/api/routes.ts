@@ -1,6 +1,3 @@
 export const routes = {
-    getFiltersData: (slug: string) =>
-        `/getFilters?${new URLSearchParams({
-            slug,
-        })}`,
+    getFiltersData: (slug: string) => `/catergories/filters/${slug}`,
 }

@@ -4,10 +4,10 @@ import Star from './Star'
 import styles from './styles.module.scss'
 
 function StarsList() {
-    const { maxValue } = useContext(StarRatingContext)
+    const { maxValue, onBlur } = useContext(StarRatingContext)
 
     return (
-        <div className={styles.star_rating}>
+        <div className={styles.star_rating} onClick={() => onBlur?.()}>
             {[...Array(maxValue)].map((_, index) => {
                 const value = index + 1
 

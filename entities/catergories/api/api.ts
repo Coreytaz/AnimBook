@@ -16,6 +16,14 @@ export const catergoriesApi = createApi({
             }),
             providesTags: () => ['catergories'],
         }),
+        getPopularCatergories: builder.query<ApiCatergoriesData[], string>({
+            query: () => ({
+                url: routes.getPopularСatergoriesAllData(),
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+            }),
+            providesTags: () => ['catergories'],
+        }),
         getSubCatergories: builder.query<ApiSubCatergoriesData, string>({
             query: (slug) => ({
                 url: routes.getSubCatergoriesData(slug),

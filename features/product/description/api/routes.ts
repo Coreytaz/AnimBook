@@ -1,4 +1,3 @@
 export const routes = {
-    getDescriptionProductData: (slug: string) =>
-        `/getDescriptionProduct?${new URLSearchParams({ slug })}`,
+    getDescriptionProductData: (slug: string) => `/product/Descriptions-product/${slug}`,
 }

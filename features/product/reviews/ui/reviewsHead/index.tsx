@@ -1,36 +1,23 @@
 import { StarRating } from '@/entities/StarRating'
-import {
-    Grid,
-    Button,
-    Tooltip,
-    Badge,
-    Spacer,
-    Row,
-    Dropdown,
-    Checkbox,
-    Text,
-} from '@nextui-org/react'
-import { useState, useMemo, FC } from 'react'
+import { Grid, Button, Tooltip, Badge, Spacer, Row, Checkbox, Text } from '@nextui-org/react'
+import { signIn, useSession } from 'next-auth/react'
+import { useState, FC } from 'react'
 import ReviewModal from '../modal'
 
-const menuItems = [
-    { key: 'date', name: 'По дате' },
-    { key: 'rating', name: 'По рейтингу' },
-    { key: 'papular', name: 'По популярности' },
-    { key: 'change', name: 'По дате изменения' },
-]
-
-const ReviewsHead: FC<{ rating: number; quantityReviews: number }> = ({
+const ReviewsHead: FC<{ rating: number; quantityReviews: number; slug: string }> = ({
     rating,
     quantityReviews,
+    slug,
 }) => {
+    const { data: session } = useSession()
     const [visible, setVisible] = useState<boolean>(false)
-    const handler = () => setVisible(true)
-    const [selected, setSelected] = useState(new Set(['date']))
-    const selectedValue = useMemo(
-        () => Array.from(selected).join(', ').replaceAll('_', ' '),
-        [selected]
-    )
+    const handler = () => {
+        if (session?.user) {
+            setVisible(true)
+        } else {
+            signIn()
+        }
+    }
     return (
         <>
             <Grid.Container gap={2}>
@@ -47,7 +34,7 @@ const ReviewsHead: FC<{ rating: number; quantityReviews: number }> = ({
                             css={{ gap: '$2' }}
                         >
                             <Text>Общий рейтинг:</Text>
-                            <StarRating readOnly defaultState={rating} />
+                            <StarRating readOnly rating={rating} />
                         </Badge>
                     </Tooltip>
                 </Grid>
@@ -62,25 +49,6 @@ const ReviewsHead: FC<{ rating: number; quantityReviews: number }> = ({
                         <Text h3>
                             Отзывы: <span>{quantityReviews}</span>
                         </Text>
-                        <Dropdown placement="left-top">
-                            <Dropdown.Button shadow>
-                                {menuItems.filter((item) => item.key === selectedValue)[0].name}
-                            </Dropdown.Button>
-                            <Dropdown.Menu
-                                css={{ background: '$gray100' }}
-                                aria-label="Single selection actions"
-                                color="primary"
-                                disallowEmptySelection
-                                selectionMode="single"
-                                selectedKeys={selected}
-                                onSelectionChange={setSelected as any}
-                                items={menuItems}
-                            >
-                                {(item: any) => (
-                                    <Dropdown.Item key={item.key}>{item.name}</Dropdown.Item>
-                                )}
-                            </Dropdown.Menu>
-                        </Dropdown>
                     </Row>
                     <Grid.Container gap={2}>
                         {[...new Array(5)]
@@ -94,11 +62,7 @@ const ReviewsHead: FC<{ rating: number; quantityReviews: number }> = ({
                                         css={{ gap: '$2' }}
                                     >
                                         <Checkbox color="primary">
-                                            <StarRating
-                                                readOnly
-                                                maxValue={i + 1}
-                                                defaultState={0}
-                                            />
+                                            <StarRating readOnly maxValue={i + 1} rating={0} />
                                             <Text css={{ ml: '$5' }}>{i + 1}</Text>
                                         </Checkbox>
                                     </Badge>
@@ -111,7 +75,7 @@ const ReviewsHead: FC<{ rating: number; quantityReviews: number }> = ({
                     </Grid.Container>
                 </>
             ) : null}
-            <ReviewModal visible={visible} setVisible={setVisible} />
+            <ReviewModal slug={slug} visible={visible} setVisible={setVisible} />
         </>
     )
 }

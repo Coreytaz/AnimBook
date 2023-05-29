@@ -9,7 +9,16 @@ import {
 import { Cart } from '@/features/cart'
 import { Fav } from '@/features/fav'
 import { ProductProps } from '@/shared/api'
-import { Button, Card, Dropdown, Grid, Spacer, Switch, SwitchEvent } from '@nextui-org/react'
+import {
+    Button,
+    Card,
+    Dropdown,
+    Grid,
+    Pagination,
+    Spacer,
+    Switch,
+    SwitchEvent,
+} from '@nextui-org/react'
 import { LayoutGrid, List } from 'lucide-react'
 import { FC, useMemo, useState, Key } from 'react'
 import * as catalogParams from '../params'
@@ -95,7 +104,7 @@ const Content: FC<{ slug: string }> = ({ slug }) => {
                               isList={vtParam.isList}
                           />
                       ))
-                    : items?.products.map((prod) => (
+                    : items?.items.map((prod) => (
                           <ProductItem
                               data={prod}
                               key={prod._id}
@@ -104,6 +113,16 @@ const Content: FC<{ slug: string }> = ({ slug }) => {
                           />
                       ))}
             </Grid.Container>
+            <Spacer />
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Pagination
+                    animated={false}
+                    rounded
+                    size="lg"
+                    total={items?.meta.totalPages}
+                    initialPage={items?.meta.currentPage}
+                />
+            </div>
         </section>
     )
 }

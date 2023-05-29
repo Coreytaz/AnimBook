@@ -24,8 +24,8 @@ export const getOrderProduct = createAsyncThunk<
     { state: { cartSlice: { cartId: CartSliceType[] } } }
 >('order/get-order-product', async function (_, { getState }) {
     const order = getState().cartSlice.cartId
-    const { data } = await api.post<any, ApiResponseData<ProductProps[]>>('/getOneProductById', {
-        productId: order.map((item) => item.productId),
+    const { data } = await api.post<any, ApiResponseData<ProductProps[]>>('/product/id', {
+        productsId: order.map((item) => item.productId),
     })
     return data.map((item) => {
         const count = order.find((i) => i.productId === item._id)?.count!

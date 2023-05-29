@@ -25,8 +25,8 @@ export const getFavProduct = createAsyncThunk<
     { state: { favSlice: OrderSliceType } }
 >('order/get-fav-product', async function (_, { getState }) {
     const favId = getState().favSlice.favoritesId
-    const { data } = await api.post<any, ApiResponseData<ProductProps[]>>('/getOneProductById', {
-        productId: favId,
+    const { data } = await api.post<any, ApiResponseData<ProductProps[]>>('/product/id', {
+        productsId: favId,
     })
     return data
 })

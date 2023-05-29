@@ -5,8 +5,6 @@ import jwt from 'jsonwebtoken'
 import { JWT } from 'next-auth/jwt'
 import { refreshAccessToken } from '@/shared/lib/auth'
 
-type TriggerJWT = 'signIn' | 'signUp' | 'update' | undefined
-
 export const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
@@ -16,19 +14,10 @@ export const authOptions: NextAuthOptions = {
                 password: {},
             },
             async authorize(credentials, req) {
-                const res = await api.post(
-                    '/auth/login',
-                    {
-                        email: credentials?.email,
-                        password: credentials?.password,
-                    },
-                    {
-                        baseURL: 'http://localhost:5000/api',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                )
+                const res = await api.post('/auth/login', {
+                    email: credentials?.email,
+                    password: credentials?.password,
+                })
 
                 const user = await res.data
 

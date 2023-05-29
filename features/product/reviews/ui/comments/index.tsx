@@ -1,14 +1,18 @@
 import { StarRating } from '@/entities/StarRating'
 import { ReviewsProps } from '@/shared/api'
+import { formatTime } from '@/shared/helpers'
 import { Grid, Badge, Text, Avatar } from '@nextui-org/react'
 import { CalendarDays } from 'lucide-react'
 import { FC } from 'react'
 import styles from './styles.module.scss'
 
 interface CommentListProps {
-    description: string
-    date: Date
-    name: string
+    discription: string
+    created_at: Date
+    updated_at: Date
+    user: {
+        username: string
+    }
     rating: number
 }
 
@@ -33,20 +37,24 @@ const Comments: FC<{ feedbackList: ReviewsProps[] }> = ({ feedbackList }) => {
     )
 }
 
-export const CommentList: FC<CommentListProps> = ({ description, date, name, rating }) => {
+export const CommentList: FC<CommentListProps> = ({ discription, created_at, user, rating }) => {
     return (
         <div className={styles.comment}>
             <div className={styles.comment_description}>
-                <Text>{description}</Text>
+                <Text>{discription}</Text>
             </div>
             <div className={styles.comment_info}>
                 <div className={styles.comment_date}>
                     <CalendarDays />
-                    <Text>{date.toString()}</Text>
+                    <Text>{formatTime(created_at)}</Text>
                 </div>
                 <div className={styles.comment_user}>
-                    <Avatar text={name} color="primary" textColor="white" />
-                    <Text b>{name}</Text>
+                    <Avatar
+                        text={user?.username ? user.username : 'Неизвестный'}
+                        color="primary"
+                        textColor="white"
+                    />
+                    <Text b>{user?.username ? user.username : 'Неизвестный'}</Text>
                 </div>
                 <div className={styles.comment_reviews}>
                     <Badge
@@ -56,7 +64,7 @@ export const CommentList: FC<CommentListProps> = ({ description, date, name, rat
                         variant="bordered"
                         css={{ gap: '$2' }}
                     >
-                        <StarRating tooltip readOnly defaultState={rating} />
+                        <StarRating tooltip readOnly rating={rating} />
                     </Badge>
                 </div>
             </div>

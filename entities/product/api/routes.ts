@@ -1,14 +1,5 @@
 export const routes = {
-    getOneProductData: (slug: string) =>
-        `/getOneProduct?${new URLSearchParams({
-            slug,
-        })}`,
-    getProductsData: (slug: string) =>
-        `/getProducts?${new URLSearchParams({
-            slug,
-        })}`,
-    getViewProductsData: (productId: string) =>
-        `/getProductsById?${new URLSearchParams({
-            productId,
-        })}`,
+    getOneProductData: (slug: string) => `/product/slug/${slug}`,
+    getProductsData: (slug: string) => `/product/getProducts/${slug}`,
+    getViewProductsData: (productId: string) => `/product/id/${productId}`,
 }
