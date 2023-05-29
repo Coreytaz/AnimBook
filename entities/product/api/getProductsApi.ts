@@ -14,10 +14,13 @@ export const getProductsApi = createApi({
                 meta: Meta
                 links: Links
             },
-            string
+            {
+                slug: string
+                queryParams: { [key: string]: any }
+            }
         >({
-            query: (slug) => ({
-                url: routes.getProductsData(slug),
+            query: ({ slug, queryParams }) => ({
+                url: routes.getProductsData(slug, queryParams),
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
             }),

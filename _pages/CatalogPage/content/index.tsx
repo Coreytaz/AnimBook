@@ -1,6 +1,5 @@
 import {
     getProductsApi,
-    oneProductApi,
     ProductGridCard,
     ProductRowCard,
     SkeletonCard,
@@ -9,6 +8,7 @@ import {
 import { Cart } from '@/features/cart'
 import { Fav } from '@/features/fav'
 import { ProductProps } from '@/shared/api'
+import { useQueryParams } from '@/shared/hooks'
 import {
     Button,
     Card,
@@ -37,8 +37,10 @@ const ViewTypes = {
 }
 
 const Content: FC<{ slug: string }> = ({ slug }) => {
-    const { data: items, isLoading, isError } = getProductsApi.useGetProductsQuery(slug)
+    const queryParams = useQueryParams()
+    const { data: items, isLoading } = getProductsApi.useGetProductsQuery({ slug, queryParams })
     const { selected: selectSort, onChange: setFrom } = catalogParams.useFilter('sort')
+    const { selected: selectPage, onChange: setPage } = catalogParams.useFilter('page')
     const vtParam = catalogParams.useViewType('vt')
     const [selected, setSelected] = useState<Selection>(new Set([selectSort || '-price']))
     const selectedValue = useMemo(
@@ -98,20 +100,20 @@ const Content: FC<{ slug: string }> = ({ slug }) => {
             <Grid.Container gap={2} css={{ gap: '$10 0' }} alignContent="flex-start">
                 {isLoading
                     ? [...new Array(6)].map((_, i) => (
-                          <ProductItemSkeleton
-                              key={i}
-                              isGrid={vtParam.isGrid}
-                              isList={vtParam.isList}
-                          />
-                      ))
+                        <ProductItemSkeleton
+                            key={i}
+                            isGrid={vtParam.isGrid}
+                            isList={vtParam.isList}
+                        />
+                    ))
                     : items?.items.map((prod) => (
-                          <ProductItem
-                              data={prod}
-                              key={prod._id}
-                              isGrid={vtParam.isGrid}
-                              isList={vtParam.isList}
-                          />
-                      ))}
+                        <ProductItem
+                            data={prod}
+                            key={prod._id}
+                            isGrid={vtParam.isGrid}
+                            isList={vtParam.isList}
+                        />
+                    ))}
             </Grid.Container>
             <Spacer />
             <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -119,8 +121,9 @@ const Content: FC<{ slug: string }> = ({ slug }) => {
                     animated={false}
                     rounded
                     size="lg"
+                    onChange={(n) => setPage(n.toString())}
                     total={items?.meta.totalPages}
-                    initialPage={items?.meta.currentPage}
+                    initialPage={items?.meta.currentPage || +selectPage || 1}
                 />
             </div>
         </section>
