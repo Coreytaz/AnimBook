@@ -8,12 +8,12 @@ enum Tabs {
     Opinion = 2,
 }
 
-const DetailedProductInfo: FC<{ slug: string }> = ({ slug }) => {
+const DetailedProductInfo: FC = () => {
     const containerRef = useRef<HTMLDivElement>(null!)
     const router = useRouter()
     const pathname = usePathname()
     const searchParams = useSearchParams()
-    const tabs = searchParams.get('tabs')
+    const tabs = searchParams?.get('tabs')
 
     const onChangeCollapse = (i: number | undefined, value: boolean | undefined): void => {
         if (!value) {
@@ -36,7 +36,7 @@ const DetailedProductInfo: FC<{ slug: string }> = ({ slug }) => {
     useEffect(() => {
         // Костыль
         setTimeout(() => {
-            if (searchParams.has('tabs')) {
+            if (searchParams?.has('tabs')) {
                 containerRef.current.scrollIntoView({
                     behavior: 'smooth',
                 })
@@ -52,14 +52,14 @@ const DetailedProductInfo: FC<{ slug: string }> = ({ slug }) => {
                         expanded={tabs === 'characteristics'}
                         onChange={(_, i, value) => onChangeCollapse(i, value)}
                     >
-                        <Product.Description slug={slug} />
+                        <Product.Description />
                     </Collapse>
                     <Collapse
                         title="Отзывы"
                         expanded={tabs === 'opinion'}
                         onChange={(_, i, value) => onChangeCollapse(i, value)}
                     >
-                        <Product.Reviews slug={slug} />
+                        <Product.Reviews />
                     </Collapse>
                 </Collapse.Group>
             </Grid>

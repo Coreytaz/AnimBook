@@ -2,9 +2,15 @@ import { memo, useEffect } from 'react'
 import { Text } from '@nextui-org/react'
 import { oneProductApi, ProductCard, ProductCardSkeleton } from '@/entities/product'
 import { ViewedProduct } from '@/features/viewedProduct'
+import { useParams } from 'next/navigation'
 
-export default memo(function ProductContainer({ slug }: { slug: string }) {
-    const { data: product, isLoading, isError } = oneProductApi.useGetOneProductQuery(slug)
+export default memo(function ProductContainer() {
+    const params = useParams()
+    const {
+        data: product,
+        isLoading,
+        isError,
+    } = oneProductApi.useGetOneProductQuery(params?.slug.toString()!)
     ViewedProduct.Actions.useAddViewedProductHistory(product?._id!)
 
     if (isLoading) {

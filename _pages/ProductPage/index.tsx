@@ -5,15 +5,14 @@ import { FC } from 'react'
 import DetailedProductInfo from './description'
 import ProductContainer from './product'
 
-const ProductPage: FC<{ params: { slug: string } }> = ({ params }) => {
-    const slug = params?.slug
+const ProductPage: FC = () => {
     return (
         <Container lg>
             <NavBreadcrumbs />
             <Spacer y={1} />
-            <ProductContainer slug={slug} />
+            <ProductContainer />
             <Spacer y={3} />
-            <DetailedProductInfo slug={slug} />
+            <DetailedProductInfo />
         </Container>
     )
 }

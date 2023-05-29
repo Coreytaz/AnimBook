@@ -3,6 +3,7 @@ import { BaseRatingField } from '@/shared/ui/Form/fields/ui/BaseRatingField'
 import { Modal, Button, Text } from '@nextui-org/react'
 import { AxiosError } from 'axios'
 import { useSession } from 'next-auth/react'
+import { useParams } from 'next/navigation'
 import { Dispatch, FC, SetStateAction, useCallback, useEffect, useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
@@ -12,8 +13,8 @@ import { ReviewFormValues } from './model'
 const ReviewModal: FC<{
     visible: boolean
     setVisible: Dispatch<SetStateAction<boolean>>
-    slug: string
-}> = ({ visible, setVisible, slug }) => {
+}> = ({ visible, setVisible }) => {
+    const params = useParams()
     const { data: session } = useSession()
     const userId = useMemo(() => session?.user?.id!, [session?.user?.id])
     const [createReview, { data, isSuccess }] = reviewsApi.useAddReviewsMutation()
@@ -39,14 +40,14 @@ const ReviewModal: FC<{
                     discription: payload.discription,
                     rating: payload.rating,
                     userId,
-                    slug,
+                    slug: params?.slug.toString()!,
                 }).unwrap()
                 form.reset()
             } catch (error: any) {
                 toast.error(error.data.message)
             }
         },
-        [createReview, form, slug, userId]
+        [createReview, form, params?.slug, userId]
     )
 
     return (

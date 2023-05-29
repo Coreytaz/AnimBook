@@ -3,11 +3,11 @@ import { useCallback } from 'react'
 
 export const useSetQuaryParams = (name: string) => {
     const searchParams = useSearchParams()
-    const getParams = searchParams.get(name)
+    const getParams = searchParams?.get(name)
 
     const createQueryString = useCallback(
         (value: string[]) => {
-            const params = new URLSearchParams(searchParams)
+            const params = new URLSearchParams(searchParams!)
             if (value.length === 0) {
                 params.delete(name)
                 return params.toString()

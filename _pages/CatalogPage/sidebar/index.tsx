@@ -11,12 +11,13 @@ import {
     Loading,
     Row,
 } from '@nextui-org/react'
-import { usePathname } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import { FC } from 'react'
 import * as catalogParams from '../params'
 
-const Sidebar: FC<{ slug: string }> = ({ slug }) => {
-    const { data, isLoading, isError } = filtersApi.useGetFiltersQuery(slug)
+const Sidebar: FC = () => {
+    const params = useParams()
+    const { data, isLoading, isError } = filtersApi.useGetFiltersQuery(params?.slug.toString()!)
     const pathname = usePathname()
 
     const onReset = () => {

@@ -20,6 +20,7 @@ import {
     SwitchEvent,
 } from '@nextui-org/react'
 import { LayoutGrid, List } from 'lucide-react'
+import { useParams } from 'next/navigation'
 import { FC, useMemo, useState, Key } from 'react'
 import * as catalogParams from '../params'
 
@@ -36,9 +37,13 @@ const ViewTypes = {
     List: { key: 'list', Icon: List },
 }
 
-const Content: FC<{ slug: string }> = ({ slug }) => {
+const Content: FC = () => {
+    const params = useParams()
     const queryParams = useQueryParams()
-    const { data: items, isLoading } = getProductsApi.useGetProductsQuery({ slug, queryParams })
+    const { data: items, isLoading } = getProductsApi.useGetProductsQuery({
+        slug: params?.slug.toString()!,
+        queryParams,
+    })
     const { selected: selectSort, onChange: setFrom } = catalogParams.useFilter('sort')
     const { selected: selectPage, onChange: setPage } = catalogParams.useFilter('page')
     const vtParam = catalogParams.useViewType('vt')
@@ -100,20 +105,20 @@ const Content: FC<{ slug: string }> = ({ slug }) => {
             <Grid.Container gap={2} css={{ gap: '$10 0' }} alignContent="flex-start">
                 {isLoading
                     ? [...new Array(6)].map((_, i) => (
-                        <ProductItemSkeleton
-                            key={i}
-                            isGrid={vtParam.isGrid}
-                            isList={vtParam.isList}
-                        />
-                    ))
+                          <ProductItemSkeleton
+                              key={i}
+                              isGrid={vtParam.isGrid}
+                              isList={vtParam.isList}
+                          />
+                      ))
                     : items?.items.map((prod) => (
-                        <ProductItem
-                            data={prod}
-                            key={prod._id}
-                            isGrid={vtParam.isGrid}
-                            isList={vtParam.isList}
-                        />
-                    ))}
+                          <ProductItem
+                              data={prod}
+                              key={prod._id}
+                              isGrid={vtParam.isGrid}
+                              isList={vtParam.isList}
+                          />
+                      ))}
             </Grid.Container>
             <Spacer />
             <div style={{ display: 'flex', justifyContent: 'center' }}>

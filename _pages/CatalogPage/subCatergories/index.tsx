@@ -1,11 +1,17 @@
 import { catergoriesApi, CatergoriesCard, SkeletonCategoriesCard } from '@/entities/catergories'
 import { Skeleton } from '@/shared/ui'
 import { Container, Grid, Text } from '@nextui-org/react'
+import { useParams } from 'next/navigation'
 import Content from '../content'
 import Sidebar from '../sidebar'
 
-export default function SubCatergories({ slug }: { slug: string }) {
-    const { data: items, isLoading, isError } = catergoriesApi.useGetSubCatergoriesQuery(slug)
+export default function SubCatergories() {
+    const params = useParams()
+    const {
+        data: items,
+        isLoading,
+        isError,
+    } = catergoriesApi.useGetSubCatergoriesQuery(params?.slug.toString()!)
 
     if (isLoading) {
         return (
@@ -52,10 +58,10 @@ export default function SubCatergories({ slug }: { slug: string }) {
                 ) : (
                     <Grid.Container gap={2} justify="center">
                         <Grid xs={12} sm={4} alignItems="flex-start">
-                            <Sidebar slug={slug} />
+                            <Sidebar />
                         </Grid>
                         <Grid xs={12} sm={8}>
-                            <Content slug={slug} />
+                            <Content />
                         </Grid>
                     </Grid.Container>
                 )}

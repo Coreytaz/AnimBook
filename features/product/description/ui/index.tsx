@@ -1,22 +1,23 @@
 import { DescriptionList } from '@/shared/api'
 import { Table, Text } from '@nextui-org/react'
-import { useSearchParams } from 'next/navigation'
+import { useParams, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import { descriptionApi } from '../api'
 import { renderCell } from './lib'
 import { SkeletonDescription } from './skeletonDescription'
 
-export default function Description({ slug }: { slug: string }) {
+export default function Description() {
+    const params = useParams()
     const searchParams = useSearchParams()
     const [trigger, { data: items, isLoading, isError, isUninitialized }] =
         descriptionApi.useLazyGetDescriptionQuery()
-    const tabs = searchParams.get('tabs')
+    const tabs = searchParams?.get('tabs')
 
     useEffect(() => {
         if (tabs === 'characteristics') {
-            trigger(slug)
+            trigger(params?.slug.toString()!)
         }
-    }, [slug, tabs, trigger])
+    }, [params?.slug, tabs, trigger])
 
     const columns = [
         {

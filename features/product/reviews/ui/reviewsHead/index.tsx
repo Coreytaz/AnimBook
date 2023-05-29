@@ -4,10 +4,9 @@ import { signIn, useSession } from 'next-auth/react'
 import { useState, FC } from 'react'
 import ReviewModal from '../modal'
 
-const ReviewsHead: FC<{ rating: number; quantityReviews: number; slug: string }> = ({
+const ReviewsHead: FC<{ rating: number; quantityReviews: number }> = ({
     rating,
     quantityReviews,
-    slug,
 }) => {
     const { data: session } = useSession()
     const [visible, setVisible] = useState<boolean>(false)
@@ -75,7 +74,7 @@ const ReviewsHead: FC<{ rating: number; quantityReviews: number; slug: string }>
                     </Grid.Container>
                 </>
             ) : null}
-            <ReviewModal slug={slug} visible={visible} setVisible={setVisible} />
+            <ReviewModal visible={visible} setVisible={setVisible} />
         </>
     )
 }

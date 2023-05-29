@@ -1,16 +1,17 @@
 'use client'
 import NavBreadcrumbs from '@/entities/breadcrumbs/ui'
 import { Container } from '@nextui-org/react'
+import { useParams } from 'next/navigation'
 import { FC } from 'react'
 import Catergories from './catergories'
 import SubCatergories from './subCatergories'
 
-const CatalogPage: FC<{ params?: { slug: string } }> = ({ params }) => {
-    const slug = params?.slug
+const CatalogPage: FC = () => {
+    const params = useParams()
     return (
         <Container>
             <NavBreadcrumbs />
-            {slug ? <SubCatergories slug={slug} /> : <Catergories />}
+            {params?.slug! ? <SubCatergories /> : <Catergories />}
         </Container>
     )
 }
