@@ -34,7 +34,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         <Footer />
                     </div>
                 </Providers>
-                <ToastContainer position="bottom-right" theme={isDark ? 'dark' : 'light'} />
+                <ToastContainer
+                    position="bottom-right"
+                    theme={isDark ? 'dark' : 'light'}
+                    style={{ zIndex: 99999 }}
+                />
             </body>
         </html>
     )

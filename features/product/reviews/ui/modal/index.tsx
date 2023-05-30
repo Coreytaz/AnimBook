@@ -56,6 +56,7 @@ const ReviewModal: FC<{
             aria-labelledby="modal-title"
             preventClose
             open={visible}
+            blur
             onClose={closeHandler}
         >
             <Modal.Header css={{ display: 'block' }}>
