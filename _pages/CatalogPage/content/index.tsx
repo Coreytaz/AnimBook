@@ -29,7 +29,7 @@ type Selection = 'all' | Set<Key>
 const menuItems = [
     { key: '-price', name: 'Сначала недорогие' },
     { key: 'price', name: 'Сначала дорогие' },
-    { key: 'rating', name: 'С лучшей оценкой' },
+    { key: 'rating', name: 'С оценкой' },
 ]
 
 const ViewTypes = {

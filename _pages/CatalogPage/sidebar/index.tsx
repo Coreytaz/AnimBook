@@ -63,7 +63,7 @@ const PriceSection: FC<{ lowPriceAndMax: { max: number; min: number } }> = ({ lo
         }
     }
     return (
-        <Collapse title="Цена">
+        <Collapse title="Цена" expanded>
             <Row justify="center" css={{ p: '$5', gap: '$5', mb: '$5' }}>
                 <Col>
                     <Input

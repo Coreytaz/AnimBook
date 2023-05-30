@@ -41,7 +41,7 @@ export const CommentList: FC<CommentListProps> = ({ discription, created_at, use
     return (
         <div className={styles.comment}>
             <div className={styles.comment_description}>
-                <Text>{discription}</Text>
+                <Text size="$lg">{discription}</Text>
             </div>
             <div className={styles.comment_info}>
                 <div className={styles.comment_date}>
