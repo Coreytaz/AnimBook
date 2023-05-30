@@ -13,11 +13,12 @@ export const reviewsApi = createApi({
                 rating: ApiReviewsData[]
                 totalRating: number
                 countReviews: number
+                filtersCounts: { [key: number]: string }
             },
-            string
+            { slug: string; filter: string[] }
         >({
-            query: (slug) => ({
-                url: routes.getReviewsData(slug),
+            query: ({ slug, filter }) => ({
+                url: routes.getReviewsData(slug, filter),
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
             }),

@@ -1,7 +1,7 @@
 export function objectToQueryString(obj: { [x: string]: any }) {
-    var queryString = ''
+    let queryString = ''
 
-    for (var key in obj) {
+    for (let key in obj) {
         if (obj.hasOwnProperty(key)) {
             if (queryString !== '') {
                 queryString += '&'

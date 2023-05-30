@@ -1,12 +1,13 @@
 import { Spacer, Text } from '@nextui-org/react'
 import { useParams, useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { reviewsApi } from '../api'
 import Comments from './comments'
 import ReviewsHead from './reviewsHead'
 import { SkeletonReviews } from './skeletonReviews'
 
 export default function Reviews() {
+    const [selected, setSelected] = useState<string[]>([])
     const params = useParams()
     const searchParams = useSearchParams()
     const [trigger, { data: feedbackList, isLoading, isError, isUninitialized }] =
@@ -15,9 +16,9 @@ export default function Reviews() {
 
     useEffect(() => {
         if (tabs === 'opinion') {
-            trigger(params?.slug.toString()!)
+            trigger({ slug: params?.slug.toString()!, filter: selected })
         }
-    }, [params?.slug, tabs, trigger])
+    }, [params?.slug, selected, tabs, trigger])
 
     if (isLoading || isUninitialized) {
         return <SkeletonReviews />
@@ -28,6 +29,9 @@ export default function Reviews() {
             <ReviewsHead
                 rating={feedbackList?.totalRating!}
                 quantityReviews={feedbackList?.countReviews!}
+                filtersCounts={feedbackList?.filtersCounts!}
+                selected={selected}
+                setSelected={setSelected}
             />
             <Spacer
                 y={1}
