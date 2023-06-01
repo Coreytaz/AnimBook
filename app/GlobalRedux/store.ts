@@ -7,6 +7,8 @@ import { getProductsApi, oneProductApi, viewProductSlice } from '@/entities/prod
 import { getViewProductApi } from '@/entities/product/api/getViewProductApi'
 import { filtersApi } from '@/entities/sidebar'
 import { descriptionApi, reviewsApi } from '@/features/product'
+import { getOrderiesApi } from '@/_pages/OrderInfoPage/api'
+import { deliveriedApi, deliveriesApi } from '@/_pages/ProfilePage/content/section/api'
 import { orderApi } from '@/_pages/ResultPage/api'
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import {
@@ -49,6 +51,9 @@ const rootReducer = combineReducers({
     [getProductsApi.reducerPath]: getProductsApi.reducer,
     [getViewProductApi.reducerPath]: getViewProductApi.reducer,
     [orderApi.reducerPath]: orderApi.reducer,
+    [deliveriesApi.reducerPath]: deliveriesApi.reducer,
+    [deliveriedApi.reducerPath]: deliveriedApi.reducer,
+    [getOrderiesApi.reducerPath]: getOrderiesApi.reducer,
 })
 
 const store = configureStore({
@@ -66,6 +71,9 @@ const store = configureStore({
             .concat(filtersApi.middleware)
             .concat(getProductsApi.middleware)
             .concat(getViewProductApi.middleware)
+            .concat(deliveriesApi.middleware)
+            .concat(deliveriedApi.middleware)
+            .concat(getOrderiesApi.middleware)
             .concat(orderApi.middleware),
 })
 

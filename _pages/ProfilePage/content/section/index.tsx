@@ -1,11 +1,12 @@
 import type { ReactNode } from 'react'
 import cn from 'clsx'
-import { Card, Col, Row, Spacer, Text } from '@nextui-org/react'
+import { Badge, Card, Col, Row, Text } from '@nextui-org/react'
 import styles from './styles.module.scss'
-import { ProductGridCard } from '@/entities/product'
-import { ProductProps } from '@/shared'
 import { Check } from 'lucide-react'
 import { useScrollVertical } from '@/shared/helpers'
+import { ApiDeliveriesData } from './api'
+import { useRouter } from 'next/navigation'
+import { BadgeStatus } from '@/entities/BadgeStatus'
 
 type Props<T> = {
     id: string
@@ -22,12 +23,13 @@ type Props<T> = {
         color: import('react').CSSProperties['color']
     }
     Icon: typeof Check
-    product: T[]
+    items: T[]
     active?: boolean
 }
 
-export function Section<T extends ProductProps>(props: Props<T>) {
-    const { title, description, product, Icon, id, titleAfter, active } = props
+export function Section<T extends ApiDeliveriesData>(props: Props<T>) {
+    const router = useRouter()
+    const { title, description, items, Icon, id, titleAfter, active } = props
     const scrollVerticalRef = useScrollVertical()
     return (
         <Card
@@ -50,10 +52,29 @@ export function Section<T extends ProductProps>(props: Props<T>) {
                 {description}
             </Text>
             <div className={styles.list} ref={scrollVerticalRef}>
-                {product.length > 0 ? (
-                    product.map((prod, idx) => (
-                        <Col css={{ width: '242px' }} key={prod._id}>
-                            <ProductGridCard data={prod} className={styles.card} />
+                {items?.length > 0 ? (
+                    items.map((item) => (
+                        <Col css={{ width: '242px' }} key={item._id}>
+                            <Card
+                                className={styles.card}
+                                isHoverable
+                                isPressable
+                                onClick={() => router.push(`profile/${item._id}`)}
+                            >
+                                <Card.Header>
+                                    <Text css={{ textAlign: 'center' }} b>
+                                        Заказа №<Text size="$xs">{item._id}</Text>
+                                    </Text>
+                                </Card.Header>
+                                <Card.Body>
+                                    <Text b>
+                                        Адрес:<Text>{item.address}</Text>
+                                    </Text>
+                                </Card.Body>
+                                <Card.Footer css={{ jc: 'center' }}>
+                                    <BadgeStatus text={item.status} />
+                                </Card.Footer>
+                            </Card>
                         </Col>
                     ))
                 ) : (
