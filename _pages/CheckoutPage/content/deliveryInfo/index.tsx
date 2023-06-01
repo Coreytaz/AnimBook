@@ -30,7 +30,7 @@ export const DeliveryInfo: FC<{ methods: UseFormReturn<OrderFormValues, any> }> 
                     'address',
                     `${data.features[0].properties.city} ${data.features[0].properties.address_line1}`
                 )
-                methods.setValue('postalIndex', data.features[0].properties.postcode)
+                methods.setValue('postIndex', data.features[0].properties.postcode)
             } catch (error) {
                 toast.error((error as Error).message)
             }
@@ -73,7 +73,7 @@ export const DeliveryInfo: FC<{ methods: UseFormReturn<OrderFormValues, any> }> 
                             fullWidth
                             color="primary"
                             size="lg"
-                            name="postalIndex"
+                            name="postIndex"
                             type="text"
                             required
                             placeholder="Почтовый индекс"
@@ -95,7 +95,7 @@ export const DeliveryInfo: FC<{ methods: UseFormReturn<OrderFormValues, any> }> 
                         name="address"
                         required
                         handleChange={(value) => {
-                            methods.setValue('postalIndex', value?.postalIndex!)
+                            methods.setValue('postIndex', value?.postalIndex!)
                         }}
                         loadOptions={promiseOptions}
                         noOptionsMessage={() => 'Адрес не найден'}

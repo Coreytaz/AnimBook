@@ -44,6 +44,9 @@ export const cartSlice = createSlice({
                 return item
             })
         },
+        clearAllCart(state) {
+            state.cartId = []
+        },
     },
 })
 

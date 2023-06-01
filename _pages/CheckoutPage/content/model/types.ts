@@ -1,9 +1,10 @@
 export interface OrderFormValues {
+    id: string
     username: string
     email: string
     phone: string
     password: string
-    postalIndex: string
+    postIndex: string
     apartaments: string
     address: string
 }

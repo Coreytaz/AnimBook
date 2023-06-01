@@ -1,14 +1,14 @@
 import { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 
-const CheckoutPage = dynamic(() => import('@/_pages/CheckoutPage'), { ssr: false })
+const ResultPage = dynamic(() => import('@/_pages/ResultPage'), { ssr: false })
 
 export const metadata: Metadata = {
     title: 'Оформление заказа',
 }
 
 const Page = () => {
-    return <CheckoutPage />
+    return <ResultPage />
 }
 
 export default Page

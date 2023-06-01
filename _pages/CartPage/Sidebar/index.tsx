@@ -7,7 +7,7 @@ import React from 'react'
 const Sidebar = () => {
     const router = useRouter()
     const pathname = usePathname()
-    const { price } = useOrder()
+    const { price, cartOrder } = useOrder()
     return (
         <Card css={{ mw: '350px' }}>
             <Card.Body
@@ -25,7 +25,10 @@ const Sidebar = () => {
             </Card.Body>
             <Card.Divider />
             <Card.Footer css={{ justifyContent: 'center' }}>
-                <Button onPress={() => router.push(`${pathname}/checkout`)}>
+                <Button
+                    disabled={cartOrder.cartId.length === 0}
+                    onPress={() => router.push(`${pathname}/checkout`)}
+                >
                     Перейти к оформлению
                 </Button>
             </Card.Footer>

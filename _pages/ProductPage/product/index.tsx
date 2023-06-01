@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react'
+import { memo } from 'react'
 import { Text } from '@nextui-org/react'
 import { oneProductApi, ProductCard, ProductCardSkeleton } from '@/entities/product'
 import { ViewedProduct } from '@/features/viewedProduct'

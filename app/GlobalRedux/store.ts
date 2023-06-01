@@ -7,6 +7,7 @@ import { getProductsApi, oneProductApi, viewProductSlice } from '@/entities/prod
 import { getViewProductApi } from '@/entities/product/api/getViewProductApi'
 import { filtersApi } from '@/entities/sidebar'
 import { descriptionApi, reviewsApi } from '@/features/product'
+import { orderApi } from '@/_pages/ResultPage/api'
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import {
     persistStore,
@@ -47,6 +48,7 @@ const rootReducer = combineReducers({
     [filtersApi.reducerPath]: filtersApi.reducer,
     [getProductsApi.reducerPath]: getProductsApi.reducer,
     [getViewProductApi.reducerPath]: getViewProductApi.reducer,
+    [orderApi.reducerPath]: orderApi.reducer,
 })
 
 const store = configureStore({
@@ -63,7 +65,8 @@ const store = configureStore({
             .concat(descriptionApi.middleware)
             .concat(filtersApi.middleware)
             .concat(getProductsApi.middleware)
-            .concat(getViewProductApi.middleware),
+            .concat(getViewProductApi.middleware)
+            .concat(orderApi.middleware),
 })
 
 export type TypeRootState = ReturnType<typeof store.getState>
