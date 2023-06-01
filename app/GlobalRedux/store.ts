@@ -7,6 +7,7 @@ import { getProductsApi, oneProductApi, viewProductSlice } from '@/entities/prod
 import { getViewProductApi } from '@/entities/product/api/getViewProductApi'
 import { filtersApi } from '@/entities/sidebar'
 import { descriptionApi, reviewsApi } from '@/features/product'
+import { bannerApi } from '@/_pages/IndexPage/sections/banner/api'
 import { getOrderiesApi } from '@/_pages/OrderInfoPage/api'
 import { deliveriedApi, deliveriesApi } from '@/_pages/ProfilePage/content/section/api'
 import { orderApi } from '@/_pages/ResultPage/api'
@@ -53,6 +54,7 @@ const rootReducer = combineReducers({
     [orderApi.reducerPath]: orderApi.reducer,
     [deliveriesApi.reducerPath]: deliveriesApi.reducer,
     [deliveriedApi.reducerPath]: deliveriedApi.reducer,
+    [bannerApi.reducerPath]: bannerApi.reducer,
     [getOrderiesApi.reducerPath]: getOrderiesApi.reducer,
 })
 
@@ -74,6 +76,7 @@ const store = configureStore({
             .concat(deliveriesApi.middleware)
             .concat(deliveriedApi.middleware)
             .concat(getOrderiesApi.middleware)
+            .concat(bannerApi.middleware)
             .concat(orderApi.middleware),
 })
 

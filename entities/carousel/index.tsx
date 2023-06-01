@@ -11,10 +11,10 @@ const Carousel: FC<{ items: CarouselItemProps[] } & { delay?: number }> = ({ ite
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setActiveIndex((prev) => (+prev === items.length - 1 ? 0 : +prev + 1))
+            setActiveIndex((prev) => (+prev === items?.length - 1 ? 0 : +prev + 1))
         }, delay || 5000)
         return () => clearInterval(interval)
-    }, [activeIndex, delay, items.length])
+    }, [activeIndex, delay, items?.length])
 
     return (
         <div className={styles.wraperCoursel}>
@@ -39,12 +39,12 @@ const Carousel: FC<{ items: CarouselItemProps[] } & { delay?: number }> = ({ ite
                     transition: 'transform 0.5s ease-in-out',
                 }}
             >
-                {items.map((item, index) => {
+                {items?.map((item, index) => {
                     return (
                         <CarouselItem
                             key={index}
-                            src={item.src}
-                            alt={item.alt}
+                            img={item.img}
+                            url={item.url}
                             caption={item.caption}
                         />
                     )
@@ -64,12 +64,12 @@ const Carousel: FC<{ items: CarouselItemProps[] } & { delay?: number }> = ({ ite
     )
 }
 
-const CarouselItem: FC<CarouselItemProps> = ({ src, alt, caption }) => {
+const CarouselItem: FC<CarouselItemProps> = ({ url, img, caption }) => {
     const router = useRouter()
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        router.push('/catalog')
+        router.push(url)
     }
     return (
         <Grid xs={12} css={{ minWidth: '100%', cursor: 'pointer' }} onClick={handleClick}>
@@ -90,11 +90,11 @@ const CarouselItem: FC<CarouselItemProps> = ({ src, alt, caption }) => {
                 </Card.Body>
                 <Card.Image
                     showSkeleton
-                    src={src}
+                    src={img}
                     objectFit="cover"
                     width="100%"
                     height="100%"
-                    alt={alt}
+                    alt={caption}
                 />
             </Card>
         </Grid>

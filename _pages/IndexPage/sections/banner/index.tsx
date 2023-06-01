@@ -1,26 +1,14 @@
 import Carousel from '@/entities/carousel'
+import { Skeleton } from '@/shared/ui'
 import React from 'react'
-
-const items = [
-    {
-        src: 'https://via.placeholder.com/1920x1080',
-        alt: 'placeholder',
-        caption: 'caption',
-    },
-    {
-        src: 'https://via.placeholder.com/1920x1080',
-        alt: 'placeholder',
-        caption: 'caption',
-    },
-    {
-        src: 'https://via.placeholder.com/1920x1080',
-        alt: 'placeholder',
-        caption: 'caption',
-    },
-]
+import { bannerApi } from './api'
 
 const Banner = () => {
-    return <Carousel items={items} />
+    const { data: items, isLoading, isError } = bannerApi.useGetBannerQuery('')
+    if (isLoading) {
+        return <Skeleton style={{ height: '420px', width: '100%' }} />
+    }
+    return <Carousel items={items!} />
 }
 
 export default Banner

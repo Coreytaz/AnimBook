@@ -37,8 +37,8 @@ export interface ProductProps {
 }
 
 export interface CarouselItemProps {
-    src: string
-    alt: string
+    url: string
+    img: string
     caption: string
 }
 
