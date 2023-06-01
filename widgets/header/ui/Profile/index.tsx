@@ -27,7 +27,7 @@ const Profile = () => {
                                 as="button"
                                 color="primary"
                                 size="md"
-                                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                                text={session.user.username!}
                             />
                         </Dropdown.Trigger>
                     </Navbar.Item>

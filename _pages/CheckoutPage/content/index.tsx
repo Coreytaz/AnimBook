@@ -1,6 +1,8 @@
 import { useOrder } from '@/entities/cart'
-import { Button, Col, Loading, Row, Spacer } from '@nextui-org/react'
-import { useSession } from 'next-auth/react'
+import { signUp } from '@/_pages/AuthPage/form/sign-up'
+import { Button, Loading, Row, Spacer } from '@nextui-org/react'
+import { AxiosError } from 'axios'
+import { signIn, useSession } from 'next-auth/react'
 import { redirect, useRouter } from 'next/navigation'
 import { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -8,7 +10,7 @@ import { toast } from 'react-toastify'
 import { createOrderWithUser } from './api'
 import { CustomerInfo } from './customerInfo'
 import { DeliveryInfo } from './deliveryInfo'
-import { mapFormDataToApiData, OrderFormValues } from './model'
+import { mapFormDataToApiData, OrderFormValues, mapFormSignUpToApiData } from './model'
 import { YourOrder } from './yourOrder'
 
 export const Content: FC = () => {
@@ -40,7 +42,23 @@ export const Content: FC = () => {
             try {
                 setIsLoading(true)
                 if (!session?.user) {
-                    console.log(payload)
+                    const signUpData = await signUp(mapFormSignUpToApiData(payload))
+                    const res = await createOrderWithUser({
+                        userId: signUpData.data.id,
+                        postIndex: payload.postIndex,
+                        address: payload.address,
+                        apartaments: payload.apartaments,
+                        amount: price,
+                        products: cartOrder.cartId,
+                    })
+                    await signIn('credentials', {
+                        ...payload,
+                        redirect: false,
+                    }).then((data) => {
+                        if (data?.ok) {
+                            router.push(res.data.confirmation.confirmation_url)
+                        }
+                    })
                 } else {
                     const res = await createOrderWithUser({
                         userId: payload.id,
@@ -50,11 +68,15 @@ export const Content: FC = () => {
                         amount: price,
                         products: cartOrder.cartId,
                     })
-
                     router.push(res.data.confirmation.confirmation_url)
                 }
             } catch (error) {
-                toast.error((error as Error).message)
+                if (error instanceof AxiosError) {
+                    if (error.response?.status === 400 && error.code === 'ERR_BAD_REQUEST') {
+                        const mes = error.response.data.message as string
+                        toast.error(mes)
+                    }
+                }
             } finally {
                 setIsLoading(false)
             }

@@ -6,7 +6,7 @@ import React, { FC, useCallback, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { signUp } from '../api'
-import { mapFormDataToApiData, SignUpFormValues } from '../model'
+import { mapFormSignUpToApiData, SignUpFormValues } from '../model'
 
 export interface SignUpFormProps {
     onSignUp?: (payload: unknown) => void
@@ -33,7 +33,8 @@ const SignUpForm: FC<SignUpFormProps> = ({ onChangeForm, onSignUp }) => {
         async (payload: SignUpFormValues) => {
             try {
                 setIsLoading(true)
-                const res = await signUp(mapFormDataToApiData(payload))
+                const res = await signUp(mapFormSignUpToApiData(payload))
+                toast.info('Вы успешно зарегистривались')
                 onSignUp && onSignUp(res.data)
             } catch (error) {
                 if (error instanceof AxiosError) {
