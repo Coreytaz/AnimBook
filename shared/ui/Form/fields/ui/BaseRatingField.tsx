@@ -1,5 +1,5 @@
 import { StarRating } from '@/entities/StarRating'
-import { Badge, Text } from '@nextui-org/react'
+import { Badge, Text } from '@/shared/ui-kit'
 import { useMemo } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 

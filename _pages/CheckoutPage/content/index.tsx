@@ -1,6 +1,6 @@
 import { useOrder } from '@/entities/cart'
 import { signUp } from '@/_pages/AuthPage/form/sign-up'
-import { Button, Loading, Row, Spacer } from '@nextui-org/react'
+import { Button, Loading, Row, Spacer } from '@/shared/ui-kit'
 import { AxiosError } from 'axios'
 import { signIn, useSession } from 'next-auth/react'
 import { redirect, useRouter } from 'next/navigation'
@@ -81,7 +81,7 @@ export const Content: FC = () => {
                 setIsLoading(false)
             }
         },
-        [cartOrder.cartId, price, router, session?.user]
+        [cartOrder.cartId, price, router, session]
     )
 
     return (

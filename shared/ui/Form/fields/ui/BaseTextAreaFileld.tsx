@@ -1,4 +1,4 @@
-import { Input, Textarea } from '@nextui-org/react'
+import { Input, Textarea } from '@/shared/ui-kit'
 import { useMemo } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 

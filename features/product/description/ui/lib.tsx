@@ -1,9 +1,9 @@
 import { DescriptionList } from '@/shared/api'
-import { Tooltip, Text } from '@nextui-org/react'
+import { Tooltip, Text } from '@/shared/ui-kit'
 import { HelpCircle } from 'lucide-react'
-import { Key, ReactNode } from 'react'
+import { ReactNode } from 'react'
 
-export const renderCell = (discription: DescriptionList, columnKey: Key): ReactNode => {
+export const renderCell = (discription: DescriptionList, columnKey: string | number): ReactNode => {
     const cellValue = discription[columnKey]
     switch (columnKey) {
         case 'name':

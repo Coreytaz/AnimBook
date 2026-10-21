@@ -3,7 +3,7 @@ import { BadgeStatus } from '@/entities/BadgeStatus'
 import { ProductGridCard } from '@/entities/product'
 import { useScrollVertical } from '@/shared/helpers'
 import { Skeleton } from '@/shared/ui'
-import { Badge, Card, Col, Container, Grid, Loading, Row, Text } from '@nextui-org/react'
+import { Badge, Card, Col, Container, Grid, Loading, Row, Text } from '@/shared/ui-kit'
 import { useParams } from 'next/navigation'
 import React from 'react'
 import { getOrderiesApi } from './api'
@@ -12,7 +12,7 @@ const OrderInfoPage = () => {
     const scrollVerticalRef = useScrollVertical()
     const params = useParams()
     const { data: order, isLoading } = getOrderiesApi.useGetOrderStatusQuery(
-        params?.orderId.toString()!
+        params?.orderId?.toString()!
     )
 
     if (isLoading) {

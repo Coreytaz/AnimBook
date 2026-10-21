@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
-import dynamic from 'next/dynamic'
+import ProfilePage from './client'
 
-const ProfilePage = dynamic(() => import('@/_pages/ProfilePage'), { ssr: false })
 
 export const metadata: Metadata = {
     title: 'Профиль',

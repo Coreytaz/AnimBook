@@ -1,4 +1,4 @@
-import { Spacer, Text } from '@nextui-org/react'
+import { Spacer, Text } from '@/shared/ui-kit'
 import { useParams, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { reviewsApi } from '../api'
@@ -16,7 +16,7 @@ export default function Reviews() {
 
     useEffect(() => {
         if (tabs === 'opinion') {
-            trigger({ slug: params?.slug.toString()!, filter: selected })
+            trigger({ slug: params?.slug?.toString()!, filter: selected })
         }
     }, [params?.slug, selected, tabs, trigger])
 

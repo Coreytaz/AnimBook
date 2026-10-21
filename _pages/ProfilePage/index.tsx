@@ -1,5 +1,5 @@
 'use client'
-import { Container, Grid, Text } from '@nextui-org/react'
+import { Container, Grid, Text } from '@/shared/ui-kit'
 import { FC } from 'react'
 import Aside from './aside'
 import Content from './content'

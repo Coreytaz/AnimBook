@@ -1,0 +1,102 @@
+@import 'tailwindcss';
+@import '@heroui/styles';
+@custom-variant dark (&:is(.dark *));
+
+:root {
+    --animbook-colors-text: var(--foreground);
+    --animbook-colors-primary: var(--accent);
+    --animbook-colors-error: var(--danger);
+    --animbook-colors-danger: var(--danger);
+    --animbook-colors-border: var(--border);
+    --animbook-colors-gray50: var(--surface);
+    --animbook-colors-gray100: var(--surface-secondary);
+    --animbook-colors-gray200: var(--surface-tertiary);
+    --animbook-colors-gray600: var(--muted);
+    --animbook-colors-blue400: #338ef7;
+    --animbook-colors-blue500: #0072f5;
+    --animbook-colors-blue600: #005bc4;
+    --animbook-colors-pink600: #c20e4d;
+    --animbook-space-full: 100%;
+    --animbook-space-3: 12px;
+    --animbook-space-5: 20px;
+    --animbook-space-24: 96px;
+    --animbook-border-width: 1px;
+    --animbook-navbar-border-width: 1px;
+    --animbook-navbar-border: var(--border);
+}
+@theme inline {
+    --color-primary: var(--accent);
+    --color-default-100: var(--surface-secondary);
+    --color-default-200: var(--border);
+}
+body {
+    color: var(--foreground);
+    background: var(--background);
+}
+
+h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+}
+h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+}
+h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+.ui-collapse {
+    width: 100%;
+    padding: 16px;
+    border-bottom: 1px solid var(--animbook-colors-border);
+}
+.ui-collapse > summary {
+    cursor: pointer;
+    font-size: 1.125rem;
+    font-weight: 600;
+    padding: 8px 0;
+}
+
+html,
+body > div[data-overlay-container='true']:has(.container),
+body {
+    height: 100%;
+}
+.body {
+    overflow: hidden;
+}
+
+.container {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: transparent;
+
+    &-track {
+        background-color: transparent;
+        border-radius: 5px;
+    }
+
+    &-thumb {
+        background-color: var(--animbook-colors-blue400);
+        border-radius: 5px;
+    }
+
+    &-corner {
+        background-color: none;
+    }
+}

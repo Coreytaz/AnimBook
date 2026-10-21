@@ -1,4 +1,4 @@
-import { Avatar, Card, Container, Grid, Text } from '@nextui-org/react'
+import { Avatar, Card, Container, Grid, Text } from '@/shared/ui-kit'
 import { useRouter } from 'next/navigation'
 
 const items = [
@@ -25,7 +25,7 @@ const items = [
 const Authors = () => {
     const router = useRouter()
 
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault()
         router.push('/catalog')
     }

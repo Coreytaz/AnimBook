@@ -1,4 +1,4 @@
-import { Badge, BadgeProps } from '@nextui-org/react'
+import { Badge, BadgeProps } from '@/shared/ui-kit'
 import React, { FC, ReactNode } from 'react'
 
 interface BadgeStatusProps extends BadgeProps {

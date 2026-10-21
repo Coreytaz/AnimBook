@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react'
-import { Button, Card, Grid, Radio, Text } from '@nextui-org/react'
+import { Button, Card, Grid, Text } from '@/shared/ui-kit'
 import styles from './style.module.scss'
 import cn from 'clsx'
 import { useRouter } from 'next/navigation'
@@ -67,7 +67,7 @@ const Carousel: FC<{ items: CarouselItemProps[] } & { delay?: number }> = ({ ite
 const CarouselItem: FC<CarouselItemProps> = ({ url, img, caption }) => {
     const router = useRouter()
 
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault()
         router.push(url)
     }

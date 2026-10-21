@@ -1,4 +1,4 @@
-import { Input, Loading } from '@nextui-org/react'
+import { Input, Loading } from '@/shared/ui-kit'
 import { FC, useMemo } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { SingleValue } from 'react-select'
@@ -42,7 +42,7 @@ export const BaseSelectField: FC<BaseSelectFieldProps> = ({
                     <AsyncSelect
                         {...props}
                         {...field}
-                        value={{ value: field.value, label: field.value } || undefined}
+                        value={field.value ? { value: field.value, label: field.value } : null}
                         onChange={(value, action) => {
                             field.onChange(value?.label!)
                             handleChange && handleChange(value)
@@ -51,50 +51,50 @@ export const BaseSelectField: FC<BaseSelectFieldProps> = ({
                             container: (defaultStyles) => ({
                                 ...defaultStyles,
                                 left: 0,
-                                width: 'var(--nextui-space-full)',
+                                width: 'var(--animbook-space-full)',
                             }),
                             indicatorsContainer: (base, props) => ({
                                 display: 'none',
                             }),
                             placeholder: (defaultStyles) => ({
                                 ...defaultStyles,
-                                color: 'var(--nextui-colors-gray600)',
+                                color: 'var(--animbook-colors-gray600)',
                             }),
                             input: (defaultStyles) => ({
                                 ...defaultStyles,
-                                color: 'var(--nextui-colors-text)',
+                                color: 'var(--animbook-colors-text)',
                             }),
                             control: (defaultStyles) => ({
                                 ...defaultStyles,
                                 background: 'transparent',
                                 borderRadius: '12px',
-                                border: 'var(--nextui-borderWeights-normal) solid var(--nextui--navbarBorderColor)',
+                                border: 'var(--animbook-border-width) solid var(--animbook-navbar-border)',
                                 ':hover': {
                                     borderColor: fieldState.invalid
-                                        ? 'var(--nextui-colors-error)'
-                                        : 'var(--nextui-colors-primary)',
+                                        ? 'var(--animbook-colors-error)'
+                                        : 'var(--animbook-colors-primary)',
                                 },
                             }),
                             singleValue: (defaultStyles) => ({
                                 ...defaultStyles,
-                                color: 'var(--nextui-colors-text)',
+                                color: 'var(--animbook-colors-text)',
                             }),
                             menu: (defaultStyles) => ({
                                 ...defaultStyles,
                                 position: 'absolute',
-                                backgroundColor: 'var(--nextui-colors-gray50)',
+                                backgroundColor: 'var(--animbook-colors-gray50)',
                                 borderRadius: '12px',
-                                border: 'var(--nextui--navbarBorderWeight) solid var(--nextui--navbarBorderColor)',
+                                border: 'var(--animbook-navbar-border-width) solid var(--animbook-navbar-border)',
                                 overflow: 'hidden',
                             }),
                             option: (defaultStyles, state) => ({
                                 ...defaultStyles,
-                                color: state.isSelected ? 'var(--nextui-colors-primary)' : '',
+                                color: state.isSelected ? 'var(--animbook-colors-primary)' : '',
                                 backgroundColor: state.isSelected
-                                    ? 'var(--nextui-colors-gray200)'
+                                    ? 'var(--animbook-colors-gray200)'
                                     : '',
                                 '&:hover': {
-                                    backgroundColor: 'var(--nextui-colors-gray100)',
+                                    backgroundColor: 'var(--animbook-colors-gray100)',
                                 },
                             }),
                         }}

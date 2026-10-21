@@ -1,5 +1,5 @@
 import { useActionFav, useProductFavStatus } from '@/entities/fav'
-import { Tooltip, Button } from '@nextui-org/react'
+import { Tooltip, Button } from '@/shared/ui-kit'
 import { HeartIcon } from 'lucide-react'
 
 type Props = {

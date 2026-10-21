@@ -1,4 +1,4 @@
-import { Input } from '@nextui-org/react'
+import { Input } from '@/shared/ui-kit'
 import { useMemo } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 
@@ -42,6 +42,7 @@ export const BaseTextFieldPassword: React.FC<BaseTextFieldPasswordProps> = ({
                         status={fieldState.invalid ? 'error' : 'default'}
                         helperText={fieldState?.error?.message}
                         helperColor={'error'}
+                        onClear={() => field.onChange('')}
                         onChange={(value) => {
                             field.onChange(value)
                             onChange && onChange(value)

@@ -1,5 +1,5 @@
 import { useActionViewProduct, useViewProductStatus } from '@/entities/product'
-import { Button, Tooltip } from '@nextui-org/react'
+import { Button, Tooltip } from '@/shared/ui-kit'
 import { X } from 'lucide-react'
 import { useEffect } from 'react'
 

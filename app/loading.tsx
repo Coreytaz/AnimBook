@@ -1,5 +1,5 @@
 'use client'
-import { Loading as Load } from '@nextui-org/react'
+import { Loading as Load } from '@/shared/ui-kit'
 
 export default function Loading() {
     return (

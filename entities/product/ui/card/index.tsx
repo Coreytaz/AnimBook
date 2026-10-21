@@ -1,7 +1,7 @@
 import { StarRating } from '@/entities/StarRating'
 import { toRub } from '@/shared'
 import { ProductProps } from '@/shared/api'
-import { Badge, Card, CardProps, Col, Image, Row, Text } from '@nextui-org/react'
+import { Badge, Card, CardProps, Col, Image, Row, Text } from '@/shared/ui-kit'
 import { useRouter } from 'next/navigation'
 import { FC, ReactNode, useMemo } from 'react'
 

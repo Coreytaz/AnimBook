@@ -1,6 +1,6 @@
 import { SkeletonRow } from '@/entities/product'
 import { Skeleton } from '@/shared/ui'
-import { Grid } from '@nextui-org/react'
+import { Grid } from '@/shared/ui-kit'
 import React from 'react'
 
 export const CartSkeleton = () => {

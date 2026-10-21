@@ -1,5 +1,5 @@
 import { useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
+
 
 export const useQueryParams = () => {
     const searchParams = useSearchParams()
@@ -14,9 +14,6 @@ export const useQueryParams = () => {
         return params
     }
 
-    useEffect(() => {
-        getAllParams()
-    }, []) // Run only once on component mount
 
     return getAllParams()
 }

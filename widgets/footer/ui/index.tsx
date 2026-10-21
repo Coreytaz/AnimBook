@@ -1,15 +1,17 @@
 import { FC } from 'react'
-import { changeTheme, Switch, Text, useTheme } from '@nextui-org/react'
+import useTheme from '@/shared/hooks/useTheme'
+import { Switch, Text } from '@/shared/ui-kit'
 import Link from 'next/link'
 import { Moon, Sun } from 'lucide-react'
 
 const Footer: FC = () => {
-    const { isDark, theme } = useTheme()
+    const { isDark } = useTheme()
 
     const handleChange = () => {
         const nextTheme = isDark ? 'light' : 'dark'
         window.localStorage.setItem('data-theme', nextTheme)
-        changeTheme(nextTheme)
+        document.documentElement.dataset.theme = nextTheme
+        document.documentElement.classList.toggle('dark', nextTheme === 'dark')
     }
 
     return (
@@ -18,9 +20,9 @@ const Footer: FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: `${theme?.colors.border}`,
-                padding: `${theme?.space[5]}`,
-                gap: `0 ${theme?.space[5]}`,
+                backgroundColor: 'var(--animbook-colors-border)',
+                padding: '20px',
+                gap: '0 20px',
             }}
         >
             <Text b size="$sm" css={{ padding: '$1' }}>
@@ -31,8 +33,8 @@ const Footer: FC = () => {
             </Text>
             <Switch
                 animated={false}
-                onChange={handleChange}
-                checked={true}
+                onValueChange={handleChange}
+                checked={!isDark}
                 size="md"
                 iconOn={<Sun />}
                 iconOff={<Moon />}

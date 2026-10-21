@@ -1,6 +1,6 @@
 'use client'
 import NavBreadcrumbs from '@/entities/breadcrumbs/ui'
-import { Container } from '@nextui-org/react'
+import { Container } from '@/shared/ui-kit'
 import { useParams } from 'next/navigation'
 import { FC } from 'react'
 import Catergories from './catergories'

@@ -1,5 +1,5 @@
 import { useScrollVertical } from '@/shared/helpers'
-import { Card } from '@nextui-org/react'
+import { Card } from '@/shared/ui-kit'
 import { FC, useState } from 'react'
 import styles from './styles.module.scss'
 

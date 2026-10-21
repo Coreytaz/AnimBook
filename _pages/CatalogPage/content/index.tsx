@@ -9,22 +9,13 @@ import { Cart } from '@/features/cart'
 import { Fav } from '@/features/fav'
 import { ProductProps } from '@/shared/api'
 import { useQueryParams } from '@/shared/hooks'
-import {
-    Button,
-    Card,
-    Dropdown,
-    Grid,
-    Pagination,
-    Spacer,
-    Switch,
-    SwitchEvent,
-} from '@nextui-org/react'
+import { Button, Card, Dropdown, Grid, Pagination, Spacer, Switch } from '@/shared/ui-kit'
 import { LayoutGrid, List } from 'lucide-react'
 import { useParams } from 'next/navigation'
-import { FC, useMemo, useState, Key } from 'react'
+import { FC, useMemo, useState } from 'react'
 import * as catalogParams from '../params'
 
-type Selection = 'all' | Set<Key>
+type Selection = 'all' | Set<string | number>
 
 const menuItems = [
     { key: '-price', name: 'Сначала недорогие' },
@@ -41,7 +32,7 @@ const Content: FC = () => {
     const params = useParams()
     const queryParams = useQueryParams()
     const { data: items, isLoading } = getProductsApi.useGetProductsQuery({
-        slug: params?.slug.toString()!,
+        slug: params?.slug?.toString()!,
         queryParams,
     })
     const { selected: selectSort, onChange: setFrom } = catalogParams.useFilter('sort')
@@ -56,8 +47,8 @@ const Content: FC = () => {
         setSelected(e)
         setFrom(Array.from(e).join(', ').replaceAll('_', ' '))
     }
-    const onChangeVt = (e: SwitchEvent) => {
-        if (e.target.checked) {
+    const onChangeVt = (selected: boolean) => {
+        if (selected) {
             vtParam.setViewType(ViewTypes.Grid.key)
         } else {
             vtParam.setViewType(ViewTypes.List.key)
@@ -68,7 +59,7 @@ const Content: FC = () => {
             <Card css={{ p: '$5 $8' }}>
                 <Grid.Container>
                     <Grid xs={6}>
-                        <Dropdown disableAnimation>
+                        <Dropdown>
                             <Dropdown.Button light css={{ p: 0 }}>
                                 Сортировка:{' '}
                                 {menuItems.filter((item) => item.key === selectedValue)[0].name}
@@ -83,7 +74,13 @@ const Content: FC = () => {
                                 items={menuItems}
                             >
                                 {(item: any) => (
-                                    <Dropdown.Item key={item.key}>{item.name}</Dropdown.Item>
+                                    <Dropdown.Item
+                                        key={item.key}
+                                        id={item.key}
+                                        textValue={item.name}
+                                    >
+                                        {item.name}
+                                    </Dropdown.Item>
                                 )}
                             </Dropdown.Menu>
                         </Dropdown>
@@ -91,7 +88,7 @@ const Content: FC = () => {
                     <Grid xs={6} justify="flex-end">
                         <Switch
                             initialChecked={vtParam.isGrid ? true : false}
-                            onChange={onChangeVt}
+                            onValueChange={onChangeVt}
                             squared
                             animated={false}
                             size="xl"
@@ -128,7 +125,7 @@ const Content: FC = () => {
                     size="lg"
                     onChange={(n) => setPage(n.toString())}
                     total={items?.meta.totalPages}
-                    initialPage={items?.meta.currentPage || +selectPage || 1}
+                    page={items?.meta.currentPage || +selectPage || 1}
                 />
             </div>
         </section>

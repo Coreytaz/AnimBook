@@ -1,6 +1,6 @@
 import { catergoriesApi, CatergoriesCard, SkeletonCategoriesCard } from '@/entities/catergories'
 import { Skeleton } from '@/shared/ui'
-import { Container, Grid, Text } from '@nextui-org/react'
+import { Container, Grid, Text } from '@/shared/ui-kit'
 import { useParams } from 'next/navigation'
 import Content from '../content'
 import Sidebar from '../sidebar'
@@ -11,7 +11,7 @@ export default function SubCatergories() {
         data: items,
         isLoading,
         isError,
-    } = catergoriesApi.useGetSubCatergoriesQuery(params?.slug.toString()!)
+    } = catergoriesApi.useGetSubCatergoriesQuery(params?.slug?.toString()!)
 
     if (isLoading) {
         return (

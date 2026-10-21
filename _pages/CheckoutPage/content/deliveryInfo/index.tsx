@@ -1,5 +1,5 @@
 import { BaseSelectField, BaseTextField } from '@/shared/ui/Form'
-import { Button, Card, Row } from '@nextui-org/react'
+import { Button, Card, Row } from '@/shared/ui-kit'
 import { MapPin } from 'lucide-react'
 import { FC } from 'react'
 import { FormProvider, UseFormReturn } from 'react-hook-form'

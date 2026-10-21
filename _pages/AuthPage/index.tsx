@@ -1,6 +1,6 @@
 'use client'
 
-import { Card, Container } from '@nextui-org/react'
+import { Card, Container } from '@/shared/ui-kit'
 import { FC, useCallback, useState } from 'react'
 import SignInForm, { SignInFormProps } from './form/sign-in/ui'
 import SignUpForm, { SignUpFormProps } from './form/sign-up/ui'

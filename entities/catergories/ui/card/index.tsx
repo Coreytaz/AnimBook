@@ -1,5 +1,5 @@
 import { CatergoriesListProps } from '@/shared/api'
-import { Card, Col, Text } from '@nextui-org/react'
+import { Card, Col, Text } from '@/shared/ui-kit'
 import { useRouter } from 'next/navigation'
 import { FC } from 'react'
 
@@ -8,7 +8,7 @@ interface CatergoriesCardProps extends CatergoriesListProps {}
 export const CatergoriesCard: FC<CatergoriesCardProps> = ({ name, description, img, slug }) => {
     const router = useRouter()
 
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
         e.preventDefault()
         router.push(`/catalog/${slug}`)
     }

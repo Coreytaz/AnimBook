@@ -1,6 +1,5 @@
-import dynamic from 'next/dynamic'
+import CatalogPage from './client'
 
-const CatalogPage = dynamic(() => import('@/_pages/CatalogPage'), { ssr: false })
 
 export default function Catalog() {
     return <CatalogPage />

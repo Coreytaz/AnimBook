@@ -49,7 +49,7 @@ export function useDebounce<Fn extends (...args: any[]) => any>(fn: Fn, ms: numb
             debounce((...args: Parameters<Fn>) => {
                 memoizedFn(...args)
             }, ms),
-        [ms]
+        [ms, memoizedFn]
     )
 
     useEffect(

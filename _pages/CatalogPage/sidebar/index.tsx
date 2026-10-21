@@ -10,14 +10,14 @@ import {
     Input,
     Loading,
     Row,
-} from '@nextui-org/react'
+} from '@/shared/ui-kit'
 import { useParams, usePathname } from 'next/navigation'
 import { FC } from 'react'
 import * as catalogParams from '../params'
 
 const Sidebar: FC = () => {
     const params = useParams()
-    const { data, isLoading, isError } = filtersApi.useGetFiltersQuery(params?.slug.toString()!)
+    const { data, isLoading, isError } = filtersApi.useGetFiltersQuery(params?.slug?.toString()!)
     const pathname = usePathname()
 
     const onReset = () => {
@@ -75,6 +75,7 @@ const PriceSection: FC<{ lowPriceAndMax: { max: number; min: number } }> = ({ lo
                         }}
                         onBlur={(e) => onChangeBlurInput(e, setFrom)}
                         value={from}
+                        onClear={() => setFrom('')}
                         onChange={(e) => setFrom(e.target.value)}
                         placeholder={`От ${lowPriceAndMax.min}`}
                         min={lowPriceAndMax.min}
@@ -94,6 +95,7 @@ const PriceSection: FC<{ lowPriceAndMax: { max: number; min: number } }> = ({ lo
                             },
                         }}
                         value={to}
+                        onClear={() => setTo('')}
                         onChange={(e) => setTo(e.target.value)}
                         onBlur={(e) => onChangeBlurInput(e, setTo)}
                         placeholder={`До ${lowPriceAndMax.max}`}

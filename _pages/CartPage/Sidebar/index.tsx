@@ -1,6 +1,6 @@
 import { useOrder } from '@/entities/cart'
 import { toRub } from '@/shared'
-import { Button, Card, Text } from '@nextui-org/react'
+import { Button, Card, Text } from '@/shared/ui-kit'
 import { usePathname, useRouter } from 'next/navigation'
 import React from 'react'
 

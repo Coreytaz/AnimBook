@@ -1,5 +1,5 @@
 import { DescriptionList } from '@/shared/api'
-import { Table, Text } from '@nextui-org/react'
+import { Table, Text } from '@/shared/ui-kit'
 import { useParams, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import { descriptionApi } from '../api'
@@ -15,7 +15,7 @@ export default function Description() {
 
     useEffect(() => {
         if (tabs === 'characteristics') {
-            trigger(params?.slug.toString()!)
+            trigger(params?.slug?.toString()!)
         }
     }, [params?.slug, tabs, trigger])
 
@@ -54,7 +54,12 @@ export default function Description() {
         >
             <Table.Header columns={columns}>
                 {(column) => (
-                    <Table.Column key={column.key} css={{ fontSize: '$2xl' }}>
+                    <Table.Column
+                        id={column.key}
+                        isRowHeader={column.key === 'name'}
+                        key={column.key}
+                        className="text-2xl"
+                    >
                         {column.label}
                     </Table.Column>
                 )}
@@ -62,15 +67,13 @@ export default function Description() {
             <Table.Body items={items?.descriptionList || []}>
                 {(item: DescriptionList) => (
                     <Table.Row
+                        columns={columns}
                         key={item.id}
-                        css={{
-                            '&:nth-child(even)': {
-                                background: '$gray100',
-                            },
-                        }}
+                        id={item.id}
+                        className="even:bg-default-100"
                     >
-                        {(columnKey) => (
-                            <Table.Cell key={item.id}>{renderCell(item, columnKey)}</Table.Cell>
+                        {(column) => (
+                            <Table.Cell key={column.key}>{renderCell(item, column.key)}</Table.Cell>
                         )}
                     </Table.Row>
                 )}

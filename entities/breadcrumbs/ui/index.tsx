@@ -1,5 +1,5 @@
 import { IBreadcrumbsLocationState } from '@/shared/api'
-import { Container, Text } from '@nextui-org/react'
+import { Container, Text } from '@/shared/ui-kit'
 import { ChevronRight, Home } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'

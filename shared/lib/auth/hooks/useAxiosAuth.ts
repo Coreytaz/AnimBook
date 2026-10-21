@@ -25,8 +25,9 @@ export const useAxiosAuth = () => {
                 const prevRequest = error?.config
                 if (error?.response?.status === 401 && !prevRequest?.sent) {
                     prevRequest.sent = true
-                    await refreshToken()
-                    prevRequest.headers['Authorization'] = `Bearer ${session?.user!.token}`
+                    const token = await refreshToken()
+                    if (!token) return Promise.reject(error)
+                    prevRequest.headers['Authorization'] = `Bearer ${token}`
                     return api(prevRequest)
                 }
                 return Promise.reject(error)

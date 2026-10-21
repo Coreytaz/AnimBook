@@ -2,9 +2,9 @@
 import { useTheme } from '@/shared'
 import { Footer } from '@/widgets/footer'
 import { Header } from '@/widgets/header'
-import { Container, Spacer } from '@nextui-org/react'
+import { Container, Spacer } from '@/shared/ui-kit'
 import { ToastContainer } from 'react-toastify'
-import './globals.scss'
+import './globals.css'
 import 'react-toastify/dist/ReactToastify.css'
 import Providers from './providers'
 

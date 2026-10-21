@@ -1,6 +1,6 @@
 'use client'
 import NavBreadcrumbs from '@/entities/breadcrumbs/ui'
-import { Container, Spacer } from '@nextui-org/react'
+import { Container, Spacer } from '@/shared/ui-kit'
 import { FC } from 'react'
 import DetailedProductInfo from './description'
 import ProductContainer from './product'

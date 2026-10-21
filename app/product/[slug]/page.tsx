@@ -1,6 +1,5 @@
-import dynamic from 'next/dynamic'
+import ProductPage from './client'
 
-const ProductPage = dynamic(() => import('@/_pages/ProductPage'), { ssr: false })
 
 export default function ProductSlug() {
     return <ProductPage />

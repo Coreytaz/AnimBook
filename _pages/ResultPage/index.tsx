@@ -1,7 +1,7 @@
 'use client'
 import { useActionCart } from '@/entities/cart'
 import { Skeleton } from '@/shared/ui'
-import { Button, Container, Row, Spacer, Text } from '@nextui-org/react'
+import { Button, Container, Row, Spacer, Text } from '@/shared/ui-kit'
 import { CheckCircle, XCircle } from 'lucide-react'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
@@ -17,7 +17,7 @@ const ResultPage: FC = () => {
         isLoading,
         isError,
         isSuccess,
-    } = orderApi.useGetOrderStatusQuery(params?.orderId.toString()!)
+    } = orderApi.useGetOrderStatusQuery(params?.orderId?.toString()!)
 
     useEffect(() => {
         if (items?.status === 'succeeded' && isSuccess) {
@@ -31,7 +31,7 @@ const ResultPage: FC = () => {
                 <Spacer y={5} />
                 <Row align="center" css={{ fd: 'column' }}>
                     <XCircle size={72} />
-                    <Text h4>Заказ №{params?.orderId.toString()}</Text>
+                    <Text h4>Заказ №{params?.orderId?.toString()}</Text>
                     <Text h3>Не удалось найти!</Text>
                 </Row>
                 <Spacer y={1} />

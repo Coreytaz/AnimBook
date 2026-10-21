@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
-import dynamic from 'next/dynamic'
+import CartPage from './client'
 
-const CartPage = dynamic(() => import('@/_pages/CartPage'), { ssr: false })
 
 export const metadata: Metadata = {
     title: 'Корзина',

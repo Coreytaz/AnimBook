@@ -1,5 +1,5 @@
 import { Skeleton } from '@/shared/ui'
-import { Card, Grid, Spacer } from '@nextui-org/react'
+import { Card, Grid, Spacer } from '@/shared/ui-kit'
 import { FC } from 'react'
 import styles from './styles.module.scss'
 
@@ -15,7 +15,7 @@ export const ProductCardSkeleton: FC = () => {
                                 style={{
                                     width: '100%',
                                     height: '450px',
-                                    backgroundColor: 'var(--nextui-colors-gray100)',
+                                    backgroundColor: 'var(--animbook-colors-gray100)',
                                 }}
                             />
                         </Card>
@@ -26,7 +26,7 @@ export const ProductCardSkeleton: FC = () => {
                                     style={{
                                         width: '100%',
                                         height: '100px',
-                                        backgroundColor: 'var(--nextui-colors-gray100)',
+                                        backgroundColor: 'var(--animbook-colors-gray100)',
                                     }}
                                 />
                             ))}
@@ -39,7 +39,7 @@ export const ProductCardSkeleton: FC = () => {
                                     style={{
                                         width: '50%',
                                         height: '41px',
-                                        backgroundColor: 'var(--nextui-colors-gray100)',
+                                        backgroundColor: 'var(--animbook-colors-gray100)',
                                     }}
                                 />
                             </div>
@@ -49,14 +49,14 @@ export const ProductCardSkeleton: FC = () => {
                                         width: '100%',
                                         height: '100px',
                                         marginBottom: '24px',
-                                        backgroundColor: 'var(--nextui-colors-gray100)',
+                                        backgroundColor: 'var(--animbook-colors-gray100)',
                                     }}
                                 />
                                 <Skeleton
                                     style={{
                                         width: '50%',
                                         height: '42px',
-                                        backgroundColor: 'var(--nextui-colors-gray100)',
+                                        backgroundColor: 'var(--animbook-colors-gray100)',
                                     }}
                                 />
                             </div>
@@ -65,14 +65,14 @@ export const ProductCardSkeleton: FC = () => {
                                     style={{
                                         width: '20%',
                                         height: '40px',
-                                        backgroundColor: 'var(--nextui-colors-gray100)',
+                                        backgroundColor: 'var(--animbook-colors-gray100)',
                                     }}
                                 />
                                 <Skeleton
                                     style={{
                                         width: '20%',
                                         height: '40px',
-                                        backgroundColor: 'var(--nextui-colors-gray100)',
+                                        backgroundColor: 'var(--animbook-colors-gray100)',
                                     }}
                                 />
                             </div>
@@ -84,7 +84,7 @@ export const ProductCardSkeleton: FC = () => {
                                                 width: '30%',
                                                 height: '20px',
                                                 marginBottom: '10px',
-                                                backgroundColor: 'var(--nextui-colors-gray100)',
+                                                backgroundColor: 'var(--animbook-colors-gray100)',
                                             }}
                                         />
                                     </div>

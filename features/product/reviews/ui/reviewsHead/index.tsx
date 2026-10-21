@@ -1,5 +1,5 @@
 import { StarRating } from '@/entities/StarRating'
-import { Grid, Button, Tooltip, Badge, Spacer, Row, Checkbox, Text } from '@nextui-org/react'
+import { Grid, Button, Tooltip, Badge, Spacer, Row, Checkbox, Text } from '@/shared/ui-kit'
 import { signIn, useSession } from 'next-auth/react'
 import { useState, FC, Dispatch, SetStateAction } from 'react'
 import ReviewModal from '../modal'

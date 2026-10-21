@@ -18,14 +18,14 @@ export const SkeletonDescription: FC = () => {
                         style={{
                             width: '50%',
                             height: '20px',
-                            backgroundColor: 'var(--nextui-colors-gray100)',
+                            backgroundColor: 'var(--animbook-colors-gray100)',
                         }}
                     />
                     <Skeleton
                         style={{
                             width: '50%',
                             height: '20px',
-                            backgroundColor: 'var(--nextui-colors-gray100)',
+                            backgroundColor: 'var(--animbook-colors-gray100)',
                         }}
                     />
                 </div>

@@ -1,7 +1,7 @@
 import { StarRating } from '@/entities/StarRating'
 import { ReviewsProps } from '@/shared/api'
 import { formatTime } from '@/shared/helpers'
-import { Grid, Badge, Text, Avatar } from '@nextui-org/react'
+import { Grid, Badge, Text, Avatar } from '@/shared/ui-kit'
 import { CalendarDays } from 'lucide-react'
 import { FC } from 'react'
 import styles from './styles.module.scss'

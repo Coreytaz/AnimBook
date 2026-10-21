@@ -3,7 +3,7 @@ import { Cart } from '@/features/cart'
 import { Fav } from '@/features/fav'
 import { ViewedProduct } from '@/features/viewedProduct'
 import { useScrollVertical } from '@/shared/helpers'
-import { Button, Card, Col, Container, Grid, Text } from '@nextui-org/react'
+import { Button, Card, Col, Container, Grid, Text } from '@/shared/ui-kit'
 
 export default function ViewProduct() {
     const { data: products, isLoading } = useGetViewProductsQuery()
@@ -43,7 +43,7 @@ export default function ViewProduct() {
                                               style={{
                                                   width: '100%',
                                                   height: '430px',
-                                                  backgroundColor: 'var(--nextui-colors-gray100)',
+                                                  backgroundColor: 'var(--animbook-colors-gray100)',
                                               }}
                                           />
                                       </Col>

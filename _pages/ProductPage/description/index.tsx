@@ -1,5 +1,5 @@
 import { Product } from '@/features/product'
-import { Grid, Collapse, Text } from '@nextui-org/react'
+import { Grid, Collapse, Text } from '@/shared/ui-kit'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { FC, useEffect, useRef } from 'react'
 
@@ -56,6 +56,7 @@ const DetailedProductInfo: FC = () => {
                     </Collapse>
                     <Collapse
                         title="Отзывы"
+                        index={2}
                         expanded={tabs === 'opinion'}
                         onChange={(_, i, value) => onChangeCollapse(i, value)}
                     >

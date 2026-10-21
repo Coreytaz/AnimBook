@@ -1,7 +1,7 @@
 import { CartSkeleton, useActionOrder, useOrder } from '@/entities/cart'
 import { ProductRowCard } from '@/entities/product'
 import { Cart } from '@/features/cart'
-import { Button, Card, Grid, Text } from '@nextui-org/react'
+import { Button, Card, Grid, Text } from '@/shared/ui-kit'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 

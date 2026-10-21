@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from 'react'
 import cn from 'clsx'
 import styles from './styles.module.scss'
-import { Link } from '@nextui-org/react'
+import { Link } from '@/shared/ui-kit'
 
 interface AnchorLinkProps {
     href: string

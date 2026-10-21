@@ -1,4 +1,4 @@
-import { Badge, Navbar, Text } from '@nextui-org/react'
+import { Badge, Navbar, Text } from '@/shared/ui-kit'
 import { usePathname } from 'next/navigation'
 import { FC } from 'react'
 import Search from './search'
@@ -88,13 +88,13 @@ const Header: FC<HeaderProps> = () => {
                         key={label}
                         as={Link}
                         isActive={new RegExp(`\\b${url}\\b`).test(pathname!)}
-                        href={url}
+                        href={`/${url}`}
                         css={{ d: 'flex', fd: 'column', jc: 'center' }}
                     >
                         <Badge
                             content={count[id]}
                             isInvisible={count[id] === 0}
-                            css={{ display: count[id] === 0 ? 'none' : 'flex' }}
+
                             color="primary"
                         >
                             <Icon />
@@ -110,12 +110,8 @@ const Header: FC<HeaderProps> = () => {
             </Navbar.Content>
             <Navbar.Collapse showIn="sm" css={{ pt: '$10' }}>
                 {actions.map(({ id, label, Icon, url }) => (
-                    <Navbar.CollapseItem key={label} as={Link} href={url} css={{ gap: '$5' }}>
-                        <Badge
-                            content={null || count[id]}
-                            isInvisible={count[id] === 0}
-                            color="primary"
-                        >
+                    <Navbar.CollapseItem key={label} as={Link} href={`/${url}`} css={{ gap: '$5' }}>
+                        <Badge content={count[id]} isInvisible={count[id] === 0} color="primary">
                             <Icon />
                         </Badge>
                         {label}

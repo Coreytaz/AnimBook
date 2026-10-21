@@ -1,7 +1,7 @@
 import { useActionOrder, useOrder, useTotalCart } from '@/entities/cart'
 import { ProductGridCard } from '@/entities/product'
 import { toRub, useScrollVertical } from '@/shared/helpers'
-import { Card, Button, Text, Col } from '@nextui-org/react'
+import { Card, Button, Text, Col } from '@/shared/ui-kit'
 import router from 'next/router'
 import React, { useEffect } from 'react'
 import { Section } from '../section'

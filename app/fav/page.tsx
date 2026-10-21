@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
-import dynamic from 'next/dynamic'
+import FavPage from './client'
 
-const FavPage = dynamic(() => import('@/_pages/FavPage'), { ssr: false })
 
 export const metadata: Metadata = {
     title: 'Избранное',

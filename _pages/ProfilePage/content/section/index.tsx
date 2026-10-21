@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import cn from 'clsx'
-import { Badge, Card, Col, Row, Text } from '@nextui-org/react'
+import { Badge, Card, Col, Row, Text } from '@/shared/ui-kit'
 import styles from './styles.module.scss'
 import { Check } from 'lucide-react'
 import { useScrollVertical } from '@/shared/helpers'

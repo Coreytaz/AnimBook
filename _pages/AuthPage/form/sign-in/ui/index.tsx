@@ -1,5 +1,5 @@
 import { BaseTextField, BaseTextFieldPassword } from '@/shared/ui/Form'
-import { Card, Input, Button, Text, Loading } from '@nextui-org/react'
+import { Card, Input, Button, Text, Loading } from '@/shared/ui-kit'
 import { Mail, Lock } from 'lucide-react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'

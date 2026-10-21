@@ -1,9 +1,6 @@
 import { Metadata } from 'next'
-import dynamic from 'next/dynamic'
+import IndexPage from './client'
 
-const IndexPage = dynamic(() => import('@/_pages/IndexPage'), {
-    ssr: false,
-})
 
 export const metadata: Metadata = {
     title: 'AnimBook',

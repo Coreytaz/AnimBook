@@ -1,5 +1,5 @@
 'use client'
-import { Col, Container, Row } from '@nextui-org/react'
+import { Col, Container, Row } from '@/shared/ui-kit'
 import { FC } from 'react'
 import Content from './Content'
 import Sidebar from './Sidebar'

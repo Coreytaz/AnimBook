@@ -1,6 +1,6 @@
 import { StarRatingProps } from '@/entities/StarRating'
-import { InputPasswordProps, InputProps } from '@nextui-org/react'
-import { TextareaProps } from '@nextui-org/react/types/textarea'
+import { InputPasswordProps, InputProps } from '@/shared/ui-kit'
+import { TextareaProps } from '@/shared/ui-kit'
 import { Merge, UseControllerProps } from 'react-hook-form'
 import { GroupBase } from 'react-select'
 import { AsyncProps } from 'react-select/async'
@@ -34,7 +34,7 @@ export type CommonTextFieldProps = Merge<
 >
 export type CommonTextAreaFileldProps = Merge<
     TextareaProps,
-    CommonFieldProps & { onChange?: InputProps['onChange'] }
+    CommonFieldProps & { onChange?: TextareaProps['onChange'] }
 >
 
 export type CommonRatingFieldProps = Merge<

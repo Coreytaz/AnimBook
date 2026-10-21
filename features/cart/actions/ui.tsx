@@ -1,7 +1,6 @@
 import { useActionCart, useProductCount, useProductStatus } from '@/entities/cart'
-import { Button, Modal, useModal, Text } from '@nextui-org/react'
+import { Button, Modal, useModal } from '@/shared/ui-kit'
 import { ShoppingCart } from 'lucide-react'
-import { useEffect } from 'react'
 
 type Props = {
     productId: string
@@ -51,12 +50,6 @@ export const DeleteProduct = (props: Props) => {
     const { disabled } = props
     const { visible, setVisible, bindings } = useModal()
 
-    useEffect(() => {
-        return () => {
-            window.document.body.style.overflow = ''
-        }
-    }, [])
-
     return (
         <>
             <Button
@@ -70,12 +63,14 @@ export const DeleteProduct = (props: Props) => {
             </Button>
             <Modal
                 closeButton
-                aria-labelledby="modal-title"
+                aria-labelledby={`remove-cart-${props.productId}`}
                 open={visible}
                 onClose={bindings.onClose}
             >
                 <Modal.Header>
-                    <Text h4>Вы точно хотите удалить товар из корзины?</Text>
+                    <Modal.Heading id={`remove-cart-${props.productId}`}>
+                        Вы точно хотите удалить товар из корзины?
+                    </Modal.Heading>
                 </Modal.Header>
                 <Modal.Footer>
                     <Button

@@ -1,5 +1,5 @@
 import { catergoriesApi, CatergoriesCard, SkeletonCategoriesCard } from '@/entities/catergories'
-import { Container, Grid, Text } from '@nextui-org/react'
+import { Container, Grid, Text } from '@/shared/ui-kit'
 
 export default function Catergories() {
     const { data: items, isLoading, isError } = catergoriesApi.useGetCatergoriesQuery('')

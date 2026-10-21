@@ -1,5 +1,5 @@
 'use client'
-import { Container, Spacer } from '@nextui-org/react'
+import { Container, Spacer } from '@/shared/ui-kit'
 import { FC } from 'react'
 import { useSelector } from 'react-redux'
 import Authors from './sections/authors'

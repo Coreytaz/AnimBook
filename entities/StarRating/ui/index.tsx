@@ -1,4 +1,4 @@
-import { Tooltip } from '@nextui-org/react'
+import { Tooltip } from '@/shared/ui-kit'
 import React, { useState, createContext, FC } from 'react'
 import StarsList from './StarsList'
 

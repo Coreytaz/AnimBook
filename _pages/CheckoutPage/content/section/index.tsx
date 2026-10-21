@@ -1,5 +1,5 @@
 import { Skeleton } from '@/shared/ui'
-import { Card, CardProps, Text } from '@nextui-org/react'
+import { Card, CardProps, Text } from '@/shared/ui-kit'
 import { FC, forwardRef, ReactNode } from 'react'
 
 export const Section = forwardRef<

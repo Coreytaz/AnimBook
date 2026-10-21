@@ -1,4 +1,4 @@
-import { Loading, styled } from '@nextui-org/react'
+import { Loading, styled } from '@/shared/ui-kit'
 import { Search as SearchSVG } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { FC } from 'react'
@@ -43,18 +43,18 @@ const Search: FC = () => {
             styles={{
                 container: (defaultStyles) => ({
                     ...defaultStyles,
-                    width: 'var(--nextui-space-full)',
+                    width: 'var(--animbook-space-full)',
                 }),
                 indicatorsContainer: (base, props) => ({
                     display: 'none',
                 }),
                 placeholder: (defaultStyles) => ({
                     ...defaultStyles,
-                    color: 'var(--nextui-colors-text)',
+                    color: 'var(--animbook-colors-text)',
                 }),
                 input: (defaultStyles) => ({
                     ...defaultStyles,
-                    color: 'var(--nextui-colors-text)',
+                    color: 'var(--animbook-colors-text)',
                 }),
                 control: (defaultStyles) => ({
                     ...defaultStyles,
@@ -62,25 +62,25 @@ const Search: FC = () => {
                     borderRadius: 'none',
                     border: 'none',
                     borderBottom:
-                        'var(--nextui-borderWeights-normal) solid var(--nextui--navbarBorderColor)',
+                        'var(--animbook-border-width) solid var(--animbook-navbar-border)',
                 }),
                 singleValue: (defaultStyles) => ({
                     ...defaultStyles,
-                    color: 'var(--nextui-colors-text)',
+                    color: 'var(--animbook-colors-text)',
                 }),
                 menu: (defaultStyles) => ({
                     ...defaultStyles,
-                    backgroundColor: 'var(--nextui-colors-gray50)',
+                    backgroundColor: 'var(--animbook-colors-gray50)',
                     borderRadius: '12px',
-                    border: 'var(--nextui--navbarBorderWeight) solid var(--nextui--navbarBorderColor)',
+                    border: 'var(--animbook-navbar-border-width) solid var(--animbook-navbar-border)',
                     overflow: 'hidden',
                 }),
                 option: (defaultStyles, state) => ({
                     ...defaultStyles,
-                    color: state.isSelected ? 'var(--nextui-colors-primary)' : '',
-                    backgroundColor: state.isSelected ? 'var(--nextui-colors-gray200)' : '',
+                    color: state.isSelected ? 'var(--animbook-colors-primary)' : '',
+                    backgroundColor: state.isSelected ? 'var(--animbook-colors-gray200)' : '',
                     '&:hover': {
-                        backgroundColor: 'var(--nextui-colors-gray100)',
+                        backgroundColor: 'var(--animbook-colors-gray100)',
                     },
                 }),
             }}

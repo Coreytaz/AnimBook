@@ -1,12 +1,12 @@
 import { isEqual } from '@/shared/helpers'
 import { useAxiosAuth } from '@/shared/lib/auth'
 import { BaseTextField } from '@/shared/ui/Form'
-import { Avatar, Button, Card, Loading, Spacer } from '@nextui-org/react'
+import { Avatar, Button, Card, Loading, Spacer } from '@/shared/ui-kit'
 import { AxiosError } from 'axios'
 import { User } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useEffect, useMemo, useState, useCallback } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, useForm, useWatch } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { routes } from './api'
 import { mapFormDataToApiData, UpdateUserFormValues } from './model'
@@ -24,7 +24,7 @@ const Aside = () => {
             return mapSession
         }, [mapSession]),
     })
-    const getValues = form.watch()
+    const getValues = useWatch({ control: form.control })
 
     useEffect(() => {
         form.reset(mapSession)

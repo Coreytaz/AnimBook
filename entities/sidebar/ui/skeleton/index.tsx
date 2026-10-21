@@ -1,5 +1,5 @@
 import { Skeleton } from '@/shared/ui'
-import { Card, Spacer } from '@nextui-org/react'
+import { Card, Spacer } from '@/shared/ui-kit'
 import { FC } from 'react'
 
 export const SidebarSkeleton: FC = () => {
@@ -11,7 +11,7 @@ export const SidebarSkeleton: FC = () => {
                         style={{
                             width: '100%',
                             height: '76px',
-                            backgroundColor: 'var(--nextui-colors-gray100)',
+                            backgroundColor: 'var(--animbook-colors-gray100)',
                         }}
                     />
                     <Spacer y={1} />
@@ -22,7 +22,7 @@ export const SidebarSkeleton: FC = () => {
                     margin: '0 auto',
                     width: '50%',
                     height: '50px',
-                    backgroundColor: 'var(--nextui-colors-gray100)',
+                    backgroundColor: 'var(--animbook-colors-gray100)',
                 }}
             />
         </Card>

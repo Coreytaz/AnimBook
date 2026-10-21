@@ -1,6 +1,6 @@
 import { BaseTextAreaFileld } from '@/shared/ui/Form'
 import { BaseRatingField } from '@/shared/ui/Form/fields/ui/BaseRatingField'
-import { Modal, Button, Text } from '@nextui-org/react'
+import { Modal, Button } from '@/shared/ui-kit'
 import { AxiosError } from 'axios'
 import { useSession } from 'next-auth/react'
 import { useParams } from 'next/navigation'
@@ -40,14 +40,14 @@ const ReviewModal: FC<{
                     discription: payload.discription,
                     rating: payload.rating,
                     userId,
-                    slug: params?.slug.toString()!,
+                    slug: params?.slug?.toString()!,
                 }).unwrap()
                 form.reset()
             } catch (error: any) {
                 toast.error(error.data.message)
             }
         },
-        [createReview, form, params?.slug, userId]
+        [createReview, form, params, userId]
     )
 
     return (
@@ -60,9 +60,7 @@ const ReviewModal: FC<{
             onClose={closeHandler}
         >
             <Modal.Header css={{ display: 'block' }}>
-                <Text id="modal-title" size={18}>
-                    Мой отзыв
-                </Text>
+                <Modal.Heading id="modal-title">Мой отзыв</Modal.Heading>
             </Modal.Header>
             <Modal.Body css={{ d: 'flex', fd: 'column', gap: '$5', pb: '$10' }}>
                 <FormProvider {...form}>

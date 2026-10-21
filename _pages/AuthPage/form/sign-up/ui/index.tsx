@@ -1,5 +1,5 @@
 import { BaseTextField, BaseTextFieldPassword } from '@/shared/ui/Form'
-import { Card, Button, Text, Loading } from '@nextui-org/react'
+import { Card, Button, Text, Loading } from '@/shared/ui-kit'
 import { AxiosError } from 'axios'
 import { Mail, Lock, Phone, Eye, EyeOff } from 'lucide-react'
 import React, { FC, useCallback, useState } from 'react'

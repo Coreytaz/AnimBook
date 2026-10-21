@@ -3,7 +3,7 @@ import { Section } from './section'
 import { TOPIC_DELIVERY, TOPIC_BUY } from '@/widgets/header'
 import { deliveriedApi, deliveriesApi } from './section/api'
 import { useSession } from 'next-auth/react'
-import { Loading } from '@nextui-org/react'
+import { Loading } from '@/shared/ui-kit'
 import { Skeleton } from '@/shared/ui'
 
 const Content = () => {

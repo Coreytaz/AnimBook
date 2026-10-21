@@ -1,4 +1,3 @@
-import { getDocumentTheme } from '@nextui-org/react'
 import React, { useEffect, useState } from 'react'
 
 const useTheme = (): {
@@ -12,14 +11,14 @@ const useTheme = (): {
         setIsDark(theme === 'dark')
 
         const observer = new MutationObserver((mutation) => {
-            let newTheme = getDocumentTheme(document?.documentElement)
+            let newTheme = document.documentElement.dataset.theme
             setIsDark(newTheme === 'dark')
         })
 
         // Observe the document theme changes
         observer.observe(document?.documentElement, {
             attributes: true,
-            attributeFilter: ['data-theme', 'style'],
+            attributeFilter: ['data-theme', 'class'],
         })
 
         return () => observer.disconnect()

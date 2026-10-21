@@ -1,5 +1,5 @@
 import { Skeleton } from '@/shared/ui'
-import { Grid, Row, Spacer } from '@nextui-org/react'
+import { Grid, Row, Spacer } from '@/shared/ui-kit'
 import { FC } from 'react'
 
 export const SkeletonReviews: FC = () => {
@@ -11,14 +11,14 @@ export const SkeletonReviews: FC = () => {
                         style={{
                             width: '40%',
                             height: '40px',
-                            backgroundColor: 'var(--nextui-colors-gray100)',
+                            backgroundColor: 'var(--animbook-colors-gray100)',
                         }}
                     />
                     <Skeleton
                         style={{
                             width: '50%',
                             height: '48px',
-                            backgroundColor: 'var(--nextui-colors-gray100)',
+                            backgroundColor: 'var(--animbook-colors-gray100)',
                         }}
                     />
                 </Grid>
@@ -33,14 +33,14 @@ export const SkeletonReviews: FC = () => {
                         style={{
                             width: '10%',
                             height: '40px',
-                            backgroundColor: 'var(--nextui-colors-gray100)',
+                            backgroundColor: 'var(--animbook-colors-gray100)',
                         }}
                     />
                     <Skeleton
                         style={{
                             width: '10%',
                             height: '40px',
-                            backgroundColor: 'var(--nextui-colors-gray100)',
+                            backgroundColor: 'var(--animbook-colors-gray100)',
                         }}
                     />
                 </Row>
@@ -52,7 +52,7 @@ export const SkeletonReviews: FC = () => {
                                     style={{
                                         width: `${100 + (20 * i + 1)}px`,
                                         height: '48px',
-                                        backgroundColor: 'var(--nextui-colors-gray100)',
+                                        backgroundColor: 'var(--animbook-colors-gray100)',
                                     }}
                                 />
                             </Grid>
@@ -85,7 +85,7 @@ export const SkeletonReviews: FC = () => {
                                     style={{
                                         width: '100%',
                                         height: '120px',
-                                        backgroundColor: 'var(--nextui-colors-gray100)',
+                                        backgroundColor: 'var(--animbook-colors-gray100)',
                                     }}
                                 />
                             </div>
