@@ -7,14 +7,14 @@ import React, { useEffect } from 'react'
 
 const Content = () => {
     const { getOrderProduct } = useActionOrder()
-    const { products, cartOrder } = useOrder()
+    const { products, cartOrder, productIdsKey } = useOrder()
     const router = useRouter()
 
     useEffect(() => {
         getOrderProduct()
-    }, [cartOrder, getOrderProduct])
+    }, [productIdsKey, getOrderProduct])
 
-    if (products.status === 'loading') {
+    if (products.status === 'loading' && !products.orderProduct.length && cartOrder.cartId.length) {
         return <CartSkeleton />
     }
 

@@ -1,36 +1,20 @@
 'use client'
-import { Container, Grid, Text } from '@/shared/ui-kit'
-import { FC } from 'react'
 import Aside from './aside'
 import Content from './content'
-import Sidebar from './sidebar'
+import styles from './styles.module.css'
 
-const ProfilePage: FC = () => {
+export default function ProfilePage() {
     return (
-        <Container lg>
-            <Text
-                h2
-                css={{
-                    textGradient: '45deg, $blue600 10%, $pink600 100%',
-                    mb: '$10',
-                }}
-                weight="bold"
-            >
-                Профиль
-            </Text>
-            <Grid.Container gap={2} justify="center">
-                <Grid>
-                    <Aside />
-                </Grid>
-                <Grid xs={7}>
-                    <Content />
-                </Grid>
-                <Grid>
-                    <Sidebar />
-                </Grid>
-            </Grid.Container>
-        </Container>
+        <main className={styles.page}>
+            <header className={styles.header}>
+                <span className={styles.eyebrow}>Ваш личный кабинет</span>
+                <h1>Профиль</h1>
+                <p>Личные данные и ваши книжные истории — всё в одном месте.</p>
+            </header>
+            <div className={styles.layout}>
+                <Aside />
+                <Content />
+            </div>
+        </main>
     )
 }
-
-export default ProfilePage

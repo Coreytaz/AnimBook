@@ -1,151 +1,206 @@
-import { isEqual } from '@/shared/helpers'
 import { useAxiosAuth } from '@/shared/lib/auth'
-import { BaseTextField } from '@/shared/ui/Form'
-import { Avatar, Button, Card, Loading, Spacer } from '@/shared/ui-kit'
-import { AxiosError } from 'axios'
-import { User } from 'lucide-react'
+import {
+    Button,
+    Card,
+    FieldError,
+    InputGroup,
+    Label,
+    Spinner,
+    TextField,
+    toast,
+} from '@heroui/react'
+import { Check, Mail, MapPin, Pencil, Phone, UserRound } from 'lucide-react'
 import { useSession } from 'next-auth/react'
-import { useEffect, useMemo, useState, useCallback } from 'react'
-import { FormProvider, useForm, useWatch } from 'react-hook-form'
-import { toast } from 'react-toastify'
+import { useEffect, useMemo, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import { routes } from './api'
-import { mapFormDataToApiData, UpdateUserFormValues } from './model'
+import { UpdateUserFormValues } from './model'
+import styles from '../styles.module.css'
 
-const Aside = () => {
+const fields = [
+    {
+        name: 'username',
+        label: 'ФИО',
+        placeholder: 'Фамилия, имя и отчество',
+        type: 'text',
+        autoComplete: 'name',
+        Icon: UserRound,
+        required: true,
+    },
+    {
+        name: 'email',
+        label: 'Электронная почта',
+        placeholder: 'you@example.com',
+        type: 'email',
+        autoComplete: 'email',
+        Icon: Mail,
+        required: true,
+    },
+    {
+        name: 'phone',
+        label: 'Номер телефона',
+        placeholder: '+7 (999) 123-45-67',
+        type: 'tel',
+        autoComplete: 'tel',
+        Icon: Phone,
+        required: true,
+    },
+    {
+        name: 'address',
+        label: 'Адрес доставки',
+        placeholder: 'Город, улица, дом, квартира',
+        type: 'text',
+        autoComplete: 'street-address',
+        Icon: MapPin,
+        required: false,
+    },
+] as const
+
+export default function Aside() {
     const axiosAuth = useAxiosAuth()
-    const [isLoading, setIsLoading] = useState(false)
+    const { data: session, update } = useSession()
     const [isEdit, setIsEdit] = useState(false)
-    const [isEqualent, setIsEqualent] = useState(true)
-    const { data: session, update }: any = useSession()
-    const mapSession = useMemo(() => mapFormDataToApiData(session?.user), [session?.user])
-    const form = useForm<UpdateUserFormValues>({
-        mode: 'onBlur',
-        defaultValues: useMemo(() => {
-            return mapSession
-        }, [mapSession]),
-    })
-    const getValues = useWatch({ control: form.control })
-
-    useEffect(() => {
-        form.reset(mapSession)
-    }, [form, mapSession])
-
-    useEffect(() => {
-        if (isEqual(form.formState.defaultValues, getValues)) {
-            setIsEqualent(true)
-        } else {
-            setIsEqualent(false)
-        }
-    }, [form.formState.defaultValues, getValues])
-
-    const handleSubmit = useCallback(
-        async (payload: UpdateUserFormValues) => {
-            try {
-                setIsLoading(true)
-                await axiosAuth.patch(routes.updateUser(), payload)
-                await update({
-                    ...session,
-                    user: {
-                        ...payload,
-                    },
-                })
-            } catch (error) {
-                if (error instanceof AxiosError) {
-                    form.reset()
-                    toast.error(error.message)
-                }
-            } finally {
-                setIsEdit(false)
-                setIsLoading(false)
-            }
-        },
-        [axiosAuth, form, session, update]
+    const [error, setError] = useState('')
+    const values = useMemo(
+        () => ({
+            username: session?.user?.username ?? '',
+            email: session?.user?.email ?? '',
+            phone: session?.user?.phone ?? '',
+            address: session?.user?.address ?? '',
+        }),
+        [
+            session?.user?.username,
+            session?.user?.email,
+            session?.user?.phone,
+            session?.user?.address,
+        ]
     )
+    const form = useForm<UpdateUserFormValues>({ mode: 'onBlur', defaultValues: values })
+    const { isDirty, isSubmitting } = form.formState
+
+    useEffect(() => {
+        form.reset(values)
+    }, [form, values])
+
+    const submit = async (payload: UpdateUserFormValues) => {
+        setError('')
+        try {
+            await axiosAuth.patch(routes.updateUser(), payload)
+            await update({ ...session, user: { ...session?.user, ...payload } })
+            form.reset(payload)
+            setIsEdit(false)
+            toast.success('Личные данные сохранены')
+        } catch {
+            setError('Не удалось сохранить данные. Попробуйте ещё раз.')
+        }
+    }
 
     return (
-        <Card
-            css={{ mw: '400px', position: 'sticky', left: 0, top: '$24', minWidth: '300px' }}
-            variant="bordered"
-        >
-            <FormProvider {...form}>
-                <Card.Header
-                    css={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        flexDirection: 'column',
-                        gap: '$5',
-                    }}
-                >
-                    <Avatar css={{ size: '$40' }} icon={<User size={128} />} />
-                    <BaseTextField
-                        size="lg"
-                        underlined
-                        color="primary"
-                        name="username"
-                        placeholder="ФИО"
-                        disabled={!isEdit}
-                        css={{ width: '100%' }}
-                    />
-                </Card.Header>
-                <Card.Divider />
-                <Card.Body>
-                    <Spacer y={1} />
-                    <BaseTextField
-                        underlined
-                        labelPlaceholder="Почта"
-                        required
-                        type="email"
-                        name="email"
-                        color="primary"
-                        disabled={!isEdit}
-                    />
-                    <Spacer y={2.5} />
-                    <BaseTextField
-                        underlined
-                        labelPlaceholder="Номер телефона"
-                        required
-                        type="tel"
-                        name="phone"
-                        color="primary"
-                        disabled={!isEdit}
-                    />
-                    <Spacer y={2.5} />
-                    <BaseTextField
-                        underlined
-                        type="text"
-                        labelPlaceholder="Адрес"
-                        name="address"
-                        color="primary"
-                        disabled={!isEdit}
-                    />
-                </Card.Body>
-            </FormProvider>
-            <Card.Divider />
-            <Card.Footer css={{ display: 'flex', justifyContent: 'center', gap: '$5' }}>
-                {!isEdit ? (
-                    <Button onPress={() => setIsEdit(!isEdit)}>Редактировать</Button>
-                ) : (
-                    <>
-                        <Button
-                            auto
-                            type="submit"
-                            onClick={form.handleSubmit(handleSubmit)}
-                            disabled={isEqualent || isLoading}
-                        >
-                            {isLoading ? (
-                                <Loading color="currentColor" size="sm" />
-                            ) : (
-                                <>Сохранить</>
-                            )}
-                        </Button>
-                        <Button auto onPress={() => setIsEdit(!isEdit)} color="error">
-                            Отменить
-                        </Button>
-                    </>
+        <Card className={styles.personal}>
+            <div className={styles.identity}>
+                <span className={styles.avatar}>
+                    <UserRound size={28} aria-hidden="true" />
+                </span>
+                <div>
+                    <span className={styles.eyebrow}>Рады видеть вас</span>
+                    <h2>{values.username || 'Читатель AnimBook'}</h2>
+                    <p>Ваша личная книжная полка</p>
+                </div>
+            </div>
+            <form onSubmit={form.handleSubmit(submit)} noValidate>
+                <div className={styles.formHeading}>
+                    <h3>Личные данные</h3>
+                    <span>{isEdit ? 'Редактирование' : 'Данные покупателя'}</span>
+                </div>
+                <div className={styles.fields}>
+                    {fields.map(
+                        ({ name, label, placeholder, type, autoComplete, Icon, required }) => (
+                            <Controller
+                                key={name}
+                                name={name}
+                                control={form.control}
+                                rules={{
+                                    required: required ? 'Заполните это поле' : false,
+                                    ...(name === 'email'
+                                        ? {
+                                              pattern: {
+                                                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                                  message: 'Введите действительный адрес почты',
+                                              },
+                                          }
+                                        : {}),
+                                }}
+                                render={({ field, fieldState }) => (
+                                    <TextField
+                                        isReadOnly={!isEdit}
+                                        isDisabled={isSubmitting}
+                                        isRequired={required}
+                                        isInvalid={fieldState.invalid}
+                                        validationBehavior="aria"
+                                    >
+                                        <Label>{label}</Label>
+                                        <InputGroup fullWidth>
+                                            <InputGroup.Prefix>
+                                                <Icon size={18} aria-hidden="true" />
+                                            </InputGroup.Prefix>
+                                            <InputGroup.Input
+                                                {...field}
+                                                type={type}
+                                                placeholder={placeholder}
+                                                autoComplete={autoComplete}
+                                            />
+                                        </InputGroup>
+                                        <FieldError>{fieldState.error?.message}</FieldError>
+                                    </TextField>
+                                )}
+                            />
+                        )
+                    )}
+                </div>
+                <p className={styles.hint}>
+                    Используем эти данные для связи и доставки ваших заказов.
+                </p>
+                {error && (
+                    <p className={styles.error} role="alert">
+                        {error}
+                    </p>
                 )}
-            </Card.Footer>
+                <div className={styles.actions}>
+                    {isEdit ? (
+                        <>
+                            <Button
+                                type="submit"
+                                isDisabled={!isDirty || isSubmitting}
+                                isPending={isSubmitting}
+                            >
+                                {isSubmitting ? <Spinner size="sm" /> : <Check size={17} />}{' '}
+                                {isSubmitting ? 'Сохраняем…' : 'Сохранить изменения'}
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="secondary"
+                                isDisabled={isSubmitting}
+                                onPress={() => {
+                                    form.reset(values)
+                                    setError('')
+                                    setIsEdit(false)
+                                }}
+                            >
+                                Отмена
+                            </Button>
+                        </>
+                    ) : (
+                        <Button
+                            type="button"
+                            fullWidth
+                            variant="secondary"
+                            onPress={() => setIsEdit(true)}
+                        >
+                            <Pencil size={16} /> Редактировать данные
+                        </Button>
+                    )}
+                </div>
+            </form>
         </Card>
     )
 }
-
-export default Aside

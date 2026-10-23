@@ -5,12 +5,14 @@ import { FC } from 'react'
 import DetailedProductInfo from './description'
 import ProductContainer from './product'
 
-const ProductPage: FC = () => {
+const ProductPage: FC<{ product: import('@/entities/product/api/types').ApiProductData }> = ({
+    product,
+}) => {
     return (
         <Container lg>
-            <NavBreadcrumbs />
+            <NavBreadcrumbs currentLabel={product.name} />
             <Spacer y={1} />
-            <ProductContainer />
+            <ProductContainer product={product} />
             <Spacer y={3} />
             <DetailedProductInfo />
         </Container>

@@ -1,107 +1,95 @@
-import { BaseSelectField, BaseTextField } from '@/shared/ui/Form'
-import { Button, Card, Row } from '@/shared/ui-kit'
+import { BaseTextField } from '@/shared/ui/Form'
+import { Button, Card, Spinner } from '@heroui/react'
 import { MapPin } from 'lucide-react'
-import { FC } from 'react'
-import { FormProvider, UseFormReturn } from 'react-hook-form'
-import { toast } from 'react-toastify'
-import { OrderFormValues } from '../model'
-import { Section } from '../section'
-import { getAddres, getGeo } from './api'
-
-export interface IOption {
-    value: string
-    label: string
-    postalIndex?: string
-}
-
-export const DeliveryInfo: FC<{ methods: UseFormReturn<OrderFormValues, any> }> = ({ methods }) => {
+import { useState } from 'react'
+import { FormProvider, type UseFormReturn } from 'react-hook-form'
+import { toast } from '@heroui/react'
+import type { OrderFormValues } from '../model'
+import { getGeo } from './api'
+import { AddressField } from './addressField'
+export function DeliveryInfo({ methods }: { methods: UseFormReturn<OrderFormValues> }) {
+    const [locating, setLocating] = useState(false)
     const getCity = () => {
-        const options = {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0,
+        if (!navigator.geolocation) {
+            toast.danger('Геолокация недоступна. Введите адрес вручную.', { timeout: 5000 })
+            return
         }
-        const success = async (pos: GeolocationPosition) => {
-            try {
-                const { latitude, longitude } = pos.coords
-
-                const { data } = await getGeo({ latitude, longitude })
-                methods.setValue(
-                    'address',
-                    `${data.features[0].properties.city} ${data.features[0].properties.address_line1}`
-                )
-                methods.setValue('postIndex', data.features[0].properties.postcode)
-            } catch (error) {
-                toast.error((error as Error).message)
-            }
-        }
-
-        const error = (error: GeolocationPositionError) =>
-            toast.error('Не удалось получить геопозицию')
-
-        navigator.geolocation.getCurrentPosition(success, error, options)
-    }
-
-    const promiseOptions = (inputValue: string) =>
-        new Promise<IOption[]>(async (resolve) => {
-            const res = await getAddres(inputValue)
-            return resolve(
-                res.data.suggestions.map((item) => {
-                    return {
-                        value: item.value,
-                        label: item.value,
-                        postalIndex: item.data.postal_code || '',
-                    }
+        setLocating(true)
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                try {
+                    const { data } = await getGeo({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                    })
+                    const address = data.features[0]?.properties
+                    if (!address) throw new Error('Адрес не найден')
+                    methods.setValue(
+                        'address',
+                        [address.city, address.address_line1].filter(Boolean).join(' '),
+                        { shouldValidate: true }
+                    )
+                    methods.setValue('postIndex', address.postcode || '', { shouldValidate: true })
+                } catch {
+                    toast.danger('Не удалось определить адрес. Введите его вручную.', {
+                        timeout: 5000,
+                    })
+                } finally {
+                    setLocating(false)
+                }
+            },
+            () => {
+                setLocating(false)
+                toast.danger('Не удалось получить геопозицию. Введите адрес вручную.', {
+                    timeout: 5000,
                 })
-            )
-        })
-
+            },
+            { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+        )
+    }
     return (
-        <Section title="Выберите ваш адрес" css={{ fd: 'column', maxW: '450px', gap: 0 }}>
-            <Card.Header>
-                <Button bordered icon={<MapPin />} auto onPress={() => getCity()}>
-                    Определить место
-                </Button>
-            </Card.Header>
-            <Card.Divider />
-            <Card.Body css={{ gap: '$10' }}>
-                <FormProvider {...methods}>
-                    <Row css={{ gap: '$5' }}>
+        <Card className="checkout-panel">
+            <div className="checkout-panel-heading">
+                <span className="checkout-step">02</span>
+                <div>
+                    <h2>Адрес доставки</h2>
+                    <p>Куда отправить ваши книги</p>
+                </div>
+            </div>
+            <Button
+                variant="secondary"
+                className="checkout-locate"
+                isDisabled={locating}
+                onPress={getCity}
+            >
+                {locating ? <Spinner size="sm" /> : <MapPin size={17} />}
+                {locating ? 'Определяем адрес…' : 'Определить местоположение'}
+            </Button>
+            <FormProvider {...methods}>
+                <div className="checkout-fields">
+                    <AddressField methods={methods} />
+                    <div className="checkout-address-grid">
                         <BaseTextField
-                            clearable
-                            bordered
-                            fullWidth
-                            color="primary"
-                            size="lg"
                             name="postIndex"
-                            type="text"
+                            label="Почтовый индекс"
+                            placeholder="123456"
+                            inputMode="numeric"
+                            autoComplete="postal-code"
                             required
-                            placeholder="Почтовый индекс"
                         />
                         <BaseTextField
-                            clearable
-                            bordered
-                            fullWidth
-                            color="primary"
-                            size="lg"
                             name="apartaments"
-                            type="text"
+                            label="Квартира / офис"
+                            placeholder="Номер"
+                            autoComplete="address-line2"
                             required
-                            placeholder="Квартира"
                         />
-                    </Row>
-                    <BaseSelectField
-                        placeholder="Адрес"
-                        name="address"
-                        required
-                        handleChange={(value) => {
-                            methods.setValue('postIndex', value?.postalIndex!)
-                        }}
-                        loadOptions={promiseOptions}
-                        noOptionsMessage={() => 'Адрес не найден'}
-                    />
-                </FormProvider>
-            </Card.Body>
-        </Section>
+                    </div>
+                    <p className="checkout-hint">
+                        Проверьте номер дома, квартиры и индекс перед оплатой.
+                    </p>
+                </div>
+            </FormProvider>
+        </Card>
     )
 }

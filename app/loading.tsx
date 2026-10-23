@@ -3,14 +3,16 @@ import { Loading as Load } from '@/shared/ui-kit'
 
 export default function Loading() {
     return (
-        <Load
-            size="lg"
-            css={{
+        <div
+            style={{
                 position: 'absolute',
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
+                display: 'flex',
             }}
-        />
+        >
+            <Load size="lg" />
+        </div>
     )
 }

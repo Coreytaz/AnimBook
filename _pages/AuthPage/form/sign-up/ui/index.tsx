@@ -1,161 +1,123 @@
 import { BaseTextField, BaseTextFieldPassword } from '@/shared/ui/Form'
-import { Card, Button, Text, Loading } from '@/shared/ui-kit'
+import { Button, Spinner } from '@heroui/react'
 import { AxiosError } from 'axios'
-import { Mail, Lock, Phone, Eye, EyeOff } from 'lucide-react'
-import React, { FC, useCallback, useState } from 'react'
+import { ArrowRight, Mail, Lock, Phone } from 'lucide-react'
+import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
+import { toast } from '@heroui/react'
 import { signUp } from '../api'
-import { mapFormSignUpToApiData, SignUpFormValues } from '../model'
-
+import { mapFormSignUpToApiData, type SignUpFormValues } from '../model'
 export interface SignUpFormProps {
     onSignUp?: (payload: unknown) => void
     onChangeForm: (payload: 'signIn') => void
 }
-
-const SignUpForm: FC<SignUpFormProps> = ({ onChangeForm, onSignUp }) => {
-    const [isLoading, setIsLoading] = useState(false)
-    const [showPassword, setShowPassword] = useState(false)
-
+export default function SignUpForm({ onChangeForm, onSignUp }: SignUpFormProps) {
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
     const form = useForm<SignUpFormValues>({
         mode: 'onBlur',
-        defaultValues: {},
+        defaultValues: { email: '', phone: '', password: '', password2: '' },
     })
-
-    const handleChangeForm = useCallback(
-        (newForm: Parameters<SignUpFormProps['onChangeForm']>[0]) => {
-            onChangeForm(newForm)
-        },
-        [onChangeForm]
-    )
-
-    const handleSubmit = useCallback(
-        async (payload: SignUpFormValues) => {
-            try {
-                setIsLoading(true)
-                const res = await signUp(mapFormSignUpToApiData(payload))
-                toast.info('Вы успешно зарегистривались')
-                onSignUp && onSignUp(res.data)
-            } catch (error) {
-                if (error instanceof AxiosError) {
-                    if (error.response?.status === 400 && error.code === 'ERR_BAD_REQUEST') {
-                        const mes = error.response.data.message as string
-                        toast.error(mes)
-                    }
-                }
-            } finally {
-                setIsLoading(false)
-            }
-        },
-        [onSignUp]
-    )
-
-    const validateRepeatPassword = useCallback(
-        (v: string) => {
-            const pass = form.getValues('password')
-
-            return v === pass || 'Пароли не совпадают!'
-        },
-        [form]
-    )
-
+    const submit = async (payload: SignUpFormValues) => {
+        setLoading(true)
+        setError('')
+        try {
+            const result = await signUp(mapFormSignUpToApiData(payload))
+            toast.success('Аккаунт создан. Теперь можно войти.', { timeout: 5000 })
+            onSignUp?.(result.data)
+        } catch (error) {
+            const message = error instanceof AxiosError ? error.response?.data?.message : undefined
+            setError(
+                typeof message === 'string'
+                    ? message
+                    : 'Не удалось создать аккаунт. Попробуйте ещё раз.'
+            )
+        } finally {
+            setLoading(false)
+        }
+    }
     return (
         <>
-            <Card.Header css={{ d: 'flex', jc: 'center' }}>
-                <Text size={18} css={{ textAlign: 'center' }}>
-                    Регистрироваться в{' '}
-                    <Text b size={18}>
-                        AnimBook
-                    </Text>
-                </Text>
-            </Card.Header>
-            <Card.Body css={{ d: 'flex', fd: 'column', gap: '$12', pb: '$10' }}>
-                <FormProvider {...form}>
+            <div className="auth-heading">
+                <span className="eyebrow">Начните свою коллекцию</span>
+                <h1>Новая глава</h1>
+                <p>Создайте аккаунт в AnimBook.</p>
+            </div>
+            <FormProvider {...form}>
+                <form className="auth-form" onSubmit={form.handleSubmit(submit)} noValidate>
                     <BaseTextField
-                        clearable
-                        bordered
-                        fullWidth
-                        color="primary"
-                        size="lg"
                         name="email"
+                        label="Электронная почта"
+                        placeholder="you@example.com"
                         type="email"
+                        autoComplete="email"
                         required
-                        placeholder="Почта"
-                        contentLeft={<Mail />}
+                        contentLeft={<Mail size={18} />}
                         rules={{
                             pattern: {
-                                message: 'Введите действительный адрес электронной почты',
-                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i,
+                                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                message: 'Введите действительный адрес почты',
                             },
                         }}
                     />
                     <BaseTextField
-                        clearable
-                        bordered
-                        fullWidth
-                        color="primary"
-                        size="lg"
                         name="phone"
-                        type="phone"
+                        label="Номер телефона"
+                        placeholder="+7 (999) 123-45-67"
+                        type="tel"
+                        autoComplete="tel"
                         required
-                        placeholder="Номер телефона"
-                        contentLeft={<Phone />}
+                        contentLeft={<Phone size={18} />}
                     />
                     <BaseTextFieldPassword
-                        type={showPassword ? 'text' : 'password'}
-                        hiddenIcon={<Eye onClick={() => setShowPassword(!showPassword)} />}
-                        visibleIcon={
-                            <EyeOff
-                                className="cursor-pointer"
-                                onClick={() => setShowPassword(!showPassword)}
-                            />
-                        }
-                        clearable
-                        bordered
-                        fullWidth
-                        required
-                        color="primary"
-                        size="lg"
                         name="password"
-                        placeholder="Пароль"
-                        contentLeft={<Lock />}
-                    />
-                    <BaseTextField
-                        clearable
-                        bordered
-                        fullWidth
-                        color="primary"
-                        size="lg"
-                        name="password2"
-                        type={showPassword ? 'text' : 'password'}
+                        label="Пароль"
+                        placeholder="Придумайте пароль"
+                        autoComplete="new-password"
                         required
-                        placeholder="Повторите пароль"
-                        contentLeft={<Lock />}
+                        contentLeft={<Lock size={18} />}
+                    />
+                    <BaseTextFieldPassword
+                        name="password2"
+                        label="Повторите пароль"
+                        placeholder="Введите пароль ещё раз"
+                        autoComplete="new-password"
+                        required
+                        contentLeft={<Lock size={18} />}
                         rules={{
-                            validate: validateRepeatPassword,
+                            validate: (value) =>
+                                value === form.getValues('password') || 'Пароли не совпадают',
                         }}
                     />
-                </FormProvider>
-            </Card.Body>
-            <Card.Footer css={{ d: 'flex', jc: 'space-between' }}>
-                <Button auto light onPress={handleChangeForm.bind(null, 'signIn')}>
-                    Войти
-                </Button>
-                <Button
-                    disabled={isLoading}
-                    type="submit"
-                    onClick={form.handleSubmit(handleSubmit)}
-                    auto
-                >
-                    {isLoading ? (
-                        <Loading color="currentColor" size="sm" />
-                    ) : (
-                        <> Зарегистрироваться</>
+                    {error && (
+                        <p className="auth-error" role="alert">
+                            {error}
+                        </p>
                     )}
+                    <Button
+                        type="submit"
+                        className="auth-submit"
+                        isDisabled={loading}
+                        isPending={loading}
+                    >
+                        {loading ? (
+                            <>
+                                <Spinner size="sm" color="current" /> Создаём аккаунт…
+                            </>
+                        ) : (
+                            <>
+                                Создать аккаунт <ArrowRight size={18} />
+                            </>
+                        )}
+                    </Button>
+                </form>
+            </FormProvider>
+            <div className="auth-switch">
+                <span>Уже с нами?</span>
+                <Button variant="ghost" onPress={() => onChangeForm('signIn')}>
+                    Войти <ArrowRight size={15} />
                 </Button>
-            </Card.Footer>
+            </div>
         </>
     )
 }
-
-export default SignUpForm

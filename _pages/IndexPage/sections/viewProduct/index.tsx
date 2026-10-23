@@ -1,92 +1,31 @@
-import { ProductGridCard, SkeletonCard, useGetViewProductsQuery } from '@/entities/product'
+import { ProductGridCard, useGetViewProductsQuery } from '@/entities/product'
 import { Cart } from '@/features/cart'
 import { Fav } from '@/features/fav'
-import { ViewedProduct } from '@/features/viewedProduct'
-import { useScrollVertical } from '@/shared/helpers'
-import { Button, Card, Col, Container, Grid, Text } from '@/shared/ui-kit'
-
 export default function ViewProduct() {
-    const { data: products, isLoading } = useGetViewProductsQuery()
-    const scrollVerticalRef = useScrollVertical()
-
+    const { data: products } = useGetViewProductsQuery()
+    if (!products?.length) return null
     return (
-        <>
-            {products?.length! > 0 ? (
-                <Container lg>
-                    <Text
-                        h2
-                        css={{
-                            textAlign: 'center',
-                            textGradient: '45deg, $blue600 10%, $pink600 100%',
-                            mb: '$10',
-                        }}
-                        weight="bold"
-                    >
-                        Вы недавно смотрели
-                    </Text>
-                    <Grid.Container gap={2} justify="center">
-                        <Card
-                            variant="bordered"
-                            css={{
-                                p: '$10',
-                                overflow: 'scroll',
-                                d: 'flex',
-                                flexFlow: 'nowrap',
-                                gap: '$13',
-                            }}
-                            ref={scrollVerticalRef}
-                        >
-                            {isLoading
-                                ? [...new Array(5)].map((_, i) => (
-                                      <Col key={i}>
-                                          <SkeletonCard
-                                              style={{
-                                                  width: '100%',
-                                                  height: '430px',
-                                                  backgroundColor: 'var(--animbook-colors-gray100)',
-                                              }}
-                                          />
-                                      </Col>
-                                  ))
-                                : products?.map((prod, idx) => (
-                                      <Col
-                                          key={prod._id}
-                                          css={{
-                                              position: 'relative',
-                                              width: '242px',
-                                          }}
-                                      >
-                                          <ViewedProduct.Actions.DelViewedProductHistory
-                                              productId={prod._id}
-                                          />
-                                          <ProductGridCard
-                                              data={prod}
-                                              css={{
-                                                  filter: 'none',
-                                                  background: '$gray100',
-                                              }}
-                                              actions={
-                                                  <>
-                                                      <Button.Group
-                                                          ghost
-                                                          css={{ minWidth: '100%' }}
-                                                      >
-                                                          <Fav.Actions.AddBookMini
-                                                              productId={prod._id}
-                                                          />
-                                                          <Cart.Actions.AddBookMini
-                                                              productId={prod._id}
-                                                          />
-                                                      </Button.Group>
-                                                  </>
-                                              }
-                                          />
-                                      </Col>
-                                  ))}
-                        </Card>
-                    </Grid.Container>
-                </Container>
-            ) : null}
-        </>
+        <section>
+            <div className="section-heading">
+                <div>
+                    <span className="eyebrow">Продолжим знакомство</span>
+                    <h2>Вы недавно смотрели</h2>
+                </div>
+            </div>
+            <div className="recent-books">
+                {products.map((data) => (
+                    <ProductGridCard
+                        key={data._id}
+                        data={data}
+                        actions={
+                            <>
+                                <Fav.Actions.AddBookMini productId={data._id} />
+                                <Cart.Actions.AddBookMini productId={data._id} />
+                            </>
+                        }
+                    />
+                ))}
+            </div>
+        </section>
     )
 }

@@ -1,44 +1,57 @@
-import React, { useEffect } from 'react'
-import { Section } from './section'
 import { TOPIC_DELIVERY, TOPIC_BUY } from '@/widgets/header'
-import { deliveriedApi, deliveriesApi } from './section/api'
+import { Card, Skeleton, Button } from '@heroui/react'
+import { deliveriesApi, deliveriedApi } from './section/api'
 import { useSession } from 'next-auth/react'
-import { Loading } from '@/shared/ui-kit'
-import { Skeleton } from '@/shared/ui'
+import { Section } from './section'
+import styles from '../styles.module.css'
 
-const Content = () => {
+export default function Content() {
     const { data: session } = useSession()
-    const { data: deliveries, isLoading: deliveriesLoad } =
-        deliveriesApi.useGetDeliveriesStatusQuery(session?.user?.id!)
-    const { data: deliveried, isLoading: deliveriedLoad } =
-        deliveriedApi.useGetDeliveriedStatusQuery(session?.user?.id!)
-
-    if (deliveriesLoad || deliveriedLoad) {
-        return (
-            <section style={{ width: '100%' }}>
-                <Skeleton style={{ height: '400px', marginBottom: '30px' }} />
-                <Skeleton style={{ height: '400px' }} />
-            </section>
-        )
-    }
-
+    const userId = session?.user?.id
+    const deliveries = deliveriesApi.useGetDeliveriesStatusQuery(userId ?? '', { skip: !userId })
+    const purchases = deliveriedApi.useGetDeliveriedStatusQuery(userId ?? '', { skip: !userId })
     return (
-        <section style={{ width: '100%' }}>
-            <Section
-                id={TOPIC_DELIVERY.id}
-                title={TOPIC_DELIVERY.fullTitle}
-                items={deliveries!}
-                Icon={TOPIC_DELIVERY.icon}
-            />
-            <Section
-                id={TOPIC_BUY.id}
-                title={TOPIC_BUY.fullTitle}
-                description={TOPIC_BUY.description}
-                items={deliveried!}
-                Icon={TOPIC_BUY.icon}
-            />
-        </section>
+        <div className={styles.orders}>
+            {[
+                { topic: TOPIC_DELIVERY, query: deliveries },
+                { topic: TOPIC_BUY, query: purchases },
+            ].map(({ topic, query }) =>
+                query.isLoading || !userId ? (
+                    <Card
+                        key={topic.id}
+                        className={styles.orderSection}
+                        role="status"
+                        aria-label="Загружаем заказы"
+                    >
+                        <Skeleton className="h-6 w-40 rounded-lg" />
+                        <Skeleton className="mt-6 h-36 w-full rounded-xl" />
+                    </Card>
+                ) : query.isError ? (
+                    <Card key={topic.id} className={styles.orderSection}>
+                        <h2>{topic.fullTitle}</h2>
+                        <p className={styles.description} role="alert">
+                            Не удалось загрузить заказы.
+                        </p>
+                        <Button
+                            variant="secondary"
+                            className="mt-4"
+                            onPress={() => {
+                                void query.refetch()
+                            }}
+                        >
+                            Попробовать снова
+                        </Button>
+                    </Card>
+                ) : (
+                    <Section
+                        key={topic.id}
+                        id={topic.id}
+                        title={topic.fullTitle}
+                        items={query.data ?? []}
+                        Icon={topic.icon}
+                    />
+                )
+            )}
+        </div>
     )
 }
-
-export default Content

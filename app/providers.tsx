@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Provider } from 'react-redux'
-import store, { persistor } from './GlobalRedux/store'
-import { PersistGate } from 'redux-persist/integration/react'
+import { makeStore } from './GlobalRedux/store'
+import { persistStore } from 'redux-persist'
 import { SessionProvider } from 'next-auth/react'
 
 const Providers = ({
@@ -13,6 +13,11 @@ const Providers = ({
     children: React.ReactNode
     isDark: boolean | undefined
 }) => {
+    const [store] = useState(makeStore)
+    useEffect(() => {
+        const persistor = persistStore(store)
+        return () => persistor.pause()
+    }, [store])
     useEffect(() => {
         const dark = isDark ?? window.localStorage.getItem('data-theme') === 'dark'
         document.documentElement.classList.toggle('dark', dark)
@@ -20,11 +25,7 @@ const Providers = ({
     }, [isDark])
     return (
         <SessionProvider>
-            <Provider store={store}>
-                <PersistGate persistor={persistor} loading={null}>
-                    {children}
-                </PersistGate>
-            </Provider>
+            <Provider store={store}>{children}</Provider>
         </SessionProvider>
     )
 }

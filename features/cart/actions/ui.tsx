@@ -1,6 +1,7 @@
 import { useActionCart, useProductCount, useProductStatus } from '@/entities/cart'
 import { Button, Modal, useModal } from '@/shared/ui-kit'
-import { ShoppingCart } from 'lucide-react'
+import { Button as HeroButton } from '@heroui/react'
+import { Minus, Plus, ShoppingCart, Trash2 } from 'lucide-react'
 
 type Props = {
     productId: string
@@ -36,7 +37,9 @@ export const AddBookMini = (props: Props) => {
 
     return (
         <Button
-            css={{ w: '50%' }}
+            className="mini-cart-action"
+            aria-label={isProductInCart ? 'Убрать из корзины' : 'Добавить в корзину'}
+            aria-pressed={isProductInCart}
             auto
             icon={<ShoppingCart fill={isProductInCart ? 'currentColor' : 'none'} />}
             onPress={handleToggle}
@@ -52,15 +55,18 @@ export const DeleteProduct = (props: Props) => {
 
     return (
         <>
-            <Button
-                auto
+            <HeroButton
+                variant="ghost"
+                isIconOnly
+                className="cart-remove"
+                aria-label="Удалить книгу из корзины"
                 onPress={() => {
                     setVisible(true)
                 }}
-                disabled={disabled}
+                isDisabled={disabled}
             >
-                Удалить
-            </Button>
+                <Trash2 size={18} />
+            </HeroButton>
             <Modal
                 closeButton
                 aria-labelledby={`remove-cart-${props.productId}`}
@@ -69,7 +75,7 @@ export const DeleteProduct = (props: Props) => {
             >
                 <Modal.Header>
                     <Modal.Heading id={`remove-cart-${props.productId}`}>
-                        Вы точно хотите удалить товар из корзины?
+                        Удалить книгу из корзины?
                     </Modal.Heading>
                 </Modal.Header>
                 <Modal.Footer>
@@ -80,7 +86,7 @@ export const DeleteProduct = (props: Props) => {
                         }}
                         disabled={disabled}
                     >
-                        Нет
+                        Отмена
                     </Button>
                     <Button
                         auto
@@ -91,7 +97,7 @@ export const DeleteProduct = (props: Props) => {
                         }}
                         disabled={disabled}
                     >
-                        Да
+                        Удалить
                     </Button>
                 </Modal.Footer>
             </Modal>
@@ -99,19 +105,33 @@ export const DeleteProduct = (props: Props) => {
     )
 }
 
-export const Counter = ({ productId }: Props) => {
-    const count = useProductCount(productId)
+export const Counter = ({ productId, disabled }: Props) => {
+    const count = useProductCount(productId) ?? 1
     const { plusCountProduct, minusCountProduct } = useActionCart()
 
     return (
-        <Button.Group>
-            <Button disabled={count === 1} onPress={() => minusCountProduct(productId)}>
-                -
-            </Button>
-            <Button disabled>{count}</Button>
-            <Button disabled={count === 10} onPress={() => plusCountProduct(productId)}>
-                +
-            </Button>
-        </Button.Group>
+        <div className="cart-quantity" role="group" aria-label="Количество книг">
+            <HeroButton
+                variant="ghost"
+                isIconOnly
+                aria-label="Уменьшить количество"
+                isDisabled={disabled || count <= 1}
+                onPress={() => minusCountProduct(productId)}
+            >
+                <Minus size={16} />
+            </HeroButton>
+            <output className="cart-quantity-value" aria-live="polite" aria-label="Количество">
+                {count}
+            </output>
+            <HeroButton
+                variant="ghost"
+                isIconOnly
+                aria-label="Увеличить количество"
+                isDisabled={disabled || count >= 10}
+                onPress={() => plusCountProduct(productId)}
+            >
+                <Plus size={16} />
+            </HeroButton>
+        </div>
     )
 }

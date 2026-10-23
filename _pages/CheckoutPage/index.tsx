@@ -1,19 +1,19 @@
 'use client'
-import { Container, Text } from '@/shared/ui-kit'
+import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
-import React, { FC } from 'react'
 import { Content } from './content'
-
-const CheckoutPage: FC = () => {
+export default function CheckoutPage() {
     return (
-        <Container lg>
-            <Text span>
-                <Link href="/cart">Вернуться к корзине</Link>
-            </Text>
-            <Text h2>Оформление заказа</Text>
+        <div className="checkout-page">
+            <Link href="/cart" className="auth-back">
+                <ArrowLeft size={16} /> Вернуться в корзину
+            </Link>
+            <div className="page-heading">
+                <span className="eyebrow">Остался один шаг</span>
+                <h1>Оформление заказа</h1>
+                <p>Укажите данные покупателя и адрес доставки.</p>
+            </div>
             <Content />
-        </Container>
+        </div>
     )
 }
-
-export default CheckoutPage

@@ -1,48 +1,23 @@
-import { CatergoriesListProps } from '@/shared/api'
-import { Card, Col, Text } from '@/shared/ui-kit'
-import { useRouter } from 'next/navigation'
-import { FC } from 'react'
-
-interface CatergoriesCardProps extends CatergoriesListProps {}
-
-export const CatergoriesCard: FC<CatergoriesCardProps> = ({ name, description, img, slug }) => {
-    const router = useRouter()
-
-    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        e.preventDefault()
-        router.push(`/catalog/${slug}`)
-    }
+/* eslint-disable @next/next/no-img-element -- Catalog images use variable external sources. */
+import { Card } from '@heroui/react'
+import Link from 'next/link'
+import { ArrowUpRight } from 'lucide-react'
+import type { CatergoriesListProps } from '@/shared/api'
+export function CatergoriesCard({ name, description, img, slug }: CatergoriesListProps) {
     return (
-        <Card isPressable isHoverable variant="bordered" onClick={handleClick}>
-            <Card.Header
-                css={{
-                    position: 'absolute',
-                    zIndex: 1,
-                    textAlign: 'center',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                }}
-            >
-                <Col>
-                    <Text h3 color="white">
-                        {name}
-                    </Text>
-                    <Text size={12} weight="bold" b transform="uppercase" color="#ffffffAA">
-                        {description}
-                    </Text>
-                </Col>
-            </Card.Header>
-            <Card.Image
-                css={{
-                    filter: 'brightness(50%)',
-                }}
-                showSkeleton
-                src={img}
-                objectFit="cover"
-                width="100%"
-                height={240}
-                alt={name}
-            />
+        <Card className="category-card">
+            <Link href={`/catalog/${slug}`} className="category-link">
+                <div className="category-art">
+                    <img src={img} alt="" loading="lazy" />
+                    <span className="category-arrow">
+                        <ArrowUpRight size={21} />
+                    </span>
+                </div>
+                <div className="category-copy">
+                    <h3>{name}</h3>
+                    <p>{description}</p>
+                </div>
+            </Link>
         </Card>
     )
 }

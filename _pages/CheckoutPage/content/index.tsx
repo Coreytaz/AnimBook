@@ -1,12 +1,14 @@
 import { useOrder } from '@/entities/cart'
 import { signUp } from '@/_pages/AuthPage/form/sign-up'
-import { Button, Loading, Row, Spacer } from '@/shared/ui-kit'
+import { Button, Card, Spinner } from '@heroui/react'
+import { ArrowRight } from 'lucide-react'
+import { toRub } from '@/shared/helpers'
 import { AxiosError } from 'axios'
 import { signIn, useSession } from 'next-auth/react'
 import { redirect, useRouter } from 'next/navigation'
 import { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
+import { toast } from '@heroui/react'
 import { createOrderWithUser } from './api'
 import { CustomerInfo } from './customerInfo'
 import { DeliveryInfo } from './deliveryInfo'
@@ -15,7 +17,7 @@ import { YourOrder } from './yourOrder'
 
 export const Content: FC = () => {
     const router = useRouter()
-    const { price, cartOrder } = useOrder()
+    const { price, cartOrder, products } = useOrder()
     const { data: session } = useSession()
     const [isLoading, setIsLoading] = useState(false)
     const mapSession = useMemo(() => mapFormDataToApiData(session?.user as any), [session?.user])
@@ -71,12 +73,13 @@ export const Content: FC = () => {
                     router.push(res.data.confirmation.confirmation_url)
                 }
             } catch (error) {
-                if (error instanceof AxiosError) {
-                    if (error.response?.status === 400 && error.code === 'ERR_BAD_REQUEST') {
-                        const mes = error.response.data.message as string
-                        toast.error(mes)
-                    }
-                }
+                const message = error instanceof AxiosError ? error.response?.data?.message : undefined
+                toast.danger(
+                    typeof message === 'string'
+                        ? message
+                        : 'Не удалось создать заказ. Попробуйте ещё раз.',
+                    { timeout: 5000 }
+                )
             } finally {
                 setIsLoading(false)
             }
@@ -85,17 +88,44 @@ export const Content: FC = () => {
     )
 
     return (
-        <>
+        <div className="checkout-content">
             <YourOrder />
-            <Spacer y={1} />
-            <Row wrap="wrap" css={{ gap: '$10' }}>
-                <CustomerInfo methods={methods} />
-                <DeliveryInfo methods={methods} />
-            </Row>
-            <Spacer y={1} />
-            <Button type="submit" onClick={methods.handleSubmit(handleSubmit)}>
-                {isLoading ? <Loading color="currentColor" size="sm" /> : <>Оплатить</>}
-            </Button>
-        </>
+            <form
+                className="checkout-form"
+                noValidate
+                onSubmit={methods.handleSubmit(handleSubmit)}
+            >
+                <div className="checkout-grid">
+                    <CustomerInfo methods={methods} />
+                    <DeliveryInfo methods={methods} />
+                </div>
+                <Card className="checkout-payment">
+                    <div>
+                        <span>Итого к оплате</span>
+                        <strong>{toRub.format(price)}</strong>
+                    </div>
+                    <Button
+                        type="submit"
+                        className="checkout-pay-button"
+                        isDisabled={
+                            isLoading ||
+                            products.status === 'loading' ||
+                            !products.orderProduct.length
+                        }
+                        isPending={isLoading}
+                    >
+                        {isLoading ? (
+                            <>
+                                <Spinner size="sm" color="current" /> Подготавливаем оплату…
+                            </>
+                        ) : (
+                            <>
+                                Перейти к оплате <ArrowRight size={18} />
+                            </>
+                        )}
+                    </Button>
+                </Card>
+            </form>
+        </div>
     )
 }

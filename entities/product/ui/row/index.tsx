@@ -1,65 +1,30 @@
-import { StarRating } from '@/entities/StarRating'
+/* eslint-disable @next/next/no-img-element -- Catalog images use variable external sources. */
+'use client'
+import { Card } from '@heroui/react'
+import Link from 'next/link'
 import { toRub } from '@/shared'
-import { ProductProps } from '@/shared/api'
-import { Badge, Card, Col, Grid, Row, Image, Text } from '@/shared/ui-kit'
-import { useRouter } from 'next/navigation'
-import { FC, ReactNode, useMemo } from 'react'
-
-type Props = {
-    data: ProductProps
-    className?: string
-    actions?: ReactNode
-}
-
-const ProductRow: FC<Props> = (props) => {
-    const { data, actions, className } = props
-    const totalRating = useMemo(
-        () => data.rating?.reduce((acc, cur) => acc + cur.rating, 0) / data.rating?.length || 0,
-        [data.rating]
-    )
-
+import type { ProductProps } from '@/shared/api'
+import type { ReactNode } from 'react'
+type Props = { data: ProductProps; className?: string; actions?: ReactNode }
+export default function ProductRow({ data, actions, className }: Props) {
     return (
-        <Row align="center" css={{ p: '$5', gap: '$10' }} className={className}>
-            <Col span={3}>
-                <Image
-                    css={{ d: 'block', borderRadius: '$2xl' }}
-                    showSkeleton
-                    objectFit="cover"
-                    src={data.img[0].src}
-                    alt={data.img[0].alt}
-                    height={150}
-                />
-            </Col>
-            <Col span={6}>
-                <Text css={{ mb: '$5' }}>{data.name}</Text>
-                <Badge size="lg" isSquared color="warning" variant="bordered">
-                    <StarRating readOnly tooltip rating={totalRating} />
-                </Badge>
-            </Col>
-            <Col css={{ w: 'auto' }}>
-                <Row wrap="wrap" justify="center">
-                    <Col>
-                        <Text size="$2xl" css={{ textAlign: 'center', mb: '$5' }}>
-                            {toRub.format(data.price)}
-                        </Text>
-                    </Col>
-                    <Col css={{ dflex: 'center', gap: '$5' }}>{actions}</Col>
-                </Row>
-            </Col>
-        </Row>
+        <div className={['book-row', className].filter(Boolean).join(' ')}>
+            <Link href={`/product/${data.slug}`} className="book-row-link">
+                <img src={data.img[0]?.src} alt={data.img[0]?.alt || data.name} loading="lazy" />
+                <div>
+                    <span className="book-type">{data.type || 'Книжная коллекция'}</span>
+                    <h3>{data.name}</h3>
+                    <strong>{toRub.format(data.price)}</strong>
+                </div>
+            </Link>
+            <div className="book-row-actions">{actions}</div>
+        </div>
     )
 }
-
-export const ProductRowCard: FC<Props> = (props) => {
-    const router = useRouter()
-    const { data } = props
+export function ProductRowCard(props: Props) {
     return (
-        <Grid xs={12} css={{ maxHeight: '200px' }}>
-            <Card isPressable isHoverable onClick={() => router.push(`product/${data.slug}`)}>
-                <ProductRow {...props} />
-            </Card>
-        </Grid>
+        <Card className="book-row-card">
+            <ProductRow {...props} />
+        </Card>
     )
 }
-
-export default ProductRow

@@ -1,90 +1,58 @@
+import { Card } from '@heroui/react'
+import { PackageOpen, type LucideIcon } from 'lucide-react'
+import Link from 'next/link'
 import type { ReactNode } from 'react'
-import cn from 'clsx'
-import { Badge, Card, Col, Row, Text } from '@/shared/ui-kit'
-import styles from './styles.module.scss'
-import { Check } from 'lucide-react'
-import { useScrollVertical } from '@/shared/helpers'
-import { ApiDeliveriesData } from './api'
-import { useRouter } from 'next/navigation'
 import { BadgeStatus } from '@/entities/BadgeStatus'
+import { ApiDeliveriesData } from './api'
+import styles from '../../styles.module.css'
 
-type Props<T> = {
+type Props = {
     id: string
     title: ReactNode
-    titleAfter?: ReactNode
     description?: ReactNode
-    renderBookDetails?: (book: T, idx: number) => ReactNode
-    renderBookActions?: (book: T, idx: number) => ReactNode[]
-    getRibbonProps?: (
-        book: T,
-        idx: number
-    ) => {
-        text: ReactNode
-        color: import('react').CSSProperties['color']
-    }
-    Icon: typeof Check
-    items: T[]
-    active?: boolean
+    Icon: LucideIcon
+    items: ApiDeliveriesData[]
 }
 
-export function Section<T extends ApiDeliveriesData>(props: Props<T>) {
-    const router = useRouter()
-    const { title, description, items, Icon, id, titleAfter, active } = props
-    const scrollVerticalRef = useScrollVertical()
+export function Section({ id, title, description, items, Icon }: Props) {
     return (
-        <Card
-            className={cn(styles.root, { [styles.active]: active })}
-            id={id}
-            css={{
-                p: '$14',
-                mb: '$14',
-                br: '$2xl',
-            }}
-        >
-            <Row justify="space-between">
-                <Text h3 className={styles.title}>
-                    <a href={`#${id}`}>#</a>
-                    {title} <Icon style={{ color: 'gray', fontSize: 20 }} />
-                </Text>
-                {titleAfter}
-            </Row>
-            <Text className={styles.description} color="primary">
-                {description}
-            </Text>
-            <div className={styles.list} ref={scrollVerticalRef}>
-                {items?.length > 0 ? (
-                    items.map((item) => (
-                        <Col css={{ width: '242px' }} key={item._id}>
-                            <Card
-                                className={styles.card}
-                                isHoverable
-                                isPressable
-                                onClick={() => router.push(`profile/${item._id}`)}
-                            >
-                                <Card.Header>
-                                    <Text css={{ textAlign: 'center' }} b>
-                                        Заказа №<Text size="$xs">{item._id}</Text>
-                                    </Text>
-                                </Card.Header>
-                                <Card.Body>
-                                    <Text b>
-                                        Адрес:<Text>{item.address}</Text>
-                                    </Text>
-                                </Card.Body>
-                                <Card.Footer css={{ jc: 'center' }}>
-                                    <BadgeStatus text={item.status} />
-                                </Card.Footer>
-                            </Card>
-                        </Col>
-                    ))
-                ) : (
-                    <>
-                        <Text h2 className={styles.placeholder}>
-                            Пусто 😔
-                        </Text>
-                    </>
-                )}
+        <Card id={id} className={styles.orderSection}>
+            <div className={styles.orderHeading}>
+                <Icon size={22} aria-hidden="true" />
+                <h2>{title}</h2>
+                <span className={styles.count}>{items.length}</span>
             </div>
+            {description && <p className={styles.description}>{description}</p>}
+            {items.length ? (
+                <div className={styles.orderList}>
+                    {items.map((item) => (
+                        <Link
+                            key={item._id}
+                            href={`/profile/${item._id}`}
+                            className={styles.orderLink}
+                        >
+                            <strong>Заказ №{item._id}</strong>
+                            <span>{item.address || 'Адрес не указан'}</span>
+                            <BadgeStatus text={item.status} />
+                        </Link>
+                    ))}
+                </div>
+            ) : (
+                <div className={styles.empty}>
+                    <PackageOpen size={32} strokeWidth={1.4} aria-hidden="true" />
+                    <h3>
+                        {id === 'delivery' ? 'Пока нет доставок' : 'Здесь появятся ваши покупки'}
+                    </h3>
+                    <p>
+                        {id === 'delivery'
+                            ? 'Когда заказ отправится к вам, он появится здесь.'
+                            : 'Найдите новую историю — мы сохраним ваши заказы здесь.'}
+                    </p>
+                    <Link href="/catalog" className={styles.catalog}>
+                        Открыть каталог →
+                    </Link>
+                </div>
+            )}
         </Card>
     )
 }

@@ -12,17 +12,17 @@ import { getOrderiesApi } from '@/_pages/OrderInfoPage/api'
 import { deliveriedApi, deliveriesApi } from '@/_pages/ProfilePage/content/section/api'
 import { orderApi } from '@/_pages/ResultPage/api'
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
-import {
-    persistStore,
-    persistReducer,
-    FLUSH,
-    REHYDRATE,
-    PAUSE,
-    PERSIST,
-    PURGE,
-    REGISTER,
-} from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
+import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
+import createWebStorage from 'redux-persist/lib/storage/createWebStorage'
+
+const storage =
+    typeof window !== 'undefined'
+        ? createWebStorage('local')
+        : {
+              getItem: async (_key: string) => null,
+              setItem: async (_key: string, value: string) => value,
+              removeItem: async (_key: string) => {},
+          }
 
 const CartPersistConfig = {
     key: 'cart',
@@ -58,28 +58,28 @@ const rootReducer = combineReducers({
     [getOrderiesApi.reducerPath]: getOrderiesApi.reducer,
 })
 
-const store = configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-            serializableCheck: {
-                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-            },
-        })
-            .concat(catergoriesApi.middleware)
-            .concat(oneProductApi.middleware)
-            .concat(reviewsApi.middleware)
-            .concat(descriptionApi.middleware)
-            .concat(filtersApi.middleware)
-            .concat(getProductsApi.middleware)
-            .concat(getViewProductApi.middleware)
-            .concat(deliveriesApi.middleware)
-            .concat(deliveriedApi.middleware)
-            .concat(getOrderiesApi.middleware)
-            .concat(bannerApi.middleware)
-            .concat(orderApi.middleware),
-})
+export const makeStore = () =>
+    configureStore({
+        reducer: rootReducer,
+        middleware: (getDefaultMiddleware) =>
+            getDefaultMiddleware({
+                serializableCheck: {
+                    ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+                },
+            })
+                .concat(catergoriesApi.middleware)
+                .concat(oneProductApi.middleware)
+                .concat(reviewsApi.middleware)
+                .concat(descriptionApi.middleware)
+                .concat(filtersApi.middleware)
+                .concat(getProductsApi.middleware)
+                .concat(getViewProductApi.middleware)
+                .concat(deliveriesApi.middleware)
+                .concat(deliveriedApi.middleware)
+                .concat(getOrderiesApi.middleware)
+                .concat(bannerApi.middleware)
+                .concat(orderApi.middleware),
+    })
 
-export type TypeRootState = ReturnType<typeof store.getState>
-export const persistor = persistStore(store)
-export default store
+export type AppStore = ReturnType<typeof makeStore>
+export type TypeRootState = ReturnType<AppStore['getState']>

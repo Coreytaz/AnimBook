@@ -1,81 +1,49 @@
-import { StarRating } from '@/entities/StarRating'
+/* eslint-disable @next/next/no-img-element -- Catalog images use variable external sources. */
+'use client'
+import { Card } from '@heroui/react'
+import Link from 'next/link'
+import { Star } from 'lucide-react'
 import { toRub } from '@/shared'
-import { ProductProps } from '@/shared/api'
-import { Badge, Card, CardProps, Col, Image, Row, Text } from '@/shared/ui-kit'
-import { useRouter } from 'next/navigation'
-import { FC, ReactNode, useMemo } from 'react'
-
-type Props = {
-    data: ProductProps
-    className?: string
-    actions?: ReactNode
-} & Omit<CardProps, 'children'>
-
-export const ProductGridCard: FC<Props> = (props) => {
-    const { data, actions } = props
-    const totalRating = useMemo(
-        () => data.rating?.reduce((acc, cur) => acc + cur.rating, 0) / data.rating?.length || 0,
-        [data.rating]
-    )
+import type { ProductProps } from '@/shared/api'
+import type { CardProps } from '@/shared/ui-kit'
+import type { ReactNode } from 'react'
+type Props = { data: ProductProps; className?: string; actions?: ReactNode } & Omit<
+    CardProps,
+    'children'
+>
+export const ProductGridCard = ({ data, actions }: Props) => {
+    const rating =
+        data.rating?.reduce((sum, value) => sum + value.rating, 0) / data.rating?.length || 0
     return (
         <>
-            <Card.Header>
-                <Image
-                    css={{ d: 'block', borderRadius: '$2xl' }}
-                    showSkeleton
-                    objectFit="cover"
-                    src={data.img[0].src}
-                    alt={data.img[0].alt}
-                    height={200}
-                />
-            </Card.Header>
-            <Card.Body css={{ pb: '$5' }}>
-                <Row wrap="wrap">
-                    <Text css={{ h: '80px', overflow: 'scroll' }}>{data.name}</Text>
-                    <Col css={{ d: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-                        <Text size="$2xl" css={{ textAlign: 'center', mb: '$5' }}>
-                            {toRub.format(data.price)}
-                        </Text>
-                        <Badge size="md" isSquared color="warning" variant="bordered">
-                            <StarRating
-                                readOnly
-                                tooltip
-                                rating={totalRating}
-                                width={15}
-                                height={15}
-                            />
-                        </Badge>
-                    </Col>
-                </Row>
-            </Card.Body>
-            {actions ? (
-                <>
-                    <Card.Divider />
-                    <Card.Footer>
-                        <Row>
-                            <Col css={{ dflex: 'center' }}>{actions}</Col>
-                        </Row>
-                    </Card.Footer>
-                </>
-            ) : null}
+            <Link href={`/product/${data.slug}`} className="book-link">
+                <div className="book-cover">
+                    <img
+                        src={data.img[0]?.src}
+                        alt={data.img[0]?.alt || data.name}
+                        loading="lazy"
+                    />
+                </div>
+                <div className="book-info">
+                    <span className="book-type">{data.type || 'Книжная коллекция'}</span>
+                    <h3>{data.name}</h3>
+                    <div className="book-meta">
+                        <strong>{toRub.format(data.price)}</strong>
+                        <span>
+                            <Star size={14} fill="currentColor" />{' '}
+                            {rating ? rating.toFixed(1) : 'Нет оценок'}
+                        </span>
+                    </div>
+                </div>
+            </Link>
+            {actions && <Card.Footer className="book-actions">{actions}</Card.Footer>}
         </>
     )
 }
-
-const ProductCard: FC<Props> = (props) => {
-    const router = useRouter()
-    const { data, className } = props
+export default function ProductCard(props: Props) {
     return (
-        <Card
-            isPressable
-            isHoverable
-            onClick={() => router.push(`product/${data.slug}`)}
-            className={className}
-            {...props}
-        >
+        <Card className={['book-card', props.className].filter(Boolean).join(' ')}>
             <ProductGridCard {...props} />
         </Card>
     )
 }
-
-export default ProductCard

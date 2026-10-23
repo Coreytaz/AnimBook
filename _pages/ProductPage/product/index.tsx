@@ -1,16 +1,15 @@
 import { memo } from 'react'
 import { Text } from '@/shared/ui-kit'
-import { oneProductApi, ProductCard, ProductCardSkeleton } from '@/entities/product'
+import { ProductCard, ProductCardSkeleton } from '@/entities/product'
 import { ViewedProduct } from '@/features/viewedProduct'
 import { useParams } from 'next/navigation'
 
-export default memo(function ProductContainer() {
-    const params = useParams()
-    const {
-        data: product,
-        isLoading,
-        isError,
-    } = oneProductApi.useGetOneProductQuery(params?.slug?.toString()!)
+export default memo(function ProductContainer({
+    product,
+}: {
+    product: import('@/entities/product/api/types').ApiProductData
+}) {
+    const isLoading = false
     ViewedProduct.Actions.useAddViewedProductHistory(product?._id!)
 
     if (isLoading) {
@@ -20,9 +19,10 @@ export default memo(function ProductContainer() {
     return (
         <>
             <Text
-                h2
+                h1
                 css={{
-                    textGradient: '45deg, $blue600 10%, $pink600 100%',
+                    mb: '24px',
+                    fontSize: 'clamp(1.6rem, 4vw, 2.5rem)',
                 }}
                 weight="bold"
             >

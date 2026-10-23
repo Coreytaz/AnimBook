@@ -1,71 +1,56 @@
-import { catergoriesApi, CatergoriesCard, SkeletonCategoriesCard } from '@/entities/catergories'
-import { Skeleton } from '@/shared/ui'
-import { Container, Grid, Text } from '@/shared/ui-kit'
-import { useParams } from 'next/navigation'
+import { CatergoriesCard } from '@/entities/catergories'
+import { SlidersHorizontal } from 'lucide-react'
+import { Button } from '@heroui/react'
+import { useState } from 'react'
 import Content from '../content'
 import Sidebar from '../sidebar'
-
-export default function SubCatergories() {
-    const params = useParams()
-    const {
-        data: items,
-        isLoading,
-        isError,
-    } = catergoriesApi.useGetSubCatergoriesQuery(params?.slug?.toString()!)
-
-    if (isLoading) {
-        return (
-            <Container lg>
-                <Skeleton
-                    style={{
-                        width: '40%',
-                        height: '54px',
-                        marginBottom: '10px',
-                        marginTop: '10px',
-                    }}
-                />
-                <Grid.Container gap={2} justify="center">
-                    {[...new Array(8)].map((_, i) => (
-                        <Grid xs={12} sm={3} key={i}>
-                            <SkeletonCategoriesCard />
-                        </Grid>
-                    ))}
-                </Grid.Container>
-            </Container>
-        )
-    }
-
+export default function SubCatergories({
+    items,
+    products,
+    filters,
+}: {
+    items: import('@/entities/catergories/api/types').ApiSubCatergoriesData
+    products?: import('../content').ProductsData
+    filters?: import('@/entities/sidebar/api/types').ApiFiltersData
+}) {
+    const [showFilters, setShowFilters] = useState(false)
     return (
-        <>
-            <Container lg>
-                <Text
-                    h2
-                    css={{
-                        textGradient: '45deg, $blue600 10%, $pink600 100%',
-                    }}
-                    weight="bold"
-                >
-                    {items?.categoryName}
-                </Text>
-                {items?.subcategories.length! > 0 ? (
-                    <Grid.Container gap={2} justify="center">
-                        {items?.subcategories.map((item, index) => (
-                            <Grid xs={12} sm={3} key={index}>
-                                <CatergoriesCard {...item} />
-                            </Grid>
-                        ))}
-                    </Grid.Container>
-                ) : (
-                    <Grid.Container gap={2} justify="center">
-                        <Grid xs={12} sm={4} alignItems="flex-start">
-                            <Sidebar />
-                        </Grid>
-                        <Grid xs={12} sm={8}>
-                            <Content />
-                        </Grid>
-                    </Grid.Container>
-                )}
-            </Container>
-        </>
+        <section>
+            <div className="page-heading">
+                <span className="eyebrow">Найдите свою историю</span>
+                <h1>{items.categoryName}</h1>
+                {products && <p>Книг в коллекции: {products.meta.totalItems}</p>}
+            </div>
+            {items.subcategories.length ? (
+                <div className="category-grid">
+                    {items.subcategories.map((item) => (
+                        <CatergoriesCard key={item._id} {...item} />
+                    ))}
+                </div>
+            ) : (
+                <>
+                    <Button
+                        variant="secondary"
+                        className="mobile-filter-button"
+                        aria-expanded={showFilters}
+                        aria-controls="catalog-filters"
+                        onPress={() => setShowFilters(!showFilters)}
+                    >
+                        <SlidersHorizontal size={18} />
+                        {showFilters ? 'Скрыть фильтры' : 'Фильтры'}
+                    </Button>
+                    <div className="catalog-layout">
+                        <aside
+                            id="catalog-filters"
+                            className={showFilters ? 'catalog-filters is-open' : 'catalog-filters'}
+                            aria-label="Фильтры каталога"
+                        >
+                            <Sidebar data={filters} />
+                        </aside>
+                        <Content items={products} />
+                    </div>
+                </>
+            )}
+        </section>
     )
 }

@@ -1,73 +1,34 @@
-import { IBreadcrumbsLocationState } from '@/shared/api'
-import { Container, Text } from '@/shared/ui-kit'
-import { ChevronRight, Home } from 'lucide-react'
-import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { FC, useMemo } from 'react'
-import styles from './styles.module.scss'
-
-interface CrumbsProps {
-    id: string
-    title: string
-    href: string
-    last: boolean
+import { Breadcrumbs } from '@heroui/react'
+import { usePathname } from 'next/navigation'
+const names: Record<string, string> = {
+    catalog: 'Каталог',
+    product: 'Книга',
+    cart: 'Корзина',
+    fav: 'Избранное',
+    profile: 'Профиль',
+    checkout: 'Оформление',
 }
-
-const NavBreadcrumbs: FC = () => {
-    const pathname = usePathname()
-    const breadcrumbs = useMemo(
-        function generateBreadcrumbs() {
-            const asPathWithoutQuery = pathname?.split('?')[0]
-            const asPathNestedRoutes = asPathWithoutQuery?.split('/').filter((v) => v.length > 0)
-            if (asPathNestedRoutes) {
-                const crumblist = asPathNestedRoutes.map((subpath, idx) => {
-                    const href = '/' + asPathNestedRoutes.slice(0, idx + 1).join('/')
-                    return { href, title: subpath }
-                })
-
-                return [{ href: '/', title: 'Home' }, ...crumblist]
-            }
-        },
-        [pathname]
-    )
+export default function NavBreadcrumbs({ currentLabel }: { currentLabel?: string }) {
+    const parts = (usePathname() || '').split('/').filter(Boolean)
     return (
-        <Container lg>
-            <nav className={styles.breadcrumbs}>
-                {breadcrumbs?.map((crumb, idx) => (
-                    <Crumb
-                        id={crumb.href}
-                        {...crumb}
-                        key={idx}
-                        last={idx === breadcrumbs.length - 1}
-                    />
-                ))}
-            </nav>
-        </Container>
-    )
-}
-
-const Crumb: FC<CrumbsProps> = ({ title, href, last }) => {
-    if (last) {
-        return <Text>{title}</Text>
-    }
-    return (
-        <>
-            <Link href={href} className={styles.link}>
-                <Text
-                    color="primary"
-                    css={{
-                        transition: '$button',
-                        '&:hover': {
-                            color: '$blue500',
-                        },
-                    }}
+        <Breadcrumbs className="page-breadcrumbs">
+            <Breadcrumbs.Item href="/">Главная</Breadcrumbs.Item>
+            {parts.map((part, i) => (
+                <Breadcrumbs.Item
+                    key={part}
+                    href={
+                        i < parts.length - 1
+                            ? part === 'product'
+                                ? '/catalog'
+                                : '/' + parts.slice(0, i + 1).join('/')
+                            : undefined
+                    }
                 >
-                    {title === 'Home' ? <Home /> : title}
-                </Text>
-            </Link>
-            <ChevronRight />
-        </>
+                    {i === parts.length - 1 && currentLabel
+                        ? currentLabel
+                        : names[part] || decodeURIComponent(part).replaceAll('-', ' ')}
+                </Breadcrumbs.Item>
+            ))}
+        </Breadcrumbs>
     )
 }
-
-export default NavBreadcrumbs

@@ -1,46 +1,44 @@
-import { FC } from 'react'
-import useTheme from '@/shared/hooks/useTheme'
-import { Switch, Text } from '@/shared/ui-kit'
+'use client'
+import { Button } from '@heroui/react'
+import { BookOpen, Moon, Sun, ArrowUpRight } from 'lucide-react'
 import Link from 'next/link'
-import { Moon, Sun } from 'lucide-react'
-
-const Footer: FC = () => {
+import useTheme from '@/shared/hooks/useTheme'
+export default function Footer() {
     const { isDark } = useTheme()
-
-    const handleChange = () => {
-        const nextTheme = isDark ? 'light' : 'dark'
-        window.localStorage.setItem('data-theme', nextTheme)
-        document.documentElement.dataset.theme = nextTheme
-        document.documentElement.classList.toggle('dark', nextTheme === 'dark')
+    const toggle = () => {
+        const theme = isDark ? 'light' : 'dark'
+        localStorage.setItem('data-theme', theme)
+        document.documentElement.dataset.theme = theme
+        document.documentElement.classList.toggle('dark', theme === 'dark')
     }
-
     return (
-        <footer
-            style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'var(--animbook-colors-border)',
-                padding: '20px',
-                gap: '0 20px',
-            }}
-        >
-            <Text b size="$sm" css={{ padding: '$1' }}>
-                AnimBook ©2023 Created by{' '}
-                <Link href="https://github.com/Coreytaz" target="_blank" rel="noreferrer">
-                    Coreytaz
-                </Link>
-            </Text>
-            <Switch
-                animated={false}
-                onValueChange={handleChange}
-                checked={!isDark}
-                size="md"
-                iconOn={<Sun />}
-                iconOff={<Moon />}
-            />
+        <footer className="site-footer">
+            <div className="footer-inner">
+                <div>
+                    <Link href="/" className="footer-brand">
+                        <BookOpen size={22} /> AnimBook
+                    </Link>
+                    <p>Маленькая пауза. Большая история.</p>
+                </div>
+                <div className="footer-links">
+                    <Link href="/catalog">
+                        Каталог <ArrowUpRight size={14} />
+                    </Link>
+                    <Link href="/fav">Избранное</Link>
+                    <Link href="/cart">Корзина</Link>
+                </div>
+                <div className="footer-meta">
+                    <span>© {new Date().getFullYear()} AnimBook</span>
+                    <Button
+                        variant="secondary"
+                        isIconOnly
+                        aria-label={isDark ? 'Включить светлую тему' : 'Включить тёмную тему'}
+                        onPress={toggle}
+                    >
+                        {isDark ? <Sun size={19} /> : <Moon size={19} />}
+                    </Button>
+                </div>
+            </div>
         </footer>
     )
 }
-
-export default Footer

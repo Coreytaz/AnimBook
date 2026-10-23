@@ -1,6 +1,7 @@
 'use client'
 
 import * as UI from '@heroui/react'
+import { Eye, EyeOff } from 'lucide-react'
 import { InputHTMLAttributes, TextareaHTMLAttributes, ReactNode, forwardRef, useState } from 'react'
 import { Color } from './components'
 import { StyledProps, withStyles } from './styles'
@@ -114,6 +115,7 @@ const Password = forwardRef<HTMLInputElement, InputPasswordProps>(function Passw
     return (
         <InputRoot
             {...props}
+            className={`password-field ${props.className || ''}`}
             ref={ref}
             clearable={false}
             type={visible ? 'text' : 'password'}
@@ -121,11 +123,16 @@ const Password = forwardRef<HTMLInputElement, InputPasswordProps>(function Passw
                 <UI.Button
                     variant="ghost"
                     size="sm"
+                    isIconOnly
+                    isDisabled={props.disabled}
+                    className="password-visibility-toggle"
                     type="button"
                     aria-label={visible ? 'Скрыть пароль' : 'Показать пароль'}
                     onPress={() => setVisible(!visible)}
                 >
-                    {visible ? visibleIcon || 'Скрыть' : hiddenIcon || 'Показать'}
+                    {visible
+                        ? visibleIcon || <EyeOff size={18} aria-hidden="true" />
+                        : hiddenIcon || <Eye size={18} aria-hidden="true" />}
                 </UI.Button>
             }
         />

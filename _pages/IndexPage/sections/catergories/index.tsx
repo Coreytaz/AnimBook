@@ -1,36 +1,28 @@
-import { catergoriesApi, CatergoriesCard, SkeletonCategoriesCard } from '@/entities/catergories'
-import { Container, Grid, Text } from '@/shared/ui-kit'
-
-export default function Catergories() {
-    const { data: items, isLoading, isError } = catergoriesApi.useGetPopularCatergoriesQuery('')
-
+import Link from 'next/link'
+import { ArrowUpRight } from 'lucide-react'
+import { CatergoriesCard } from '@/entities/catergories'
+import type { ApiCatergoriesData } from '@/entities/catergories/api/types'
+export default function Catergories({ items }: { items: ApiCatergoriesData[] }) {
     return (
-        <>
-            <Container lg>
-                <Text
-                    h2
-                    css={{
-                        textAlign: 'center',
-                        textGradient: '45deg, $blue600 10%, $pink600 100%',
-                    }}
-                    weight="bold"
-                >
-                    Популярные категории
-                </Text>
-                <Grid.Container gap={2} justify="center">
-                    {isLoading
-                        ? [...new Array(4)].map((_, i) => (
-                              <Grid xs={12} sm={6} md={3} key={i}>
-                                  <SkeletonCategoriesCard />
-                              </Grid>
-                          ))
-                        : items?.map((item, index) => (
-                              <Grid xs={12} sm={6} md={3} key={index}>
-                                  <CatergoriesCard {...item} />
-                              </Grid>
-                          ))}
-                </Grid.Container>
-            </Container>
-        </>
+        <section className="category-section">
+            <div className="section-heading">
+                <div>
+                    <span className="eyebrow">С чего начнём?</span>
+                    <h2>Выберите свой мир</h2>
+                </div>
+                <Link href="/catalog" className="text-link">
+                    Весь каталог <ArrowUpRight size={18} />
+                </Link>
+            </div>
+            {items.length ? (
+                <div className="category-grid">
+                    {items.map((item) => (
+                        <CatergoriesCard key={item._id} {...item} />
+                    ))}
+                </div>
+            ) : (
+                <p className="empty-note">Категории скоро появятся. Загляните к нам чуть позже.</p>
+            )}
+        </section>
     )
 }

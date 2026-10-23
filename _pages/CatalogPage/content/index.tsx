@@ -1,189 +1,105 @@
-import {
-    getProductsApi,
-    ProductGridCard,
-    ProductRowCard,
-    SkeletonCard,
-    SkeletonRow,
-} from '@/entities/product'
+import { ProductGridCard, ProductRowCard } from '@/entities/product'
 import { Cart } from '@/features/cart'
 import { Fav } from '@/features/fav'
-import { ProductProps } from '@/shared/api'
-import { useQueryParams } from '@/shared/hooks'
-import { Button, Card, Dropdown, Grid, Pagination, Spacer, Switch } from '@/shared/ui-kit'
-import { LayoutGrid, List } from 'lucide-react'
-import { useParams } from 'next/navigation'
-import { FC, useMemo, useState } from 'react'
+import { Pagination } from '@/shared/ui-kit'
+import { Button, Label, ListBox, Select } from '@heroui/react'
+import { BookOpen, LayoutGrid, List } from 'lucide-react'
 import * as catalogParams from '../params'
-
-type Selection = 'all' | Set<string | number>
-
-const menuItems = [
-    { key: '-price', name: 'Сначала недорогие' },
-    { key: 'price', name: 'Сначала дорогие' },
-    { key: 'rating', name: 'С оценкой' },
-]
-
-const ViewTypes = {
-    Grid: { key: 'grid', Icon: LayoutGrid },
-    List: { key: 'list', Icon: List },
+export type ProductsData = {
+    items: import('@/entities/product/api/types').ApiProductData[]
+    meta: import('@/entities/product/api/types').Meta
+    links: import('@/entities/product/api/types').Links
 }
-
-const Content: FC = () => {
-    const params = useParams()
-    const queryParams = useQueryParams()
-    const { data: items, isLoading } = getProductsApi.useGetProductsQuery({
-        slug: params?.slug?.toString()!,
-        queryParams,
-    })
-    const { selected: selectSort, onChange: setFrom } = catalogParams.useFilter('sort')
-    const { selected: selectPage, onChange: setPage } = catalogParams.useFilter('page')
-    const vtParam = catalogParams.useViewType('vt')
-    const [selected, setSelected] = useState<Selection>(new Set([selectSort || '-price']))
-    const selectedValue = useMemo(
-        () => Array.from(selected).join(', ').replaceAll('_', ' '),
-        [selected]
-    )
-    const onChangeSortType = (e: Selection) => {
-        setSelected(e)
-        setFrom(Array.from(e).join(', ').replaceAll('_', ' '))
-    }
-    const onChangeVt = (selected: boolean) => {
-        if (selected) {
-            vtParam.setViewType(ViewTypes.Grid.key)
-        } else {
-            vtParam.setViewType(ViewTypes.List.key)
-        }
-    }
+export default function Content({ items }: { items?: ProductsData }) {
+    const { selected: sort, onChange: setSort } = catalogParams.useFilter('sort')
+    const { selected: page, onChange: setPage } = catalogParams.useFilter('page')
+    const vt = catalogParams.useViewType('vt')
     return (
-        <section style={{ width: '100%' }}>
-            <Card css={{ p: '$5 $8' }}>
-                <Grid.Container>
-                    <Grid xs={6}>
-                        <Dropdown>
-                            <Dropdown.Button light css={{ p: 0 }}>
-                                Сортировка:{' '}
-                                {menuItems.filter((item) => item.key === selectedValue)[0].name}
-                            </Dropdown.Button>
-                            <Dropdown.Menu
-                                aria-label="Single selection actions"
-                                color="primary"
-                                disallowEmptySelection
-                                selectionMode="single"
-                                selectedKeys={selected}
-                                onSelectionChange={onChangeSortType}
-                                items={menuItems}
-                            >
-                                {(item: any) => (
-                                    <Dropdown.Item
-                                        key={item.key}
-                                        id={item.key}
-                                        textValue={item.name}
-                                    >
-                                        {item.name}
-                                    </Dropdown.Item>
-                                )}
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </Grid>
-                    <Grid xs={6} justify="flex-end">
-                        <Switch
-                            initialChecked={vtParam.isGrid ? true : false}
-                            onValueChange={onChangeVt}
-                            squared
-                            animated={false}
-                            size="xl"
-                            iconOn={<ViewTypes.Grid.Icon />}
-                            iconOff={<ViewTypes.List.Icon />}
-                        />
-                    </Grid>
-                </Grid.Container>
-            </Card>
-            <Spacer />
-            <Grid.Container gap={2} css={{ gap: '$10 0' }} alignContent="flex-start">
-                {isLoading
-                    ? [...new Array(6)].map((_, i) => (
-                          <ProductItemSkeleton
-                              key={i}
-                              isGrid={vtParam.isGrid}
-                              isList={vtParam.isList}
-                          />
-                      ))
-                    : items?.items.map((prod) => (
-                          <ProductItem
-                              data={prod}
-                              key={prod._id}
-                              isGrid={vtParam.isGrid}
-                              isList={vtParam.isList}
-                          />
-                      ))}
-            </Grid.Container>
-            <Spacer />
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Pagination
-                    animated={false}
-                    rounded
-                    size="lg"
-                    onChange={(n) => setPage(n.toString())}
-                    total={items?.meta.totalPages}
-                    page={items?.meta.currentPage || +selectPage || 1}
-                />
+        <section className="catalog-content" aria-label="Книги">
+            <div className="catalog-toolbar">
+                <Select
+                    className="catalog-sort"
+                    aria-label="Сортировка книг"
+                    value={sort || '-price'}
+                    onChange={(value) => {
+                        if (value !== null) setSort(String(value))
+                    }}
+                >
+                    <Label>Сортировка</Label>
+                    <Select.Trigger>
+                        <Select.Value />
+                        <Select.Indicator />
+                    </Select.Trigger>
+                    <Select.Popover className="catalog-sort-popover" placement="bottom start">
+                        <ListBox aria-label="Порядок сортировки">
+                            <ListBox.Item id="-price" textValue="Сначала недорогие">
+                                <Label>Сначала недорогие</Label>
+                                <ListBox.ItemIndicator />
+                            </ListBox.Item>
+                            <ListBox.Item id="price" textValue="Сначала дорогие">
+                                <Label>Сначала дорогие</Label>
+                                <ListBox.ItemIndicator />
+                            </ListBox.Item>
+                            <ListBox.Item id="rating" textValue="По рейтингу">
+                                <Label>По рейтингу</Label>
+                                <ListBox.ItemIndicator />
+                            </ListBox.Item>
+                        </ListBox>
+                    </Select.Popover>
+                </Select>
+                <div className="catalog-view-toggle" role="group" aria-label="Вид каталога">
+                    <Button
+                        variant="ghost"
+                        isIconOnly
+                        aria-label="Показать сеткой"
+                        aria-pressed={vt.isGrid}
+                        onPress={() => vt.setViewType('grid')}
+                    >
+                        <LayoutGrid size={19} />
+                    </Button>
+                    <Button
+                        variant="ghost"
+                        isIconOnly
+                        aria-label="Показать списком"
+                        aria-pressed={vt.isList}
+                        onPress={() => vt.setViewType('list')}
+                    >
+                        <List size={19} />
+                    </Button>
+                </div>
             </div>
+            {items?.items.length ? (
+                <div className={vt.isList ? 'product-list' : 'product-grid'}>
+                    {items.items.map((data) => {
+                        const actions = (
+                            <>
+                                <Fav.Actions.AddBookMini productId={data._id} />
+                                <Cart.Actions.AddBookMini productId={data._id} />
+                            </>
+                        )
+                        return vt.isList ? (
+                            <ProductRowCard key={data._id} data={data} actions={actions} />
+                        ) : (
+                            <ProductGridCard key={data._id} data={data} actions={actions} />
+                        )
+                    })}
+                </div>
+            ) : (
+                <div className="catalog-empty">
+                    <BookOpen size={40} />
+                    <h2>Пока нет подходящих книг</h2>
+                    <p>Попробуйте изменить фильтры или выбрать другую категорию.</p>
+                </div>
+            )}
+            {!!items?.meta.totalPages && items.meta.totalPages > 1 && (
+                <div className="catalog-pagination">
+                    <Pagination
+                        onChange={(n) => setPage(String(n))}
+                        total={items.meta.totalPages}
+                        page={items.meta.currentPage || +page || 1}
+                    />
+                </div>
+            )}
         </section>
     )
 }
-
-const ProductItemSkeleton = ({ isGrid, isList }: { isGrid: boolean; isList: boolean }) => {
-    return (
-        <>
-            {isGrid && (
-                <Grid xs={12} md={5} lg={4}>
-                    <SkeletonCard />
-                </Grid>
-            )}
-            {isList && <SkeletonRow />}
-        </>
-    )
-}
-
-const ProductItem = ({
-    data,
-    isGrid,
-    isList,
-}: {
-    data: ProductProps
-    isGrid: boolean
-    isList: boolean
-}) => {
-    return (
-        <>
-            {isGrid && (
-                <Grid xs={12} md={5} lg={4}>
-                    <ProductGridCard
-                        data={data}
-                        actions={
-                            <>
-                                <Button.Group ghost css={{ minWidth: '100%' }}>
-                                    <Fav.Actions.AddBookMini productId={data._id} />
-                                    <Cart.Actions.AddBookMini productId={data._id} />
-                                </Button.Group>
-                            </>
-                        }
-                    />
-                </Grid>
-            )}
-            {isList && (
-                <ProductRowCard
-                    data={data}
-                    actions={
-                        <>
-                            <Fav.Actions.AddProduct productId={data._id} />
-                            <Cart.Actions.AddProduct productId={data._id} />
-                        </>
-                    }
-                />
-            )}
-        </>
-    )
-}
-
-export default Content

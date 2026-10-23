@@ -1,19 +1,30 @@
 'use client'
 import NavBreadcrumbs from '@/entities/breadcrumbs/ui'
 import { Container } from '@/shared/ui-kit'
-import { useParams } from 'next/navigation'
-import { FC } from 'react'
+import type { ApiCatergoriesData, ApiSubCatergoriesData } from '@/entities/catergories/api/types'
+import type { ApiFiltersData } from '@/entities/sidebar/api/types'
+import type { ProductsData } from './content'
 import Catergories from './catergories'
 import SubCatergories from './subCatergories'
-
-const CatalogPage: FC = () => {
-    const params = useParams()
+export default function CatalogPage({
+    categories = [],
+    category,
+    products,
+    filters,
+}: {
+    categories?: ApiCatergoriesData[]
+    category?: ApiSubCatergoriesData
+    products?: ProductsData
+    filters?: ApiFiltersData
+}) {
     return (
-        <Container>
-            <NavBreadcrumbs />
-            {params?.slug! ? <SubCatergories /> : <Catergories />}
-        </Container>
+        <div>
+            <NavBreadcrumbs currentLabel={category?.categoryName || 'Каталог'} />
+            {category ? (
+                <SubCatergories items={category} products={products} filters={filters} />
+            ) : (
+                <Catergories items={categories} />
+            )}
+        </div>
     )
 }
-
-export default CatalogPage

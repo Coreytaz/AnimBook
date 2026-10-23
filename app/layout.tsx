@@ -2,10 +2,8 @@
 import { useTheme } from '@/shared'
 import { Footer } from '@/widgets/footer'
 import { Header } from '@/widgets/header'
-import { Container, Spacer } from '@/shared/ui-kit'
-import { ToastContainer } from 'react-toastify'
+import { Toast } from '@heroui/react'
 import './globals.css'
-import 'react-toastify/dist/ReactToastify.css'
 import Providers from './providers'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -15,30 +13,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <head />
             <body>
                 <Providers isDark={isDark}>
-                    <div className="container">
+                    <div className="site-shell">
+                        <a className="skip-link" href="#main-content">
+                            К содержимому
+                        </a>
                         <Header />
-                        <Spacer y={1} />
-                        <Container
-                            gap={0}
-                            className="content"
-                            css={{
-                                flex: 1,
-                                '@xs': {
-                                    maxWidth: '$breakpoints-md',
-                                },
-                            }}
-                        >
+                        <main id="main-content" className="site-content">
                             {children}
-                        </Container>
-                        <Spacer y={1} />
+                        </main>
                         <Footer />
                     </div>
                 </Providers>
-                <ToastContainer
-                    position="bottom-right"
-                    theme={isDark ? 'dark' : 'light'}
-                    style={{ zIndex: 99999 }}
-                />
+                <Toast.Provider placement="bottom end" style={{ zIndex: 99999 }} />
             </body>
         </html>
     )

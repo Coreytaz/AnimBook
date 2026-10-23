@@ -1,109 +1,125 @@
 'use client'
-import { useActionCart } from '@/entities/cart'
-import { Skeleton } from '@/shared/ui'
-import { Button, Container, Row, Spacer, Text } from '@/shared/ui-kit'
-import { CheckCircle, XCircle } from 'lucide-react'
-import Link from 'next/link'
-import { useParams, useRouter } from 'next/navigation'
-import React, { FC, useEffect } from 'react'
-import { orderApi } from './api'
 
-const ResultPage: FC = () => {
-    const params = useParams()
+import { useActionCart } from '@/entities/cart'
+import { Button, Card, Skeleton } from '@heroui/react'
+import { ArrowRight, BookOpen, Check, Clock3, PackageCheck, XCircle } from 'lucide-react'
+import { useParams, useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { orderApi } from './api'
+import styles from './styles.module.css'
+
+export default function ResultPage() {
+    const params = useParams<{ orderId: string }>()
     const router = useRouter()
     const { clearAllCart } = useActionCart()
     const {
-        data: items,
+        data: order,
         isLoading,
         isError,
         isSuccess,
-    } = orderApi.useGetOrderStatusQuery(params?.orderId?.toString()!)
+    } = orderApi.useGetOrderStatusQuery(params?.orderId ?? '', { skip: !params?.orderId })
 
     useEffect(() => {
-        if (items?.status === 'succeeded' && isSuccess) {
-            clearAllCart()
-        }
-    }, [clearAllCart, isSuccess, items?.status])
+        if (order?.status === 'succeeded' && isSuccess) clearAllCart()
+    }, [clearAllCart, isSuccess, order?.status])
 
-    if (isError) {
-        return (
-            <Container lg>
-                <Spacer y={5} />
-                <Row align="center" css={{ fd: 'column' }}>
-                    <XCircle size={72} />
-                    <Text h4>Заказ №{params?.orderId?.toString()}</Text>
-                    <Text h3>Не удалось найти!</Text>
-                </Row>
-                <Spacer y={1} />
-                <Row align="center" css={{ gap: '$5', fd: 'column' }}>
-                    <Button onPress={() => router.push('/catalog')}>В каталог</Button>
-                </Row>
-            </Container>
-        )
-    }
-
-    if (isLoading) {
-        return (
-            <Container lg>
-                <Spacer y={5} />
-                <Row align="center" css={{ fd: 'column' }}>
-                    <Skeleton style={{ width: '5%', height: '72px' }} />
-                    <Spacer y={1} />
-                    <Skeleton style={{ width: '30%', height: '36px' }} />
-                    <Spacer y={1} />
-                    <Skeleton style={{ width: '30%', height: '24px' }} />
-                </Row>
-                <Spacer y={2} />
-                <Row align="center" css={{ gap: '$5', fd: 'column' }}>
-                    <Skeleton style={{ width: '20%', height: '40px' }} />
-                    <Skeleton style={{ width: '20%', height: '40px' }} />
-                </Row>
-            </Container>
-        )
-    }
+    const succeeded = order?.status === 'succeeded'
+    const pending = order?.status === 'pending'
+    const failed = isError || (!isLoading && !succeeded && !pending)
+    const Icon = failed ? XCircle : succeeded ? Check : Clock3
+    const paymentUrl = pending ? order?.confirmation?.confirmation_url : undefined
 
     return (
-        <Container lg>
-            <Spacer y={5} />
-            {items?.status === 'succeeded' ? (
-                <>
-                    <Row align="center" css={{ fd: 'column' }}>
-                        <CheckCircle size={72} />
-                        <Text h3>{items.description}</Text>
-                        <Text h3>успешно оплачен и оформлен!</Text>
-                        <Text span>Ожидайте доставки в течение указанного в заказе времени</Text>
-                    </Row>
-                    <Spacer y={2} />
-                    <Row align="center" css={{ gap: '$5', fd: 'column' }}>
-                        <Button onPress={() => router.push('/profile')}>Перейти к заказу</Button>
-                        <Button ghost onPress={() => router.push('/catalog')}>
-                            В каталог
-                        </Button>
-                    </Row>
-                </>
-            ) : null}
-            {items?.status === 'pending' ? (
-                <>
-                    <Row align="center" css={{ fd: 'column' }}>
-                        <XCircle size={72} />
-                        <Text h4>{items.description}</Text>
-                        <Text h3>ожидает оплаты!</Text>
-                    </Row>
-                    <Spacer y={2} />
-                    <Row align="center" css={{ gap: '$5', fd: 'column' }}>
-                        <Link href={items.confirmation.confirmation_url}>
-                            <Button target="_blank" onPress={() => router.push('/profile')}>
-                                Оплатить
+        <section className={styles.page} aria-label="Результат оформления заказа">
+            <Card className={styles.card}>
+                {isLoading ? (
+                    <div
+                        className={styles.loading}
+                        role="status"
+                        aria-label="Проверяем оплату заказа"
+                    >
+                        <Skeleton className="h-20 w-20 rounded-full" />
+                        <Skeleton className="h-9 w-3/4 rounded-xl" />
+                        <Skeleton className="h-12 w-full rounded-xl" />
+                        <Skeleton className="h-24 w-full rounded-xl" />
+                        <Skeleton className="h-12 w-full rounded-xl" />
+                        <span className="sr-only">Проверяем оплату заказа…</span>
+                    </div>
+                ) : (
+                    <>
+                        <div className={styles.heading} role="status">
+                            <span
+                                className={`${styles.icon} ${failed ? styles.error : succeeded ? styles.success : styles.pending}`}
+                            >
+                                <Icon size={36} strokeWidth={1.8} aria-hidden="true" />
+                            </span>
+                            <span className={styles.eyebrow}>
+                                {failed
+                                    ? 'Статус заказа'
+                                    : succeeded
+                                      ? 'Оплата прошла успешно'
+                                      : 'Остался один шаг'}
+                            </span>
+                            <h1>
+                                {failed
+                                    ? 'Заказ не найден'
+                                    : succeeded
+                                      ? 'Спасибо за заказ!'
+                                      : 'Заказ ожидает оплаты'}
+                            </h1>
+                            <p>
+                                {failed
+                                    ? 'Не удалось получить информацию о заказе. Проверьте его в личном кабинете.'
+                                    : succeeded
+                                      ? 'Ваши новые истории уже на шаг ближе. Заказ оплачен и оформлен.'
+                                      : 'Заказ создан. Завершите оплату, чтобы мы могли начать его готовить.'}
+                            </p>
+                        </div>
+                        <div className={styles.order}>
+                            <span>Номер заказа</span>
+                            <strong>{params?.orderId}</strong>
+                        </div>
+                        {succeeded && (
+                            <div className={styles.note}>
+                                <PackageCheck size={23} aria-hidden="true" />
+                                <div>
+                                    <h2>Теперь дело за нами</h2>
+                                    <p>
+                                        Ожидайте доставку в срок, указанный в заказе. Детали заказа
+                                        доступны в личном кабинете.
+                                    </p>
+                                </div>
+                            </div>
+                        )}
+                        <div className={styles.actions}>
+                            <Button
+                                size="lg"
+                                fullWidth
+                                onPress={() => {
+                                    if (paymentUrl) window.location.assign(paymentUrl)
+                                    else router.push('/profile')
+                                }}
+                            >
+                                {paymentUrl
+                                    ? 'Перейти к оплате'
+                                    : failed
+                                      ? 'В личный кабинет'
+                                      : 'Перейти к заказу'}
+                                <ArrowRight size={18} aria-hidden="true" />
                             </Button>
-                        </Link>
-                        <Button ghost onPress={() => router.push('/catalog')}>
-                            В каталог
-                        </Button>
-                    </Row>
-                </>
-            ) : null}
-        </Container>
+                            <Button
+                                size="lg"
+                                variant="secondary"
+                                fullWidth
+                                onPress={() => router.push('/catalog')}
+                            >
+                                <BookOpen size={18} aria-hidden="true" /> Вернуться в каталог
+                            </Button>
+                        </div>
+                    </>
+                )}
+            </Card>
+            <p className={styles.signature}>AnimBook · Истории, которые остаются</p>
+        </section>
     )
 }
-
-export default ResultPage

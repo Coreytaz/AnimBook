@@ -1,110 +1,99 @@
 import { BaseTextField, BaseTextFieldPassword } from '@/shared/ui/Form'
-import { Card, Input, Button, Text, Loading } from '@/shared/ui-kit'
-import { Mail, Lock } from 'lucide-react'
+import { Button, Spinner } from '@heroui/react'
+import { ArrowRight, Mail, Lock } from 'lucide-react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { FC, useCallback, useState } from 'react'
+import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
-import { SignInFormValues } from '../model'
-
+import type { SignInFormValues } from '../model'
 export interface SignInFormProps {
-    onSignIn: (payload: any) => void
+    onSignIn: (payload: SignInFormValues) => void
     onChangeForm: (payload: 'signUp') => void
 }
-
-const SignInForm: FC<SignInFormProps> = ({ onSignIn, onChangeForm }) => {
+export default function SignInForm({ onSignIn, onChangeForm }: SignInFormProps) {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
     const form = useForm<SignInFormValues>({
         mode: 'onBlur',
-        defaultValues: {},
+        defaultValues: { email: '', password: '' },
     })
-
-    const handleSubmit = useCallback(
-        async (payload: SignInFormValues) => {
-            setLoading(true)
-            await signIn('credentials', {
-                ...payload,
-                redirect: false,
-            }).then((data) => {
-                if (data?.ok) {
-                    router.back()
-                    setLoading(false)
-                } else {
-                    toast.error('Неверный Email или пароль')
-                    setLoading(false)
-                }
-            })
-        },
-        [router]
-    )
-
-    const handleChangeForm = useCallback(
-        (newForm: Parameters<SignInFormProps['onChangeForm']>[0]) => {
-            onChangeForm(newForm)
-        },
-        [onChangeForm]
-    )
-
+    const submit = async (payload: SignInFormValues) => {
+        setLoading(true)
+        setError('')
+        try {
+            const result = await signIn('credentials', { ...payload, redirect: false })
+            if (result?.ok) {
+                onSignIn(payload)
+                router.back()
+            } else setError('Неверная почта или пароль. Попробуйте ещё раз.')
+        } catch {
+            setError('Не удалось войти. Попробуйте ещё раз чуть позже.')
+        } finally {
+            setLoading(false)
+        }
+    }
     return (
         <>
-            <Card.Header css={{ d: 'flex', jc: 'center' }}>
-                <Text size={18} css={{ textAlign: 'center' }}>
-                    Добро пожаловать в{' '}
-                    <Text b size={18}>
-                        AnimBook
-                    </Text>
-                </Text>
-            </Card.Header>
-            <Card.Body css={{ d: 'flex', fd: 'column', gap: '$12', pb: '$10' }}>
-                <FormProvider {...form}>
+            <div className="auth-heading">
+                <span className="eyebrow">Рады видеть вас снова</span>
+                <h1>С возвращением</h1>
+                <p>Войдите, чтобы продолжить свою историю.</p>
+            </div>
+            <FormProvider {...form}>
+                <form className="auth-form" onSubmit={form.handleSubmit(submit)} noValidate>
                     <BaseTextField
-                        clearable
-                        bordered
-                        fullWidth
-                        color="primary"
-                        size="lg"
                         name="email"
+                        label="Электронная почта"
+                        placeholder="you@example.com"
                         type="email"
+                        autoComplete="email"
                         required
-                        placeholder="Почта"
-                        contentLeft={<Mail />}
+                        contentLeft={<Mail size={18} />}
                         rules={{
                             pattern: {
-                                message: 'Введите действительный адрес электронной почты',
-                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i,
+                                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                message: 'Введите действительный адрес почты',
                             },
                         }}
                     />
                     <BaseTextFieldPassword
-                        clearable
-                        bordered
-                        fullWidth
-                        color="primary"
-                        size="lg"
                         name="password"
+                        label="Пароль"
+                        placeholder="Введите пароль"
+                        autoComplete="current-password"
                         required
-                        placeholder="Пароль"
-                        contentLeft={<Lock />}
+                        contentLeft={<Lock size={18} />}
                     />
-                </FormProvider>
-            </Card.Body>
-            <Card.Footer css={{ d: 'flex', jc: 'space-between' }}>
-                <Button auto light onPress={handleChangeForm.bind(null, 'signUp')}>
-                    Зарегистрироваться
+                    {error && (
+                        <p className="auth-error" role="alert">
+                            {error}
+                        </p>
+                    )}
+                    <Button
+                        type="submit"
+                        className="auth-submit"
+                        isDisabled={loading}
+                        isPending={loading}
+                    >
+                        {loading ? (
+                            <>
+                                <Spinner size="sm" color="current" /> Входим…
+                            </>
+                        ) : (
+                            <>
+                                Войти в аккаунт <ArrowRight size={18} />
+                            </>
+                        )}
+                    </Button>
+                </form>
+            </FormProvider>
+            <div className="auth-switch">
+                <span>Ещё нет аккаунта?</span>
+                <Button variant="ghost" onPress={() => onChangeForm('signUp')}>
+                    Создать аккаунт <ArrowRight size={15} />
                 </Button>
-                <Button
-                    disabled={loading}
-                    auto
-                    type="submit"
-                    onClick={form.handleSubmit(handleSubmit)}
-                >
-                    {loading ? <Loading color="currentColor" size="sm" /> : <>Войти</>}
-                </Button>
-            </Card.Footer>
+            </div>
         </>
     )
 }
-
-export default SignInForm

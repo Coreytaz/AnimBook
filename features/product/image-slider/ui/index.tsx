@@ -1,55 +1,34 @@
-import { useScrollVertical } from '@/shared/helpers'
-import { Card } from '@/shared/ui-kit'
-import { FC, useState } from 'react'
-import styles from './styles.module.scss'
-
-interface ImageSliderProps {
-    imageCollection: {
-        src: string
-        alt: string
-    }[]
-}
-
-const ImageSlider: FC<ImageSliderProps> = ({ imageCollection }) => {
-    const scrollVerticalRef = useScrollVertical()
-    const [selectImage, setSelectImage] = useState(0)
-
-    const onChangePreviewImage = (index: number) => {
-        setSelectImage(index)
-    }
-
+/* eslint-disable @next/next/no-img-element -- Product images use variable external sources. */
+import { Button } from '@heroui/react'
+import { useState } from 'react'
+export default function ImageSlider({
+    imageCollection,
+}: {
+    imageCollection: { src: string; alt: string }[]
+}) {
+    const [selected, setSelected] = useState(0)
+    const image = imageCollection[selected] || imageCollection[0]
+    if (!image) return <div className="product-image-empty">Изображение скоро появится</div>
     return (
         <>
-            <Card>
-                <Card.Image
-                    src={imageCollection[selectImage].src}
-                    objectFit="cover"
-                    showSkeleton
-                    width="100%"
-                    height={450}
-                    alt={imageCollection[selectImage].alt}
-                />
-            </Card>
-            <div className={styles.imageCollection} ref={scrollVerticalRef}>
-                {imageCollection.map((image, i) => (
-                    <Card
-                        css={{ maxWidth: 95, minH: 100, cursor: 'pointer' }}
-                        key={image.src}
-                        isHoverable
-                    >
-                        <Card.Image
-                            onClick={() => onChangePreviewImage(i)}
-                            src={image.src}
-                            objectFit="cover"
-                            showSkeleton
-                            height={100}
-                            alt={image.alt}
-                        />
-                    </Card>
-                ))}
+            <div className="product-main-image">
+                <img src={image.src} alt={image.alt} />
             </div>
+            {imageCollection.length > 1 && (
+                <div className="product-thumbnails">
+                    {imageCollection.map((item, index) => (
+                        <Button
+                            key={item.src}
+                            variant="secondary"
+                            aria-label={'Посмотреть изображение ' + (index + 1)}
+                            aria-pressed={index === selected}
+                            onPress={() => setSelected(index)}
+                        >
+                            <img src={item.src} alt="" />
+                        </Button>
+                    ))}
+                </div>
+            )}
         </>
     )
 }
-
-export default ImageSlider

@@ -1,32 +1,19 @@
-import { catergoriesApi, CatergoriesCard, SkeletonCategoriesCard } from '@/entities/catergories'
-import { Container, Grid, Text } from '@/shared/ui-kit'
-
-export default function Catergories() {
-    const { data: items, isLoading, isError } = catergoriesApi.useGetCatergoriesQuery('')
+import { CatergoriesCard } from '@/entities/catergories'
+import type { ApiCatergoriesData } from '@/entities/catergories/api/types'
+export default function Catergories({ items }: { items: ApiCatergoriesData[] }) {
     return (
-        <Container lg>
-            <Text
-                h2
-                css={{
-                    textGradient: '45deg, $blue600 10%, $pink600 100%',
-                }}
-                weight="bold"
-            >
-                Каталог товаров
-            </Text>
-            <Grid.Container gap={2} justify="center">
-                {isLoading
-                    ? [...new Array(8)].map((_, i) => (
-                          <Grid xs={12} sm={6} md={3} key={i}>
-                              <SkeletonCategoriesCard />
-                          </Grid>
-                      ))
-                    : items?.map((item, index) => (
-                          <Grid xs={12} sm={6} md={3} key={index}>
-                              <CatergoriesCard {...item} />
-                          </Grid>
-                      ))}
-            </Grid.Container>
-        </Container>
+        <section>
+            <div className="page-heading">
+                <span className="eyebrow">Ваша книжная вселенная</span>
+                <h1>Каталог</h1>
+                <p>Выберите жанр и отправляйтесь навстречу новой истории.</p>
+            </div>
+            <div className="category-grid">
+                {items.map((item) => (
+                    <CatergoriesCard key={item._id} {...item} />
+                ))}
+            </div>
+            {!items.length && <p className="empty-note">В этой коллекции пока нет категорий.</p>}
+        </section>
     )
 }

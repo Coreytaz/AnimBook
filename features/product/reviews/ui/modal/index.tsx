@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react'
 import { useParams } from 'next/navigation'
 import { Dispatch, FC, SetStateAction, useCallback, useEffect, useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
+import { toast } from '@heroui/react'
 import { reviewsApi } from '../../api'
 import { ReviewFormValues } from './model'
 
@@ -44,7 +44,7 @@ const ReviewModal: FC<{
                 }).unwrap()
                 form.reset()
             } catch (error: any) {
-                toast.error(error.data.message)
+                toast.danger(error.data.message, { timeout: 5000 })
             }
         },
         [createReview, form, params, userId]

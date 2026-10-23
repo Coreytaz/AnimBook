@@ -1,104 +1,73 @@
-import { FC, useEffect, useState } from 'react'
-import { Button, Card, Grid, Text } from '@/shared/ui-kit'
-import styles from './style.module.scss'
-import cn from 'clsx'
-import { useRouter } from 'next/navigation'
-import { CarouselItemProps } from '@/shared/api'
-import { ChevronsLeft, ChevronsRight } from 'lucide-react'
-
-const Carousel: FC<{ items: CarouselItemProps[] } & { delay?: number }> = ({ items, delay }) => {
-    const [activeIndex, setActiveIndex] = useState<string | number>(0)
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setActiveIndex((prev) => (+prev === items?.length - 1 ? 0 : +prev + 1))
-        }, delay || 5000)
-        return () => clearInterval(interval)
-    }, [activeIndex, delay, items?.length])
-
+/* eslint-disable @next/next/no-img-element -- Catalog images use variable external sources. */
+'use client'
+import { Button } from '@heroui/react'
+import { ArrowRight, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react'
+import Link from 'next/link'
+import { useState } from 'react'
+import type { CarouselItemProps } from '@/shared/api'
+export default function Carousel({ items }: { items: CarouselItemProps[]; delay?: number }) {
+    const [active, setActive] = useState(0)
+    const item = items[active % Math.max(1, items.length)]
     return (
-        <div className={styles.wraperCoursel}>
-            <Button
-                light
-                auto
-                onPress={() =>
-                    setActiveIndex((prev) => (prev === 0 ? items.length - 1 : +prev - 1))
-                }
-                className={cn(styles.btnCoursel, styles.btnLeft)}
-                css={{ position: 'absolute' }}
-                icon={<ChevronsLeft size={60} />}
-            />
-            <Grid.Container
-                direction="row"
-                wrap="nowrap"
-                css={{
-                    h: '45vh',
-                    p: '0',
-                    m: '0',
-                    transform: `translateX(-${+activeIndex * 100}%)`,
-                    transition: 'transform 0.5s ease-in-out',
-                }}
-            >
-                {items?.map((item, index) => {
-                    return (
-                        <CarouselItem
-                            key={index}
-                            img={item.img}
-                            url={item.url}
-                            caption={item.caption}
-                        />
-                    )
-                })}
-            </Grid.Container>
-            <Button
-                light
-                auto
-                onPress={() =>
-                    setActiveIndex((prev) => (prev === items.length - 1 ? 0 : +prev + 1))
-                }
-                css={{ position: 'absolute' }}
-                className={cn(styles.btnCoursel, styles.btnRight)}
-                icon={<ChevronsRight size={60} />}
-            />
-        </div>
+        <section className="hero" aria-roledescription="карусель" aria-label="Подборки AnimBook">
+            <div className="hero-copy">
+                <span className="hero-tag">
+                    <Sparkles size={14} /> Для тех, кто любит читать
+                </span>
+                <h1>{item?.caption || 'Новая глава вашей истории'}</h1>
+                <p>
+                    Откройте мир манги, комиксов и удивительных приключений. Найдите историю,
+                    которую захочется перечитать.
+                </p>
+                <Link className="button button--primary hero-cta" href={item?.url || '/catalog'}>
+                    Исследовать коллекцию <ArrowRight size={19} />
+                </Link>
+                <span className="hero-footnote">Ещё один мир ждёт вас на книжной полке</span>
+            </div>
+            <div className="hero-art" aria-hidden="true">
+                {item?.img ? (
+                    <>
+                        <img src={item.img} alt="" className="hero-image" />
+                    </>
+                ) : (
+                    <div className="hero-books">
+                        <div>
+                            冒険<small>ADVENTURE</small>
+                        </div>
+                        <div>
+                            物語<small>STORIES</small>
+                        </div>
+                        <div>
+                            夢<small>DREAMS</small>
+                        </div>
+                    </div>
+                )}
+                <span className="hero-art-label">読む · 想像する · 夢見る</span>
+            </div>
+            {items.length > 1 && (
+                <div className="hero-controls">
+                    <span>
+                        {String(active + 1).padStart(2, '0')}{' '}
+                        <span>/ {String(items.length).padStart(2, '0')}</span>
+                    </span>
+                    <Button
+                        variant="ghost"
+                        isIconOnly
+                        aria-label="Предыдущая подборка"
+                        onPress={() => setActive((active - 1 + items.length) % items.length)}
+                    >
+                        <ChevronLeft size={20} />
+                    </Button>
+                    <Button
+                        variant="ghost"
+                        isIconOnly
+                        aria-label="Следующая подборка"
+                        onPress={() => setActive((active + 1) % items.length)}
+                    >
+                        <ChevronRight size={20} />
+                    </Button>
+                </div>
+            )}
+        </section>
     )
 }
-
-const CarouselItem: FC<CarouselItemProps> = ({ url, img, caption }) => {
-    const router = useRouter()
-
-    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        e.preventDefault()
-        router.push(url)
-    }
-    return (
-        <Grid xs={12} css={{ minWidth: '100%', cursor: 'pointer' }} onClick={handleClick}>
-            <Card variant="flat" isPressable isHoverable>
-                <Card.Body
-                    className={styles.carouselItem}
-                    css={{
-                        w: '100%',
-                        h: '100%',
-                        position: 'absolute',
-                        zIndex: '$10',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                >
-                    <Text h2>{caption}</Text>
-                </Card.Body>
-                <Card.Image
-                    showSkeleton
-                    src={img}
-                    objectFit="cover"
-                    width="100%"
-                    height="100%"
-                    alt={caption}
-                />
-            </Card>
-        </Grid>
-    )
-}
-
-export default Carousel
